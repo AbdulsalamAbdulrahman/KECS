@@ -29,7 +29,7 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
   @override
   Widget build(BuildContext context) {
     return Material(
-        color: const Color.fromARGB(0, 224, 223, 223),
+        color: Colors.white,
         child: Column(
           children: <Widget>[
             AppBar(
