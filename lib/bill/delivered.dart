@@ -70,7 +70,9 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                               fontSize: 15.0, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
                   ],
                 ),
@@ -103,7 +105,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
   Widget description() {
     return Material(
       child: TextFormField(
-        keyboardType: TextInputType.phone,
+        keyboardType: TextInputType.multiline,
         decoration: decorate("Comment"),
         maxLines: 8,
       ),

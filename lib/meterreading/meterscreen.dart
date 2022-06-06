@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:kecs/bill/delivered.dart';
-import 'package:kecs/bill/notdelivered.dart';
+import 'package:kecs/meterreading/status.dart';
+import 'package:kecs/meterreading/updatescreen.dart';
 
-class BillScreen extends StatefulWidget {
-  const BillScreen({Key? key, required this.title}) : super(key: key);
+class MeterScreen extends StatefulWidget {
+  const MeterScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<BillScreen> createState() => _BillScreenState();
+  State<MeterScreen> createState() => _MeterScreenState();
 }
 
-class _BillScreenState extends State<BillScreen> {
+class _MeterScreenState extends State<MeterScreen> {
   final key = GlobalKey<FormState>();
 
-  String dropdownValue = 'Select Status';
+  chooseImage() {}
+  startUpload() {}
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -25,35 +27,38 @@ class _BillScreenState extends State<BillScreen> {
             child: Column(
               children: <Widget>[
                 AppBar(
-                  title: const Text('Bill Distribution'),
+                  title: const Text('Meter Reading'),
                 ),
                 Wrap(
                   children: [
                     // const Padding(padding: EdgeInsets.all(20.0)),
                     card(),
                     card1(),
-                    card2(),
-                    const Padding(padding: EdgeInsets.all(5.0)),
+
+                    card3(),
+                    const Padding(padding: EdgeInsets.all(10.0)),
                     ElevatedButton(
                         onPressed: () {
-                          if (dropdownValue == 'Delivered') {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const DeliveredScreen(
-                                          title: '',
-                                        )));
-                          } else if (dropdownValue == 'Not Delivered') {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const NotDeliveredScreen(
-                                          title: '',
-                                        )));
-                          }
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const StatusScreen(
+                                        title: '',
+                                      )));
                         },
-                        child: const Text('Continue'))
+                        child: const Text('Continue')),
+                    const Padding(padding: EdgeInsets.all(10)),
+
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UpdateScreen(
+                                        title: '',
+                                      )));
+                        },
+                        child: const Text('Update'))
                   ],
                 )
               ],
@@ -72,7 +77,7 @@ class _BillScreenState extends State<BillScreen> {
               children: <Widget>[
                 const Text('Search Customer',
                     style:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 const Padding(padding: EdgeInsets.all(5.0)),
                 Form(
                   child: TextFormField(
@@ -110,46 +115,17 @@ class _BillScreenState extends State<BillScreen> {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Text('Customer Billing Information',
+                const Text('Customer Meter Information',
                     style:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 container('Name:'),
                 container('Address:'),
-                container('Account Number:'),
-                container('Meter Number:'),
-                container('Last Payment Date:'),
-                container('Total Payment:'),
-                container('Total Billed Amount:'),
-                container('Closing Balance:'),
+                container('Phone No'),
+                container('Account No:'),
+                container('Meter No:'),
+                container('Tariff Code:'),
                 container('Latitude:'),
                 container('Longitude:'),
-                dropDown()
-              ]),
-        ),
-        elevation: 5,
-        shadowColor: Colors.green,
-        shape: const RoundedRectangleBorder(
-          side: BorderSide(
-              color: Colors.green, style: BorderStyle.solid, width: 2.0),
-        ),
-      ),
-    );
-  }
-
-  Widget card2() {
-    return SizedBox(
-      width: 500,
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Text('Payment Details',
-                    style:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                container('Last Vending:'),
-                container('Last Vending Date:'),
               ]),
         ),
         elevation: 5,
@@ -173,34 +149,57 @@ class _BillScreenState extends State<BillScreen> {
     );
   }
 
-  Widget dropDown() {
-    return DropdownButton<String>(
-      value: dropdownValue,
-      onChanged: (String? newValue) {
-        setState(() {
-          dropdownValue = newValue!;
-        });
-      },
-      items: <String>['Select Status', 'Delivered', 'Not Delivered']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(
-            value,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-          ),
-        );
-      }).toList(),
+  Widget card3() {
+    return SizedBox(
+      width: 500,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text('Upload Image',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const Padding(padding: EdgeInsets.only(top: 10)),
+                OutlinedButton(
+                  onPressed: chooseImage,
+                  child: const Text("Choose image"),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                OutlinedButton(
+                  onPressed: startUpload,
+                  child: const Text("Upload Image"),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+              ]),
+        ),
+        elevation: 5,
+        shadowColor: Colors.green,
+        shape: const RoundedRectangleBorder(
+          side: BorderSide(
+              color: Colors.green, style: BorderStyle.solid, width: 2.0),
+        ),
+      ),
     );
   }
 
-  InputDecoration decorate(String label) {
-    return InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5.0),
-          borderSide: const BorderSide(),
-        ));
+  Widget container1(String text) {
+    return Container(
+      padding: const EdgeInsets.only(top: 10),
+      decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+      child: Text(
+        text,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
   }
   // Widget card1() {
   //   return Material(
@@ -246,6 +245,14 @@ class _BillScreenState extends State<BillScreen> {
   //   );
   // }
 
+  InputDecoration decorate(String label) {
+    return InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5.0),
+          borderSide: const BorderSide(),
+        ));
+  }
   // DecoratedBox borderBox() {
   //   return DecoratedBox(
   //       decoration: BoxDecoration(
@@ -254,7 +261,7 @@ class _BillScreenState extends State<BillScreen> {
   //       color: Colors.white,
   //       width: 8,
   //     ),
-  //     ,
+  //     borderRadius: BorderRadius.circular(15.0),
   //   ));
   // }
 }

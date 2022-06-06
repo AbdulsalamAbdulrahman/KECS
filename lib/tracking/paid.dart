@@ -16,6 +16,10 @@ class Paid extends StatelessWidget {
   }
 }
 
+// enum CustomerS { yes, no }
+// enum CustomerExperience { good, bad }
+// enum CustomerService { good, poor }
+
 class PaidScreen extends StatefulWidget {
   const PaidScreen({Key? key, required this.title}) : super(key: key);
 
@@ -28,6 +32,9 @@ class PaidScreen extends StatefulWidget {
 class _PaidScreenState extends State<PaidScreen> {
   final key = GlobalKey<FormState>();
   String dropdownValue = 'Select Recipient';
+  // CustomerS _satisfied = CustomerS.yes;
+  // CustomerExperience _experience = CustomerExperience.good;
+  // CustomerService _service = CustomerService.good;
 
   @override
   Widget build(BuildContext context) {
@@ -39,27 +46,37 @@ class _PaidScreenState extends State<PaidScreen> {
               automaticallyImplyLeading: false,
               title: const Text('Bill Paid'),
             ),
+            const Padding(padding: EdgeInsets.only(top: 5.0)),
             Form(
               key: key,
               child: Padding(
                 padding: const EdgeInsets.all(19.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
-                        padding: EdgeInsets.only(top: 0.0),
-                        child: Center(
-                            child: SizedBox(
+                      padding: EdgeInsets.only(top: 0.0),
+                      child: Center(
+                        child: SizedBox(
                           width: 200,
-                          height: 70,
-                        ))),
-                    recipient(),
-                    const SizedBox(height: 10.0),
-                    recipient1(),
-                    const Padding(padding: EdgeInsets.all(5.0)),
-                    dropDown(),
-                    const SizedBox(height: 10.0),
-                    description(),
+                          height: 100,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Text(
+                          'Upload',
+                          style: TextStyle(
+                              fontSize: 15.0, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    // const Padding(padding: EdgeInsets.all(5.0)),
+                    container('Customer Satisfied'),
+                    container('Customer Experience'),
+                    container('Customer Service'),
                     const Padding(padding: EdgeInsets.all(5.0)),
                     ElevatedButton(
                       child: Container(
@@ -70,7 +87,9 @@ class _PaidScreenState extends State<PaidScreen> {
                               fontSize: 15.0, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
                   ],
                 ),
@@ -80,65 +99,43 @@ class _PaidScreenState extends State<PaidScreen> {
         ));
   }
 
-  Widget recipient() {
-    BorderRadius.circular(30.0);
-
-    return Material(
-      child: TextFormField(
-        keyboardType: TextInputType.text,
-        decoration: decorate("Recipient Name"),
-      ),
-    );
-  }
-
-  Widget recipient1() {
-    return Material(
-      child: TextFormField(
-        keyboardType: TextInputType.phone,
-        decoration: decorate("Recipient Phone"),
-      ),
-    );
-  }
-
-  Widget description() {
-    return Material(
-      child: TextFormField(
-        keyboardType: TextInputType.phone,
-        decoration: decorate("Comment"),
-        maxLines: 8,
-      ),
-    );
-  }
-
-  Widget dropDown() {
-    return DropdownButtonFormField<String>(
-      decoration: decorate(''),
-      value: dropdownValue,
-      onChanged: (String? newValue) {
-        setState(() {
-          dropdownValue = newValue!;
-        });
-      },
-      items: <String>[
-        'Select Recipient',
-        'Self',
-        'Spouse',
-        'Son',
-        'Daughter',
-        'Relative',
-        'Worker',
-        'Neighbour'
-      ].map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
+  Widget container(String text) {
+    return Row(
+      children: <Widget>[
+        Container(
+          padding: const EdgeInsets.only(top: 10),
+          decoration: BoxDecoration(border: Border.all(color: Colors.white)),
           child: Text(
-            value,
-            style: const TextStyle(fontSize: 15),
+            text,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-        );
-      }).toList(),
+        ),
+      ],
     );
   }
+
+  // Widget radio(String text) {
+  //   return Row(children: <Widget>[
+  //     Radio(
+  //       value: BestTutorSite.javatpoint,
+  //       groupValue: _site,
+  //       onChanged: (BestTutorSite? value) {
+  //         setState(() {
+  //           _site = value!;
+  //         });
+  //       },
+  //     ),
+  //     Radio(
+  //       value: BestTutorSite.w3schools,
+  //       groupValue: _site,
+  //       onChanged: (BestTutorSite? value) {
+  //         setState(() {
+  //           _site = value!;
+  //         });
+  //       },
+  //     ),
+  //   ]);
+  // }
 
   InputDecoration decorate(String label) {
     return InputDecoration(

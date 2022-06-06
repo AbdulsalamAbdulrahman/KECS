@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:kecs/bill/bill.dart';
+import 'package:kecs/meterreading/meterscreen.dart';
 import 'package:kecs/profile/profile.dart';
 import 'package:kecs/mycustomers/mycustomers.dart';
 import 'package:kecs/tracking/tracking.dart';
@@ -36,18 +36,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            AppBar(
-              automaticallyImplyLeading: false,
-              title: const Text('Dashboard'),
-            ),
-            up(),
-            down(),
-          ],
-        ));
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: <Widget>[
+        Material(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                AppBar(
+                  automaticallyImplyLeading: false,
+                  title: const Text('Dashboard'),
+                ),
+                up(),
+                down(),
+              ],
+            ))
+      ],
+    );
   }
 
   Widget up() {
@@ -129,11 +134,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+            card2(Icons.electrical_services, 'Meter Reading',
+                const MeterScreen(title: '')),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
             card2(Icons.bolt, 'Tracking', const Tracking(title: '')),
             card2(Icons.people_rounded, 'My\nCustomers',
                 const MyCustomers(title: ''))
           ],
-        )
+        ),
       ],
     );
   }
@@ -220,9 +232,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              IconButton(
-                onPressed: () {},
-                icon: Icon(icon),
+              Icon(
+                icon,
                 color: Colors.green,
               ),
               Text(

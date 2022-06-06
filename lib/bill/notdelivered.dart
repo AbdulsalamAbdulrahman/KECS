@@ -59,7 +59,9 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
                             fontSize: 15.0, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                   ),
                 ],
               ),

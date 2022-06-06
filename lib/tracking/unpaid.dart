@@ -28,6 +28,7 @@ class UnpaidScreen extends StatefulWidget {
 class _UnpaidScreenState extends State<UnpaidScreen> {
   final key = GlobalKey<FormState>();
   String dropdownValue = 'Select Reason';
+  bool valuefirst = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +58,7 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
                     const SizedBox(height: 10.0),
                     comment(),
                     const Padding(padding: EdgeInsets.all(5.0)),
+                    checkbox(),
                     ElevatedButton(
                       child: Container(
                         alignment: Alignment.center,
@@ -66,7 +68,9 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
                               fontSize: 15.0, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
                   ],
                 ),
@@ -79,7 +83,7 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
   Widget comment() {
     return Material(
       child: TextFormField(
-        keyboardType: TextInputType.phone,
+        keyboardType: TextInputType.multiline,
         decoration: decorate("Comment"),
         maxLines: 8,
       ),
@@ -110,6 +114,30 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
         );
       }).toList(),
     );
+  }
+
+  Widget checkbox() {
+    return Column(children: <Widget>[
+      Row(children: <Widget>[
+        const SizedBox(
+          width: 10,
+        ),
+        const Text(
+          'Notice Served: ',
+          style: TextStyle(fontSize: 17.0),
+        ),
+        Checkbox(
+          checkColor: Colors.greenAccent,
+          activeColor: Colors.green,
+          value: valuefirst,
+          onChanged: (bool? value) {
+            setState(() {
+              valuefirst = value!;
+            });
+          },
+        ),
+      ])
+    ]);
   }
 
   InputDecoration decorate(String label) {

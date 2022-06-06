@@ -13,47 +13,60 @@ class TrackingScreen extends StatefulWidget {
 
 class _TrackingScreenState extends State<TrackingScreen> {
   final key = GlobalKey<FormState>();
+  final _controller = TextEditingController();
+
+  void clearText() {
+    _controller.clear();
+  }
 
   String dropdownValue = 'Select Status';
+
   @override
   Widget build(BuildContext context) {
-    return Material(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            AppBar(
-              title: const Text('Tracking'),
-            ),
-            Wrap(
-              children: [
-                // const Padding(padding: EdgeInsets.all(20.0)),
-                card(),
-                card1(),
-                card2(),
-                const Padding(padding: EdgeInsets.all(5.0)),
-                ElevatedButton(
-                    onPressed: () {
-                      if (dropdownValue == 'Paid') {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const PaidScreen(
-                                      title: '',
-                                    )));
-                      } else if (dropdownValue == 'Unpaid') {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const UnpaidScreen(
-                                      title: '',
-                                    )));
-                      }
-                    },
-                    child: const Text('Continue'))
-              ],
-            )
-          ],
-        ));
+    return ListView(children: <Widget>[
+      Material(
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              AppBar(
+                title: const Text('Tracking'),
+              ),
+              Wrap(
+                children: [
+                  // const Padding(padding: EdgeInsets.all(20.0)),
+                  card(),
+                  card1(),
+                  card2(),
+                  const Padding(padding: EdgeInsets.all(5.0)),
+                  ElevatedButton(
+                      onPressed: () {
+                        if (dropdownValue == 'Paid') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const PaidScreen(
+                                        title: '',
+                                      )));
+                        } else if (dropdownValue == 'Unpaid') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UnpaidScreen(
+                                        title: '',
+                                      )));
+                        } else if (dropdownValue == 'Disconnected') {
+                          _controller.clear();
+                          setState(() {
+                            // dropdownValue = <String;
+                          });
+                        }
+                      },
+                      child: const Text('Continue'))
+                ],
+              )
+            ],
+          ))
+    ]);
   }
 
   Widget card() {
@@ -70,6 +83,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                 const Padding(padding: EdgeInsets.all(5.0)),
                 Form(
                   child: TextFormField(
+                    controller: _controller,
                     keyboardType: TextInputType.text,
                     decoration: decorate('Account Number'),
                   ),
@@ -175,7 +189,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
           dropdownValue = newValue!;
         });
       },
-      items: <String>['Select Status', 'Paid', 'Unpaid']
+      items: <String>['Select Status', 'Paid', 'Unpaid', 'Disconnected']
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,

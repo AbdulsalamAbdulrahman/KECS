@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:kecs/dashboard/dashboardscreen.dart';
+import 'package:kecs/dashboard/dashboardscreen.dart';
+// import 'package:kecs/tracking/paid.dart';
 // import 'package:kecs/bill/billscreen.dart';
 // import 'package:kecs/tracking/tracking.dart';
-import 'login.dart';
+// import 'login.dart';
 
 void main() {
   // add these lines
@@ -29,9 +30,9 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: const Login(title: 'Commercial Solution'),
+      // home: const Login(title: 'Commercial Solution'),
       // home: const Tracking(title: 'Commercial Solution'),
-      // home: const DashboardScreen(title: 'Commercial Solution'),
+      home: const DashboardScreen(title: 'Commercial Solution'),
       // home: const BillScreen(title: 'Commercial Solution'),
     );
   }
