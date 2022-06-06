@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kecs/meterreading/meterscreen.dart';
 
 class Update extends StatelessWidget {
   static String routeName = "/Update";
@@ -96,10 +95,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
               const Padding(padding: EdgeInsets.all(8)),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MeterScreen(title: '')));
+                  Navigator.of(context).pop();
                 },
                 child: const Text(
                   'Submit',

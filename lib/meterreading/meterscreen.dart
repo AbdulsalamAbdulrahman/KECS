@@ -87,7 +87,9 @@ class _MeterScreenState extends State<MeterScreen> {
                 ),
                 const Padding(padding: EdgeInsets.all(3.0)),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                   child: const Text(
                     'Submit',
                     style:
