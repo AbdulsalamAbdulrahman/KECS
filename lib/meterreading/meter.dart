@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kecs/meterreading/meterscreen.dart';
+import 'package:kecs/meterreading/meter_screen.dart';
 
 class Meter extends StatelessWidget {
   static String routeName = "/meterreading";

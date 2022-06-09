@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:group_radio_button/group_radio_button.dart';
 
 class Paid extends StatelessWidget {
   static String routeName = "/Paid";
@@ -16,10 +17,6 @@ class Paid extends StatelessWidget {
   }
 }
 
-// enum CustomerS { yes, no }
-// enum CustomerExperience { good, bad }
-// enum CustomerService { good, poor }
-
 class PaidScreen extends StatefulWidget {
   const PaidScreen({Key? key, required this.title}) : super(key: key);
 
@@ -31,10 +28,16 @@ class PaidScreen extends StatefulWidget {
 
 class _PaidScreenState extends State<PaidScreen> {
   final key = GlobalKey<FormState>();
+
   String dropdownValue = 'Select Recipient';
-  // CustomerS _satisfied = CustomerS.yes;
-  // CustomerExperience _experience = CustomerExperience.good;
-  // CustomerService _service = CustomerService.good;
+
+  String _satisfied = "Yes";
+  String _experience = "Good";
+  String _service = "Good";
+
+  final List<String> _status = ["Yes", "No"];
+  final List<String> _status1 = ["Good", "Bad"];
+  final List<String> _status2 = ["Good", "Poor"];
 
   @override
   Widget build(BuildContext context) {
@@ -75,8 +78,8 @@ class _PaidScreenState extends State<PaidScreen> {
                     ),
                     // const Padding(padding: EdgeInsets.all(5.0)),
                     container('Customer Satisfied'),
-                    container('Customer Experience'),
-                    container('Customer Service'),
+                    container1('Customer Experience'),
+                    container2('Customer Service'),
                     const Padding(padding: EdgeInsets.all(5.0)),
                     ElevatedButton(
                       child: Container(
@@ -110,32 +113,78 @@ class _PaidScreenState extends State<PaidScreen> {
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
+        RadioGroup<String>.builder(
+          direction: Axis.horizontal,
+          groupValue: _satisfied,
+          horizontalAlignment: MainAxisAlignment.spaceAround,
+          onChanged: (value) => setState(() {
+            _satisfied = value!;
+          }),
+          items: _status,
+          textStyle: const TextStyle(fontSize: 15),
+          itemBuilder: (item) => RadioButtonBuilder(
+            item,
+          ),
+        ),
       ],
     );
   }
 
-  // Widget radio(String text) {
-  //   return Row(children: <Widget>[
-  //     Radio(
-  //       value: BestTutorSite.javatpoint,
-  //       groupValue: _site,
-  //       onChanged: (BestTutorSite? value) {
-  //         setState(() {
-  //           _site = value!;
-  //         });
-  //       },
-  //     ),
-  //     Radio(
-  //       value: BestTutorSite.w3schools,
-  //       groupValue: _site,
-  //       onChanged: (BestTutorSite? value) {
-  //         setState(() {
-  //           _site = value!;
-  //         });
-  //       },
-  //     ),
-  //   ]);
-  // }
+  Widget container1(String text) {
+    return Row(
+      children: <Widget>[
+        Container(
+          padding: const EdgeInsets.only(top: 10),
+          decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+          child: Text(
+            text,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        RadioGroup<String>.builder(
+          direction: Axis.horizontal,
+          groupValue: _experience,
+          horizontalAlignment: MainAxisAlignment.spaceAround,
+          onChanged: (value) => setState(() {
+            _experience = value!;
+          }),
+          items: _status1,
+          textStyle: const TextStyle(fontSize: 15),
+          itemBuilder: (item) => RadioButtonBuilder(
+            item,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget container2(String text) {
+    return Row(
+      children: <Widget>[
+        Container(
+          padding: const EdgeInsets.only(top: 10),
+          decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+          child: Text(
+            text,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        RadioGroup<String>.builder(
+          direction: Axis.horizontal,
+          groupValue: _service,
+          horizontalAlignment: MainAxisAlignment.spaceAround,
+          onChanged: (value) => setState(() {
+            _service = value!;
+          }),
+          items: _status2,
+          textStyle: const TextStyle(fontSize: 15),
+          itemBuilder: (item) => RadioButtonBuilder(
+            item,
+          ),
+        ),
+      ],
+    );
+  }
 
   InputDecoration decorate(String label) {
     return InputDecoration(

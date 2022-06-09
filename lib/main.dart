@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kecs/dashboard/dashboardscreen.dart';
+import 'package:kecs/splash_page.dart';
+// import 'package:kecs/tracking/paid.dart';
+// import 'package:kecs/dashboard/dashboardscreen.dart';
 // import 'package:kecs/tracking/paid.dart';
 // import 'package:kecs/bill/billscreen.dart';
 // import 'package:kecs/tracking/tracking.dart';
@@ -32,8 +34,9 @@ class MyApp extends StatelessWidget {
       ),
       // home: const Login(title: 'Commercial Solution'),
       // home: const Tracking(title: 'Commercial Solution'),
-      home: const DashboardScreen(title: 'Commercial Solution'),
+      home: const SplashPage(),
       // home: const BillScreen(title: 'Commercial Solution'),
+      // home: const PaidScreen(title: 'Commercial Solution'),
     );
   }
 }

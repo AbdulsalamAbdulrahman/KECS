@@ -189,8 +189,13 @@ class _TrackingScreenState extends State<TrackingScreen> {
           dropdownValue = newValue!;
         });
       },
-      items: <String>['Select Status', 'Paid', 'Unpaid', 'Disconnected']
-          .map<DropdownMenuItem<String>>((String value) {
+      items: <String>[
+        'Select Status',
+        'Paid',
+        'Unpaid',
+        'Disconnected',
+        'Reconnected'
+      ].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(

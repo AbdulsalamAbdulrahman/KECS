@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kecs/meterreading/status.dart';
-import 'package:kecs/meterreading/updatescreen.dart';
+// import 'package:kecs/meterreading/update_screen.dart';
 
 class MeterScreen extends StatefulWidget {
   const MeterScreen({Key? key, required this.title}) : super(key: key);
@@ -34,8 +34,6 @@ class _MeterScreenState extends State<MeterScreen> {
                     // const Padding(padding: EdgeInsets.all(20.0)),
                     card(),
                     card1(),
-
-                    card3(),
                     const Padding(padding: EdgeInsets.all(10.0)),
                     ElevatedButton(
                         onPressed: () {
@@ -48,17 +46,6 @@ class _MeterScreenState extends State<MeterScreen> {
                         },
                         child: const Text('Continue')),
                     const Padding(padding: EdgeInsets.all(10)),
-
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const UpdateScreen(
-                                        title: '',
-                                      )));
-                        },
-                        child: const Text('Update'))
                   ],
                 )
               ],
@@ -151,48 +138,6 @@ class _MeterScreenState extends State<MeterScreen> {
     );
   }
 
-  Widget card3() {
-    return SizedBox(
-      width: 500,
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Text('Upload Image',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const Padding(padding: EdgeInsets.only(top: 10)),
-                OutlinedButton(
-                  onPressed: chooseImage,
-                  child: const Text("Choose image"),
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                OutlinedButton(
-                  onPressed: startUpload,
-                  child: const Text("Upload Image"),
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-              ]),
-        ),
-        elevation: 5,
-        shadowColor: Colors.green,
-        shape: const RoundedRectangleBorder(
-          side: BorderSide(
-              color: Colors.green, style: BorderStyle.solid, width: 2.0),
-        ),
-      ),
-    );
-  }
-
   Widget container1(String text) {
     return Container(
       padding: const EdgeInsets.only(top: 10),
@@ -203,49 +148,6 @@ class _MeterScreenState extends State<MeterScreen> {
       ),
     );
   }
-  // Widget card1() {
-  //   return Material(
-
-  //     decoration: BoxDecoration(border: Border.all(color: Colors.white)),
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.start,
-  //       children: const <Widget>[
-  //         Text('Meter'),
-  //         Text('Meter'),
-  //         Text('Meter'),
-  //         Text('Meter')
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Widget card1() {
-  //   return SizedBox(
-  //     height: 25,
-  //     width: 500,
-  //     child: Card(
-  //       child: Column(
-  //         children: [Text('Meter Information')],
-  //       ),
-  // // margin: const EdgeInsets.all(50.0),
-  // child: Padding(
-  //   padding: const EdgeInsets.all(10.0),
-  //   child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: <Widget>[
-  //         const Text('Meter Information'),
-  //         Container(
-  //           // margin: const EdgeInsets.all(15.0),
-  //           // padding: const EdgeInsets.all(3.0),
-  //           decoration:
-  //               BoxDecoration(border: Border.all(color: Colors.black)),
-  //           child: const Text('Meter No:'),
-  //         )
-  //       ]),
-  // ),
-  //     ),
-  //   );
-  // }
 
   InputDecoration decorate(String label) {
     return InputDecoration(
@@ -255,15 +157,4 @@ class _MeterScreenState extends State<MeterScreen> {
           borderSide: const BorderSide(),
         ));
   }
-  // DecoratedBox borderBox() {
-  //   return DecoratedBox(
-  //       decoration: BoxDecoration(
-  //     color: Colors.green,
-  //     border: Border.all(
-  //       color: Colors.white,
-  //       width: 8,
-  //     ),
-  //     borderRadius: BorderRadius.circular(15.0),
-  //   ));
-  // }
 }

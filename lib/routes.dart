@@ -2,13 +2,11 @@ import 'package:flutter/widgets.dart';
 import 'package:kecs/dashboard/dashboard.dart';
 import 'package:kecs/mycustomers/mycustomers.dart';
 import 'package:kecs/profile/profile.dart';
-import 'package:kecs/signup/signup.dart';
 import 'package:kecs/login.dart';
 import 'package:kecs/tracking/tracking.dart';
 
 final Map<String, WidgetBuilder> routes = {
   Dashboard.routeName: (context) => const Dashboard(),
-  Signup.routeName: (context) => const Signup(),
   Login.routeName: (context) => const Login(
         title: '',
       ),

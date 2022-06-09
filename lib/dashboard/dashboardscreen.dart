@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:kecs/bill/bill.dart';
-import 'package:kecs/meterreading/meterscreen.dart';
-import 'package:kecs/profile/profile.dart';
+import 'package:kecs/meterreading/meter_screen.dart';
 import 'package:kecs/mycustomers/mycustomers.dart';
+import 'package:kecs/profile/profilescreen.dart';
+import 'package:kecs/report/report.dart';
 import 'package:kecs/tracking/tracking.dart';
+import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key, required this.title}) : super(key: key);
@@ -17,8 +19,31 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final key = GlobalKey<FormState>();
-
   late String _timestring;
+
+  bool isOpened = false;
+
+  final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
+  final GlobalKey<SideMenuState> _endSideMenuKey = GlobalKey<SideMenuState>();
+
+  toggleMenu([bool end = false]) {
+    if (end) {
+      final _state = _endSideMenuKey.currentState!;
+      if (_state.isOpened) {
+        _state.closeSideMenu();
+      } else {
+        _state.openSideMenu();
+      }
+    } else {
+      final _state = _sideMenuKey.currentState!;
+      if (_state.isOpened) {
+        _state.closeSideMenu();
+      } else {
+        _state.openSideMenu();
+      }
+    }
+  }
+
   @override
   void initState() {
     _timestring =
@@ -36,22 +61,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: <Widget>[
-        Material(
-            color: Colors.white,
-            child: Column(
+    return SideMenu(
+      key: _sideMenuKey,
+      background: Colors.green,
+      menu: buildMenu(),
+      type: SideMenuType.slide,
+      onChange: (_isOpened) {
+        setState(() => isOpened = _isOpened);
+      },
+      child: IgnorePointer(
+        ignoring: isOpened,
+        child: Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              // centerTitle: true,
+              leading: IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () => toggleMenu(),
+              ),
+              title: const Text('Dashboard'),
+            ),
+            body: ListView(
+              scrollDirection: Axis.vertical,
               children: <Widget>[
-                AppBar(
-                  automaticallyImplyLeading: false,
-                  title: const Text('Dashboard'),
-                ),
-                up(),
-                down(),
+                Material(
+                    color: Colors.white,
+                    child: Column(
+                      children: <Widget>[
+                        up(),
+                        down(),
+                      ],
+                    ))
               ],
-            ))
-      ],
+            )),
+      ),
     );
   }
 
@@ -79,7 +122,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(children: [
-                  texts("Adama Muhammad(109083)"),
+                  texts("Abdulsalam Abdulrahman(109083)"),
                   texts("33kv Kawo"),
                   texts("KAWO AREA OFFICE"),
                 ]),
@@ -125,17 +168,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            card2(Icons.receipt_long, 'Bill \n Distribution',
-                const Bill(title: '')),
-            card2(Icons.account_circle, 'Manage\nProfile',
-                const Profile(title: '')),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
             card2(Icons.electrical_services, 'Meter Reading',
                 const MeterScreen(title: '')),
+            card2(Icons.receipt_long, 'Bill \n Distribution',
+                const Bill(title: '')),
           ],
         ),
         Row(
@@ -251,6 +287,68 @@ class _DashboardScreenState extends State<DashboardScreen> {
               borderRadius: BorderRadius.circular(15.0)),
         ),
       ),
+    );
+  }
+
+  Widget buildMenu() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(vertical: 50.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                CircleAvatar(
+                  child: Icon(
+                    Icons.person,
+                    color: Colors.green,
+                  ),
+                  backgroundColor: Colors.white,
+                  radius: 22.0,
+                ),
+                SizedBox(height: 16.0),
+                Text(
+                  "Hello, Abdulsalam Abdulrahman",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20.0),
+              ],
+            ),
+          ),
+          listTile('Home', Icons.home, const DashboardScreen(title: '')),
+          listTile(
+              'Profile', Icons.account_circle, const ProfileScreen(title: '')),
+          listTile('Report', Icons.feedback, const ReportScreen(title: '')),
+          listTile('Logout', Icons.power_settings_new,
+              const DashboardScreen(title: '')),
+        ],
+      ),
+    );
+  }
+
+  Widget listTile(String text, icon, log) {
+    return ListTile(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return log;
+        }));
+      },
+      leading: Icon(icon, size: 20.0, color: Colors.white),
+      title: Text(
+        text,
+        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+      ),
+      textColor: Colors.white,
+      dense: true,
+
+      // padding: EdgeInsets.zero,
     );
   }
 }

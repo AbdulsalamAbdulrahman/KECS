@@ -38,6 +38,10 @@ dependencies:
   material_design_icons_flutter: ^5.0.6595
   time: ^2.1.0
   google_fonts: ^3.0.1
+  group_radio_button: ^1.2.0
+  easy_splash_screen: ^1.0.3
+  shrink_sidemenu: ^2.0.0+2-null-safety
+  file_picker: ^4.6.1
   
 
 dev_dependencies:
