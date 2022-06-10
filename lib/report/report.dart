@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../dashboard/dashboardscreen.dart';
+
 class Report extends StatelessWidget {
   static String routeName = "/Report";
 
@@ -37,9 +39,24 @@ class _ReportScreenState extends State<ReportScreen> {
         child: Column(
           children: <Widget>[
             AppBar(
+              leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    // Navigator.pop(context, true);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const DashboardScreen(
+                                  title: '',
+                                )));
+                  }),
               title: const Text('Report'),
             )
           ],
         ));
   }
+
+  // Widget back() {
+  //   return BackButtonListener(child: child, onBackButtonPressed: onBackButtonPressed)
+  // }
 }

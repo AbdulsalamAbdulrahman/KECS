@@ -42,6 +42,9 @@ dependencies:
   easy_splash_screen: ^1.0.3
   shrink_sidemenu: ^2.0.0+2-null-safety
   file_picker: ^4.6.1
+  connectivity_plus: ^2.3.3
+  double_back_to_close_app: ^2.1.0
+  back_pressed: ^0.0.2
   
 
 dev_dependencies:

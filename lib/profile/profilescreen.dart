@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../dashboard/dashboardscreen.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key, required this.title}) : super(key: key);
 
@@ -73,7 +75,13 @@ Widget button(BuildContext context, String text) {
       ),
     ),
     onPressed: () {
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const DashboardScreen(
+                    title: '',
+                  )));
     },
   );
 }

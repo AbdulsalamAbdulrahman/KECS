@@ -8,6 +8,7 @@ import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:kecs/tracking/tracking.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
+// import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key, required this.title}) : super(key: key);
@@ -72,6 +73,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: IgnorePointer(
         ignoring: isOpened,
         child: Scaffold(
+            drawerEnableOpenDragGesture: true,
             appBar: AppBar(
               automaticallyImplyLeading: false,
               // centerTitle: true,

@@ -98,6 +98,7 @@ class _MeterScreenState extends State<MeterScreen> {
   Widget card1() {
     return SizedBox(
       width: 500,
+      height: 500,
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -115,6 +116,12 @@ class _MeterScreenState extends State<MeterScreen> {
                 container('Tariff Code:'),
                 container('Latitude:'),
                 container('Longitude:'),
+                const Padding(padding: EdgeInsets.all(15)),
+                const Text('Last Reading',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                container('Date:'),
+                container('Time:'),
               ]),
         ),
         elevation: 5,
