@@ -1,3 +1,4 @@
+import 'package:back_pressed/back_pressed.dart';
 import 'package:flutter/material.dart';
 
 import '../dashboard/dashboardscreen.dart';
@@ -16,41 +17,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return MaterialApp(
         color: Colors.white,
-        child: Column(
-          children: [
-            AppBar(
-              title: const Text("Update Profile"),
-            ),
-            Form(
-              key: key,
-              child: Padding(
-                padding: const EdgeInsets.all(19.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Padding(
-                        padding: EdgeInsets.only(top: 0.0),
-                        child: Center(
-                            child: SizedBox(
-                          width: 200,
-                          height: 70,
-                        ))),
-                    recipient('Name'),
-                    const SizedBox(height: 10.0),
-                    recipient('Phone number'),
-                    const Padding(padding: EdgeInsets.all(5.0)),
-                    recipient('Payroll ID'),
-                    const SizedBox(height: 10.0),
-                    button(context, 'Update Profile'),
-                    const Padding(padding: EdgeInsets.all(5.0)),
-                    button(context, 'Change Password'),
-                  ],
+        home: OnBackPressed(
+          perform: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const DashboardScreen(
+                          title: '',
+                        )));
+            // debugPrint('The back button on the device was pressed');
+          },
+          child: Column(
+            children: [
+              AppBar(
+                leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      // Navigator.pop(context, true);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DashboardScreen(
+                                    title: '',
+                                  )));
+                    }),
+                title: const Text("Update Profile"),
+              ),
+              Form(
+                key: key,
+                child: Padding(
+                  padding: const EdgeInsets.all(19.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Padding(
+                          padding: EdgeInsets.only(top: 0.0),
+                          child: Center(
+                              child: SizedBox(
+                            width: 200,
+                            height: 70,
+                          ))),
+                      recipient('Name'),
+                      const SizedBox(height: 10.0),
+                      recipient('Phone number'),
+                      const Padding(padding: EdgeInsets.all(5.0)),
+                      recipient('Payroll ID'),
+                      const SizedBox(height: 10.0),
+                      button(context, 'Update Profile'),
+                      const Padding(padding: EdgeInsets.all(5.0)),
+                      button(context, 'Change Password'),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
@@ -73,17 +74,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: IgnorePointer(
         ignoring: isOpened,
         child: Scaffold(
-            drawerEnableOpenDragGesture: true,
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-              // centerTitle: true,
-              leading: IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: () => toggleMenu(),
-              ),
-              title: const Text('Dashboard'),
+          drawerEnableOpenDragGesture: true,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            // centerTitle: true,
+            leading: IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () => toggleMenu(),
             ),
-            body: ListView(
+            title: const Text('Dashboard'),
+          ),
+          body: DoubleBackToCloseApp(
+            child: ListView(
               scrollDirection: Axis.vertical,
               children: <Widget>[
                 Material(
@@ -95,7 +97,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ],
                     ))
               ],
-            )),
+            ),
+            snackBar: const SnackBar(
+              content: Text('Tap back again to leave'),
+            ),
+          ),
+        ),
       ),
     );
   }
