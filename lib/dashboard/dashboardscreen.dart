@@ -1,4 +1,3 @@
-import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
@@ -8,8 +7,6 @@ import 'package:kecs/mycustomers/mycustomers.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:kecs/tracking/tracking.dart';
-import 'package:shrink_sidemenu/shrink_sidemenu.dart';
-// import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key, required this.title}) : super(key: key);
@@ -21,30 +18,10 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final key = GlobalKey<FormState>();
+
+  // int _selectedDestination = 0;
+
   late String _timestring;
-
-  bool isOpened = false;
-
-  final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
-  final GlobalKey<SideMenuState> _endSideMenuKey = GlobalKey<SideMenuState>();
-
-  toggleMenu([bool end = false]) {
-    if (end) {
-      final _state = _endSideMenuKey.currentState!;
-      if (_state.isOpened) {
-        _state.closeSideMenu();
-      } else {
-        _state.openSideMenu();
-      }
-    } else {
-      final _state = _sideMenuKey.currentState!;
-      if (_state.isOpened) {
-        _state.closeSideMenu();
-      } else {
-        _state.openSideMenu();
-      }
-    }
-  }
 
   @override
   void initState() {
@@ -61,50 +38,72 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
+  // void selectDestination(int index) {
+  //   setState(() {
+  //     _selectedDestination = index;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return SideMenu(
-      key: _sideMenuKey,
-      background: Colors.green,
-      menu: buildMenu(),
-      type: SideMenuType.slide,
-      onChange: (_isOpened) {
-        setState(() => isOpened = _isOpened);
-      },
-      child: IgnorePointer(
-        ignoring: isOpened,
-        child: Scaffold(
-          drawerEnableOpenDragGesture: true,
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            // centerTitle: true,
-            leading: IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () => toggleMenu(),
-            ),
-            title: const Text('Dashboard'),
-          ),
-          body: DoubleBackToCloseApp(
-            child: ListView(
-              scrollDirection: Axis.vertical,
-              children: <Widget>[
-                Material(
-                    color: Colors.white,
-                    child: Column(
-                      children: <Widget>[
-                        up(),
-                        down(),
-                      ],
-                    ))
+    // final theme = Theme.of(context);
+    // final textTheme = theme.textTheme;
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Dashboard'),
+        ),
+        drawer: Drawer(
+          backgroundColor: Colors.green,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 50.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const <Widget>[
+                      Padding(padding: EdgeInsets.only(top: 50.0)),
+                      CircleAvatar(
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.green,
+                        ),
+                        backgroundColor: Colors.white,
+                        radius: 22.0,
+                      ),
+                      SizedBox(height: 16.0),
+                      Text(
+                        "Hello, Abdulsalam Abdulrahman",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 20.0),
+                    ],
+                  ),
+                ),
+                listTile('Home', Icons.home, const DashboardScreen(title: '')),
+                listTile('Profile', Icons.account_circle,
+                    const ProfileScreen(title: '')),
+                listTile(
+                    'Report', Icons.feedback, const ReportScreen(title: '')),
+                listTile('Logout', Icons.power_settings_new,
+                    const DashboardScreen(title: '')),
               ],
-            ),
-            snackBar: const SnackBar(
-              content: Text('Tap back again to leave'),
             ),
           ),
         ),
-      ),
-    );
+        body: ListView(
+          scrollDirection: Axis.vertical,
+          children: <Widget>[
+            up(),
+            down(),
+          ],
+        ));
   }
 
   Widget up() {
@@ -115,7 +114,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       margin: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Text(
             _timestring,
             textAlign: TextAlign.center,
@@ -263,7 +262,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget card2(icon, String text, log) {
+  Widget card2(
+    icon,
+    String text,
+    log,
+  ) {
     return SizedBox(
       height: 120,
       width: 120,
@@ -295,49 +298,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   color: Colors.green, style: BorderStyle.solid, width: 2.0),
               borderRadius: BorderRadius.circular(15.0)),
         ),
-      ),
-    );
-  }
-
-  Widget buildMenu() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 50.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                CircleAvatar(
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.green,
-                  ),
-                  backgroundColor: Colors.white,
-                  radius: 22.0,
-                ),
-                SizedBox(height: 16.0),
-                Text(
-                  "Hello, Abdulsalam Abdulrahman",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 20.0),
-              ],
-            ),
-          ),
-          listTile('Home', Icons.home, const DashboardScreen(title: '')),
-          listTile(
-              'Profile', Icons.account_circle, const ProfileScreen(title: '')),
-          listTile('Report', Icons.feedback, const ReportScreen(title: '')),
-          listTile('Logout', Icons.power_settings_new,
-              const DashboardScreen(title: '')),
-        ],
       ),
     );
   }

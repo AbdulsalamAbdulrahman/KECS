@@ -17,9 +17,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return Material(
         color: Colors.white,
-        home: OnBackPressed(
+        child: OnBackPressed(
           perform: () {
             Navigator.push(
                 context,
