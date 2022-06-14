@@ -38,7 +38,7 @@ class _SplashPageState extends State<SplashPage> {
         ),
       ),
       navigator: const DashboardScreen(title: ''),
-      durationInSeconds: 5,
+      durationInSeconds: 2,
     );
   }
 }

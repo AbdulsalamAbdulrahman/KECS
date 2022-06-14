@@ -1,4 +1,3 @@
-import 'package:back_pressed/back_pressed.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -36,17 +35,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       _timestring =
           "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     });
-  }
-
-  void doubleBack() {
-    const DoubleBackToCloseApp(
-      child: DashboardScreen(
-        title: '',
-      ),
-      snackBar: SnackBar(
-        content: Text('Tap back again to leave'),
-      ),
-    );
   }
 
   @override
@@ -288,7 +276,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       width: 120,
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pop();
+          // Navigator.of(context).pop();
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return log;
           }));
@@ -322,6 +310,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget listTile(String text, icon, log) {
     return ListTile(
       onTap: () {
+        Navigator.of(context).pop();
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return log;
         }));

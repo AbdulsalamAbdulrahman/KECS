@@ -1,5 +1,6 @@
 import 'package:back_pressed/back_pressed.dart';
 import 'package:flutter/material.dart';
+import '../dashboard/dashboard.dart';
 import '../dashboard/dashboardscreen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -39,9 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const DashboardScreen(
-                                    title: '',
-                                  )));
+                              builder: (context) => const Dashboard()));
                     }),
                 title: const Text("Update Profile"),
               ),
@@ -98,7 +97,7 @@ Widget button(BuildContext context, String text) {
       ),
     ),
     onPressed: () {
-      // Navigator.of(context).pop();
+      Navigator.of(context).pop();
       Navigator.push(
           context,
           MaterialPageRoute(
