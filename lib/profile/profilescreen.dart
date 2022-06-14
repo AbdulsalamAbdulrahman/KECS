@@ -20,6 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         color: Colors.white,
         child: OnBackPressed(
           perform: () {
+            Navigator.of(context).pop();
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -34,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 leading: IconButton(
                     icon: const Icon(Icons.arrow_back),
                     onPressed: () {
-                      // Navigator.pop(context, true);
+                      Navigator.pop(context, true);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

@@ -44,7 +44,7 @@ class _ReportScreenState extends State<ReportScreen> {
                   leading: IconButton(
                       icon: const Icon(Icons.arrow_back),
                       onPressed: () {
-                        // Navigator.pop(context, true);
+                        Navigator.pop(context, true);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -57,6 +57,7 @@ class _ReportScreenState extends State<ReportScreen> {
               ],
             ),
             perform: () {
+              Navigator.of(context).pop();
               Navigator.push(
                   context,
                   MaterialPageRoute(

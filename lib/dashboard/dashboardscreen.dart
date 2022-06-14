@@ -288,6 +288,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       width: 120,
       child: GestureDetector(
         onTap: () {
+          Navigator.of(context).pop();
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return log;
           }));
