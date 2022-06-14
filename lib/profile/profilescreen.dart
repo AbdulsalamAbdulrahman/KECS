@@ -1,6 +1,5 @@
 import 'package:back_pressed/back_pressed.dart';
 import 'package:flutter/material.dart';
-
 import '../dashboard/dashboardscreen.dart';
 
 class ProfileScreen extends StatefulWidget {

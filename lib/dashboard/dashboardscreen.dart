@@ -1,3 +1,5 @@
+import 'package:back_pressed/back_pressed.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
@@ -19,8 +21,6 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final key = GlobalKey<FormState>();
 
-  // int _selectedDestination = 0;
-
   late String _timestring;
 
   @override
@@ -38,17 +38,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-  // void selectDestination(int index) {
-  //   setState(() {
-  //     _selectedDestination = index;
-  //   });
-  // }
+  void doubleBack() {
+    const DoubleBackToCloseApp(
+      child: DashboardScreen(
+        title: '',
+      ),
+      snackBar: SnackBar(
+        content: Text('Tap back again to leave'),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final theme = Theme.of(context);
-    // final textTheme = theme.textTheme;
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Dashboard'),
         ),
@@ -65,6 +69,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const <Widget>[
+                      // SizedBox(
+                      //   child: Image.asset('kecs.png'),
+                      // ),
                       Padding(padding: EdgeInsets.only(top: 50.0)),
                       CircleAvatar(
                         child: Icon(
@@ -86,6 +93,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ],
                   ),
                 ),
+                const Divider(
+                  height: 1,
+                  thickness: 1,
+                ),
                 listTile('Home', Icons.home, const DashboardScreen(title: '')),
                 listTile('Profile', Icons.account_circle,
                     const ProfileScreen(title: '')),
@@ -97,12 +108,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
         ),
-        body: ListView(
-          scrollDirection: Axis.vertical,
-          children: <Widget>[
-            up(),
-            down(),
-          ],
+        body: OnBackPressed(
+          child: ListView(
+            scrollDirection: Axis.vertical,
+            children: <Widget>[
+              up(),
+              down(),
+            ],
+          ),
+          perform: () {
+            if (State == DashboardScreen) {
+              return doubleBack();
+            }
+          },
+          // body: ListView(
+          //   scrollDirection: Axis.vertical,
+          //   children: <Widget>[
+          //     up(),
+          //     down(),
+          //   ],
+          // ),
         ));
   }
 

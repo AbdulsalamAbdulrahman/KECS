@@ -31,8 +31,9 @@ class _MeterScreenState extends State<MeterScreen> {
                 ),
                 Wrap(
                   children: [
-                    // const Padding(padding: EdgeInsets.all(20.0)),
+                    const Padding(padding: EdgeInsets.all(10.0)),
                     card(),
+                    const Padding(padding: EdgeInsets.all(15.0)),
                     card1(),
                     const Padding(padding: EdgeInsets.all(10.0)),
                     ElevatedButton(
@@ -98,7 +99,7 @@ class _MeterScreenState extends State<MeterScreen> {
   Widget card1() {
     return SizedBox(
       width: 500,
-      height: 500,
+      height: 400,
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(10.0),

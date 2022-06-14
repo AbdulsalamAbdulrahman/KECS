@@ -1,3 +1,4 @@
+import 'package:back_pressed/back_pressed.dart';
 import 'package:flutter/material.dart';
 
 import '../dashboard/dashboardscreen.dart';
@@ -36,24 +37,33 @@ class _ReportScreenState extends State<ReportScreen> {
   Widget build(BuildContext context) {
     return Material(
         color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            AppBar(
-              leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    // Navigator.pop(context, true);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const DashboardScreen(
-                                  title: '',
-                                )));
-                  }),
-              title: const Text('Report'),
-            )
-          ],
-        ));
+        child: OnBackPressed(
+            child: Column(
+              children: <Widget>[
+                AppBar(
+                  leading: IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      onPressed: () {
+                        // Navigator.pop(context, true);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const DashboardScreen(
+                                      title: '',
+                                    )));
+                      }),
+                  title: const Text('Report'),
+                )
+              ],
+            ),
+            perform: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DashboardScreen(
+                            title: '',
+                          )));
+            }));
   }
 
   // Widget back() {

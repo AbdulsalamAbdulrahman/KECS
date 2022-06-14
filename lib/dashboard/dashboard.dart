@@ -1,4 +1,3 @@
-import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:kecs/dashboard/dashboardscreen.dart';
 
@@ -9,14 +8,7 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: DoubleBackToCloseApp(
-        child: DashboardScreen(
-          title: '',
-        ),
-        snackBar: SnackBar(
-          content: Text('Tap back again to leave'),
-        ),
-      ),
+      body: DashboardScreen(title: ''),
     );
   }
 }

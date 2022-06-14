@@ -1,8 +1,5 @@
-import 'package:back_pressed/back_pressed.dart';
 import 'package:flutter/material.dart';
 import 'package:kecs/profile/profilescreen.dart';
-
-import '../dashboard/dashboardscreen.dart';
 
 class Profile extends StatelessWidget {
   static String routeName = "/Profile";
@@ -11,20 +8,8 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: OnBackPressed(
-      perform: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const DashboardScreen(
-                      title: '',
-                    )));
-        // debugPrint('The back button on the device was pressed');
-      },
-      child: const Scaffold(
-        body: ProfileScreen(title: ''),
-      ),
-    ));
+    return const Scaffold(
+      body: ProfileScreen(title: ''),
+    );
   }
 }
