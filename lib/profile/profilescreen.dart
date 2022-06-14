@@ -1,7 +1,7 @@
 import 'package:back_pressed/back_pressed.dart';
 import 'package:flutter/material.dart';
 import '../dashboard/dashboard.dart';
-import '../dashboard/dashboardscreen.dart';
+// import '../dashboard/dashboardscreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key, required this.title}) : super(key: key);
@@ -22,12 +22,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: OnBackPressed(
           perform: () {
             Navigator.of(context).pop();
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const DashboardScreen(
-                          title: '',
-                        )));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Dashboard()));
             // debugPrint('The back button on the device was pressed');
           },
           child: Column(
@@ -99,11 +95,7 @@ Widget button(BuildContext context, String text) {
     onPressed: () {
       Navigator.of(context).pop();
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const DashboardScreen(
-                    title: '',
-                  )));
+          context, MaterialPageRoute(builder: (context) => const Dashboard()));
     },
   );
 }

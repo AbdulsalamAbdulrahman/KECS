@@ -1,7 +1,7 @@
 import 'package:back_pressed/back_pressed.dart';
 import 'package:flutter/material.dart';
-
-import '../dashboard/dashboardscreen.dart';
+import '../dashboard/dashboard.dart';
+// import '../dashboard/dashboardscreen.dart';
 
 class Report extends StatelessWidget {
   static String routeName = "/Report";
@@ -48,9 +48,7 @@ class _ReportScreenState extends State<ReportScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const DashboardScreen(
-                                      title: '',
-                                    )));
+                                builder: (context) => const Dashboard()));
                       }),
                   title: const Text('Report'),
                 )
@@ -58,12 +56,8 @@ class _ReportScreenState extends State<ReportScreen> {
             ),
             perform: () {
               Navigator.of(context).pop();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const DashboardScreen(
-                            title: '',
-                          )));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Dashboard()));
             }));
   }
 
