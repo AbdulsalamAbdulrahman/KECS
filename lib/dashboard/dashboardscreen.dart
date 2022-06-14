@@ -52,83 +52,74 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text('Dashboard'),
-        ),
-        drawer: Drawer(
-          backgroundColor: Colors.green,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(vertical: 50.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      // SizedBox(
-                      //   child: Image.asset('kecs.png'),
-                      // ),
-                      Padding(padding: EdgeInsets.only(top: 50.0)),
-                      CircleAvatar(
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.green,
-                        ),
-                        backgroundColor: Colors.white,
-                        radius: 22.0,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text('Dashboard'),
+      ),
+      drawer: Drawer(
+        backgroundColor: Colors.green,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 50.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const <Widget>[
+                    // SizedBox(
+                    //   child: Image.asset('kecs.png'),
+                    // ),
+                    Padding(padding: EdgeInsets.only(top: 50.0)),
+                    CircleAvatar(
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.green,
                       ),
-                      SizedBox(height: 16.0),
-                      Text(
-                        "Hello, Abdulsalam Abdulrahman",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 20.0),
-                    ],
-                  ),
+                      backgroundColor: Colors.white,
+                      radius: 22.0,
+                    ),
+                    SizedBox(height: 16.0),
+                    Text(
+                      "Hello, Abdulsalam Abdulrahman",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 20.0),
+                  ],
                 ),
-                const Divider(
-                  height: 1,
-                  thickness: 1,
-                ),
-                listTile('Home', Icons.home, const DashboardScreen(title: '')),
-                listTile('Profile', Icons.account_circle,
-                    const ProfileScreen(title: '')),
-                listTile(
-                    'Report', Icons.feedback, const ReportScreen(title: '')),
-                listTile('Logout', Icons.power_settings_new,
-                    const DashboardScreen(title: '')),
-              ],
-            ),
-          ),
-        ),
-        body: OnBackPressed(
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            children: <Widget>[
-              up(),
-              down(),
+              ),
+              const Divider(
+                height: 1,
+                thickness: 1,
+              ),
+              listTile('Home', Icons.home, const DashboardScreen(title: '')),
+              listTile('Profile', Icons.account_circle,
+                  const ProfileScreen(title: '')),
+              listTile('Report', Icons.feedback, const ReportScreen(title: '')),
+              listTile('Logout', Icons.power_settings_new,
+                  const DashboardScreen(title: '')),
             ],
           ),
-          perform: () {
-            if (State == DashboardScreen) {
-              return doubleBack();
-            }
-          },
-          // body: ListView(
-          //   scrollDirection: Axis.vertical,
-          //   children: <Widget>[
-          //     up(),
-          //     down(),
-          //   ],
-          // ),
-        ));
+        ),
+      ),
+      body: DoubleBackToCloseApp(
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          children: <Widget>[
+            up(),
+            down(),
+          ],
+        ),
+        snackBar: const SnackBar(
+          content: Text('Tap back again to leave'),
+        ),
+      ),
+    );
   }
 
   Widget up() {
