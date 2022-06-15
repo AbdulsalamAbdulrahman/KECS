@@ -1,6 +1,4 @@
-// import 'package:back_pressed/back_pressed.dart';
 import 'package:flutter/material.dart';
-// import 'package:kecs/dashboard/dashboard.dart';
 
 class Report extends StatelessWidget {
   const Report({Key? key}) : super(key: key);
@@ -25,9 +23,6 @@ class ReportScreen extends StatefulWidget {
 
 class _ReportScreenState extends State<ReportScreen> {
   final key = GlobalKey<FormState>();
-
-  String dropdownValue = 'Select Reason';
-  bool valuefirst = false;
 
   DateTimeRange? _selectedDateRange;
 
@@ -82,31 +77,5 @@ class _ReportScreenState extends State<ReportScreen> {
         child: const Icon(Icons.date_range),
       ),
     );
-
-    // return Material(
-    //     color: Colors.white,
-    //     child: OnBackPressed(
-    //         child: Column(
-    //           children: <Widget>[
-    //             AppBar(
-    //               leading: IconButton(
-    //                   icon: const Icon(Icons.arrow_back),
-    //                   onPressed: () {
-    //                     Navigator.pop(context, true);
-    //                     Navigator.push(
-    //                         context,
-    //                         MaterialPageRoute(
-    //                             builder: (context) => const Dashboard()));
-    //                   }),
-    //               title: const Text('Report'),
-    //             )
-    //           ],
-    //         ),
-    //         perform: () {
-    //           Navigator.of(context).pop();
-    //           Navigator.push(context,
-    //               MaterialPageRoute(builder: (context) => const Dashboard()));
-    //           Navigator.of(context).pop();
-    //         }));
   }
 }
