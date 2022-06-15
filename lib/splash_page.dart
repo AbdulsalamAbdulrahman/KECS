@@ -1,8 +1,7 @@
 import 'package:easy_splash_screen/easy_splash_screen.dart';
-import 'package:kecs/dashboard/dashboardscreen.dart';
-// import 'package:kecs/dashboard/dashboardscreen.dart';
-// import 'login.dart';1
 import 'package:flutter/material.dart';
+import 'package:kecs/dashboard/dashboard.dart';
+// import 'package:kecs/login.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -20,14 +19,6 @@ class _SplashPageState extends State<SplashPage> {
         alignment: Alignment.center,
       ),
       logoSize: 100,
-      title: const Text(
-        "",
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.green,
-        ),
-      ),
       backgroundColor: Colors.white,
       showLoader: true,
       loaderColor: Colors.green,
@@ -37,7 +28,7 @@ class _SplashPageState extends State<SplashPage> {
           color: Colors.green,
         ),
       ),
-      navigator: const DashboardScreen(title: ''),
+      navigator: const Dashboard(),
       durationInSeconds: 2,
     );
   }

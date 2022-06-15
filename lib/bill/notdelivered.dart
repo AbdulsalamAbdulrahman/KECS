@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
 class NotDelivered extends StatelessWidget {
-  static String routeName = "/NotDelivered";
-
-  const NotDelivered({Key? key, required String title}) : super(key: key);
+  const NotDelivered({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: NotDeliveredScreen(title: ''),
+      body: NotDelivered(),
     );
   }
 }
 
 class NotDeliveredScreen extends StatefulWidget {
-  const NotDeliveredScreen({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const NotDeliveredScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<NotDeliveredScreen> createState() => _NotDeliveredScreenState();

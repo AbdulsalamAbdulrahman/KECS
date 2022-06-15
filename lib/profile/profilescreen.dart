@@ -1,12 +1,20 @@
 import 'package:back_pressed/back_pressed.dart';
 import 'package:flutter/material.dart';
-import '../dashboard/dashboard.dart';
-// import '../dashboard/dashboardscreen.dart';
+import 'package:kecs/dashboard/dashboard.dart';
+
+class Profile extends StatelessWidget {
+  const Profile({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: ProfileScreen(),
+    );
+  }
+}
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -21,25 +29,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         color: Colors.white,
         child: OnBackPressed(
           perform: () {
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                '/Dashboard', (Route<dynamic> route) => false);
             Navigator.of(context).pop();
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Dashboard()));
+
             // debugPrint('The back button on the device was pressed');
           },
           child: Column(
             children: [
-              AppBar(
-                leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context, true);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Dashboard()));
-                    }),
-                title: const Text("Update Profile"),
-              ),
               Form(
                 key: key,
                 child: Padding(

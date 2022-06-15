@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyCustomersScreen extends StatefulWidget {
-  const MyCustomersScreen({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const MyCustomersScreen({Key? key}) : super(key: key);
 
   @override
   State<MyCustomersScreen> createState() => _MyCustomersScreenState();

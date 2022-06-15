@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kecs/bill/bill.dart';
+import 'package:kecs/dashboard/dashboard.dart';
+import 'package:kecs/meterreading/meter.dart';
+import 'package:kecs/mycustomers/mycustomers.dart';
 import 'package:kecs/splash_page.dart';
-// import 'package:kecs/tracking/paid.dart';
-// import 'package:kecs/dashboard/dashboardscreen.dart';
-// import 'package:kecs/tracking/paid.dart';
-// import 'package:kecs/bill/billscreen.dart';
-// import 'package:kecs/tracking/tracking.dart';
-// import 'login.dart';
+import 'package:kecs/tracking/tracking.dart';
 
 void main() {
   // add these lines
@@ -32,11 +31,14 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      // home: const Login(title: 'Commercial Solution'),
-      // home: const Tracking(title: 'Commercial Solution'),
       home: const SplashPage(),
-      // home: const BillScreen(title: 'Commercial Solution'),
-      // home: const PaidScreen(title: 'Commercial Solution'),
+      routes: <String, WidgetBuilder>{
+        '/Dashboard': (BuildContext context) => const Dashboard(),
+        '/Meter': (BuildContext context) => const Meter(),
+        '/Bill': (BuildContext context) => const Bill(),
+        '/MyCustomers': (BuildContext context) => const MyCustomers(),
+        '/Tracking': (BuildContext context) => const Tracking()
+      },
     );
   }
 }

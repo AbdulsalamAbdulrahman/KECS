@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Unpaid extends StatelessWidget {
-  static String routeName = "/Unpaid";
-
-  const Unpaid({Key? key, required String title}) : super(key: key);
+  const Unpaid({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,15 +11,15 @@ class Unpaid extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Bill Unpaid'),
       ),
-      body: const UnpaidScreen(title: ''),
+      body: const UnpaidScreen(),
     );
   }
 }
 
 class UnpaidScreen extends StatefulWidget {
-  const UnpaidScreen({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const UnpaidScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<UnpaidScreen> createState() => _UnpaidScreenState();

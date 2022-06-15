@@ -2,22 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 
 class Status extends StatelessWidget {
-  static String routeName = "/Status";
-
-  const Status({Key? key, required String title}) : super(key: key);
+  const Status({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: StatusScreen(title: ''),
+      body: StatusScreen(),
     );
   }
 }
 
 class StatusScreen extends StatefulWidget {
-  const StatusScreen({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const StatusScreen({Key? key}) : super(key: key);
 
   @override
   State<StatusScreen> createState() => _StatusScreenState();

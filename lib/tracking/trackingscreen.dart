@@ -3,9 +3,9 @@ import 'package:kecs/tracking/paid.dart';
 import 'package:kecs/tracking/unpaid.dart';
 
 class TrackingScreen extends StatefulWidget {
-  const TrackingScreen({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const TrackingScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<TrackingScreen> createState() => _TrackingScreenState();
@@ -44,16 +44,12 @@ class _TrackingScreenState extends State<TrackingScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const PaidScreen(
-                                        title: '',
-                                      )));
+                                  builder: (context) => const Paid()));
                         } else if (dropdownValue == 'Unpaid') {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const UnpaidScreen(
-                                        title: '',
-                                      )));
+                                  builder: (context) => const Unpaid()));
                         } else if (dropdownValue == 'Disconnected') {
                           _controller.clear();
                           setState(() {

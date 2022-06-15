@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Delivered extends StatelessWidget {
-  static String routeName = "/Delivered";
-
-  const Delivered({Key? key, required String title}) : super(key: key);
+  const Delivered({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,15 +11,13 @@ class Delivered extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Bill Delivered'),
       ),
-      body: const DeliveredScreen(title: ''),
+      body: const Delivered(),
     );
   }
 }
 
 class DeliveredScreen extends StatefulWidget {
-  const DeliveredScreen({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const DeliveredScreen({Key? key}) : super(key: key);
 
   @override
   State<DeliveredScreen> createState() => _DeliveredScreenState();

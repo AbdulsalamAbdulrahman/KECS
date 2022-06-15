@@ -3,9 +3,7 @@ import 'package:kecs/bill/delivered.dart';
 import 'package:kecs/bill/notdelivered.dart';
 
 class BillScreen extends StatefulWidget {
-  const BillScreen({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const BillScreen({Key? key}) : super(key: key);
 
   @override
   State<BillScreen> createState() => _BillScreenState();
@@ -40,17 +38,14 @@ class _BillScreenState extends State<BillScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const DeliveredScreen(
-                                          title: '',
-                                        )));
+                                    builder: (context) =>
+                                        const DeliveredScreen()));
                           } else if (dropdownValue == 'Not Delivered') {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const NotDeliveredScreen(
-                                          title: '',
-                                        )));
+                                        const NotDeliveredScreen()));
                           }
                         },
                         child: const Text('Continue'))
@@ -202,59 +197,4 @@ class _BillScreenState extends State<BillScreen> {
           borderSide: const BorderSide(),
         ));
   }
-  // Widget card1() {
-  //   return Material(
-
-  //     decoration: BoxDecoration(border: Border.all(color: Colors.white)),
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.start,
-  //       children: const <Widget>[
-  //         Text('Meter'),
-  //         Text('Meter'),
-  //         Text('Meter'),
-  //         Text('Meter')
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Widget card1() {
-  //   return SizedBox(
-  //     height: 25,
-  //     width: 500,
-  //     child: Card(
-  //       child: Column(
-  //         children: [Text('Meter Information')],
-  //       ),
-  // // margin: const EdgeInsets.all(50.0),
-  // child: Padding(
-  //   padding: const EdgeInsets.all(10.0),
-  //   child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: <Widget>[
-  //         const Text('Meter Information'),
-  //         Container(
-  //           // margin: const EdgeInsets.all(15.0),
-  //           // padding: const EdgeInsets.all(3.0),
-  //           decoration:
-  //               BoxDecoration(border: Border.all(color: Colors.black)),
-  //           child: const Text('Meter No:'),
-  //         )
-  //       ]),
-  // ),
-  //     ),
-  //   );
-  // }
-
-  // DecoratedBox borderBox() {
-  //   return DecoratedBox(
-  //       decoration: BoxDecoration(
-  //     color: Colors.green,
-  //     border: Border.all(
-  //       color: Colors.white,
-  //       width: 8,
-  //     ),
-  //     ,
-  //   ));
-  // }
 }

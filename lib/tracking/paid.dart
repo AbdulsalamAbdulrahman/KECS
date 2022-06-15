@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 
 class Paid extends StatelessWidget {
-  static String routeName = "/Paid";
-
-  const Paid({Key? key, required String title}) : super(key: key);
+  const Paid({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,15 +10,13 @@ class Paid extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Bill Paid'),
       ),
-      body: const PaidScreen(title: ''),
+      body: const PaidScreen(),
     );
   }
 }
 
 class PaidScreen extends StatefulWidget {
-  const PaidScreen({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const PaidScreen({Key? key}) : super(key: key);
 
   @override
   State<PaidScreen> createState() => _PaidScreenState();

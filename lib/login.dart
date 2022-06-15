@@ -3,14 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kecs/dashboard/dashboard.dart';
-import 'package:kecs/dashboard/dashboardscreen.dart';
 
 class Login extends StatefulWidget {
-  static String routeName = '/login';
-
-  const Login({Key? key, required this.title}) : super(key: key);
-  //String  username;
-  final String title;
+  const Login({Key? key}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
@@ -146,12 +141,6 @@ class _LoginState extends State<Login> {
                 child: const Text("OK"),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const DashboardScreen(
-                                title: '',
-                              )));
                   Navigator.push(
                       context,
                       MaterialPageRoute(

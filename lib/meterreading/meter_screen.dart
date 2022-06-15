@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kecs/meterreading/status.dart';
-// import 'package:kecs/meterreading/update_screen.dart';
 
 class MeterScreen extends StatefulWidget {
-  const MeterScreen({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const MeterScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<MeterScreen> createState() => _MeterScreenState();
@@ -41,9 +40,7 @@ class _MeterScreenState extends State<MeterScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const StatusScreen(
-                                        title: '',
-                                      )));
+                                  builder: (context) => const Status()));
                         },
                         child: const Text('Continue')),
                     const Padding(padding: EdgeInsets.all(10)),

@@ -1,17 +1,11 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:intl/intl.dart';
-import 'package:kecs/bill/bill.dart';
-import 'package:kecs/meterreading/meter_screen.dart';
-import 'package:kecs/mycustomers/mycustomers.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
-import 'package:kecs/tracking/tracking.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const DashboardScreen({Key? key}) : super(key: key);
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -25,16 +19,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     _timestring =
-        "${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}";
-    Timer.periodic(const Duration(seconds: 1), (Timer t) => _getCurrentTime());
+        "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     super.initState();
-  }
-
-  void _getCurrentTime() {
-    setState(() {
-      _timestring =
-          "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
-    });
   }
 
   @override
@@ -57,9 +43,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const <Widget>[
-                    // SizedBox(
-                    //   child: Image.asset('kecs.png'),
-                    // ),
                     Padding(padding: EdgeInsets.only(top: 50.0)),
                     CircleAvatar(
                       child: Icon(
@@ -71,7 +54,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                     SizedBox(height: 16.0),
                     Text(
-                      "Hello, Abdulsalam Abdulrahman",
+                      "Hi , Abdulsalam",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
@@ -85,12 +68,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 height: 1,
                 thickness: 1,
               ),
-              // listTile('Home', Icons.home, const DashboardScreen(title: '')),
-              listTile('Profile', Icons.account_circle,
-                  const ProfileScreen(title: '')),
-              listTile('Report', Icons.feedback, const ReportScreen(title: '')),
+              // listTile('Home', Icons.home, const DashboardScreen()),
+              listTile('Profile', Icons.account_circle, const Profile()),
+              listTile('Report', Icons.feedback, const Report()),
               // listTile('Logout', Icons.power_settings_new,
-              //     const DashboardScreen(title: '')),
+              //     const DashboardScreen()),
             ],
           ),
         ),
@@ -180,18 +162,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            card2(Icons.electrical_services, 'Meter Reading',
-                const MeterScreen(title: '')),
-            card2(Icons.receipt_long, 'Bill \n Distribution',
-                const Bill(title: '')),
+            card2(Icons.electrical_services, 'Meter Reading', '/Meter'),
+            card2(Icons.receipt_long, 'Bill \n Distribution', '/Bill'),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            card2(Icons.bolt, 'Tracking', const Tracking(title: '')),
-            card2(Icons.people_rounded, 'My\nCustomers',
-                const MyCustomers(title: ''))
+            card2(Icons.bolt, 'Tracking', '/Tracking'),
+            card2(Icons.people_rounded, 'My\nCustomers', '/MyCustomers')
           ],
         ),
       ],
@@ -269,7 +248,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget card2(
     icon,
     String text,
-    log,
+    String text2,
   ) {
     return SizedBox(
       height: 120,
@@ -277,9 +256,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: GestureDetector(
         onTap: () {
           // Navigator.of(context).pop();
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return log;
-          }));
+          Navigator.of(context).pushNamed(text2);
         },
         child: Card(
           child: Column(
