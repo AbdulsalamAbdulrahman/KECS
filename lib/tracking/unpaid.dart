@@ -36,10 +36,6 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
         color: Colors.white,
         child: Column(
           children: <Widget>[
-            AppBar(
-              automaticallyImplyLeading: false,
-              title: const Text('Bill Unpaid'),
-            ),
             Form(
               key: key,
               child: Padding(

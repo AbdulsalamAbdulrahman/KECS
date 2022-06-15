@@ -41,10 +41,6 @@ class _PaidScreenState extends State<PaidScreen> {
         color: Colors.white,
         child: Column(
           children: <Widget>[
-            AppBar(
-              automaticallyImplyLeading: false,
-              title: const Text('Bill Paid'),
-            ),
             const Padding(padding: EdgeInsets.only(top: 5.0)),
             Form(
               key: key,

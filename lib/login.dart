@@ -54,21 +54,6 @@ class _LoginState extends State<Login> {
                   }
                 },
               ),
-              Column(
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TextButton(
-                    child: const Text(
-                      'Forgot Password',
-                      style: TextStyle(
-                          fontSize: 15.0,
-                          color: Colors.green,
-                          decoration: TextDecoration.none),
-                    ),
-                    onPressed: () {},
-                  )
-                ],
-              )
             ],
           ),
         ),
@@ -93,7 +78,7 @@ class _LoginState extends State<Login> {
           }
           return null;
         },
-        decoration: decorate("Username"),
+        decoration: decorate("Username", Icons.person),
       ),
     );
   }
@@ -114,7 +99,7 @@ class _LoginState extends State<Login> {
           }
           return null;
         },
-        decoration: decorate("Password"),
+        decoration: decorate("Password", Icons.lock),
       ),
     );
   }
@@ -171,9 +156,10 @@ class _LoginState extends State<Login> {
     }
   }
 
-  InputDecoration decorate(String label) {
+  InputDecoration decorate(String label, icon) {
     return InputDecoration(
         labelText: label,
+        prefixIcon: Icon(icon),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5.0),
           borderSide: const BorderSide(),

@@ -1,7 +1,7 @@
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:kecs/dashboard/dashboard.dart';
-// import 'package:kecs/login.dart';
+// import 'package:kecs/dashboard/dashboard.dart';
+import 'package:kecs/login.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class _SplashPageState extends State<SplashPage> {
           color: Colors.green,
         ),
       ),
-      navigator: const Dashboard(),
+      navigator: const Login(),
       durationInSeconds: 2,
     );
   }
