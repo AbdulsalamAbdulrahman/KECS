@@ -15,13 +15,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.2"
-  back_pressed:
-    dependency: "direct main"
-    description:
-      name: back_pressed
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.2"
   boolean_selector:
     dependency: transitive
     description:
