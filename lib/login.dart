@@ -152,10 +152,7 @@ class _LoginState extends State<Login> {
                           builder: (context) => const DashboardScreen(
                                 title: '',
                               )));
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Dashboard()));
+                 
                 },
               ),
             ],
