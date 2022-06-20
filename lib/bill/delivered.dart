@@ -57,9 +57,13 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                     const Padding(padding: EdgeInsets.all(5.0)),
                     dropDown(),
                     const SizedBox(height: 10.0),
-                    description(),
+                    comment(),
                     const Padding(padding: EdgeInsets.all(5.0)),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(500, 50),
+                        maximumSize: const Size(500, 50),
+                      ),
                       child: Container(
                         alignment: Alignment.center,
                         child: const Text(
@@ -100,7 +104,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
     );
   }
 
-  Widget description() {
+  Widget comment() {
     return Material(
       child: TextFormField(
         keyboardType: TextInputType.multiline,

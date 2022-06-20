@@ -73,6 +73,10 @@ class _StatusScreenState extends State<StatusScreen> {
                   textField('Comment', 8),
                   const Padding(padding: EdgeInsets.all(8)),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(500, 50),
+                      maximumSize: const Size(500, 50),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },

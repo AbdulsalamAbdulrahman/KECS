@@ -34,7 +34,7 @@ class _MeterScreenState extends State<MeterScreen> {
                     card(),
                     const Padding(padding: EdgeInsets.all(15.0)),
                     card1(),
-                    const Padding(padding: EdgeInsets.all(10.0)),
+                    const Padding(padding: EdgeInsets.all(5.0)),
                     ElevatedButton(
                         onPressed: () {
                           Navigator.push(

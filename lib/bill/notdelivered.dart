@@ -51,6 +51,10 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
                   dropDown(),
                   const Padding(padding: EdgeInsets.all(5.0)),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(500, 50),
+                      maximumSize: const Size(500, 50),
+                    ),
                     child: Container(
                       alignment: Alignment.center,
                       child: const Text(

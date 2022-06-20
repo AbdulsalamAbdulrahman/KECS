@@ -56,6 +56,10 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
                     const Padding(padding: EdgeInsets.all(5.0)),
                     checkbox(),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(500, 50),
+                        maximumSize: const Size(500, 50),
+                      ),
                       child: Container(
                         alignment: Alignment.center,
                         child: const Text(

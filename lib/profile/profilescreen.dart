@@ -73,6 +73,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget button(String text) {
     return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(500, 50),
+        maximumSize: const Size(500, 50),
+      ),
       child: Container(
         alignment: Alignment.center,
         child: Text(

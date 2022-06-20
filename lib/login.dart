@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kecs/dashboard/dashboard.dart';
@@ -38,6 +37,10 @@ class _LoginState extends State<Login> {
               pass(),
               const SizedBox(height: 10.0),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(500, 50),
+                  maximumSize: const Size(500, 50),
+                ),
                 child: Container(
                   alignment: Alignment.center,
                   child: const Text(
@@ -78,7 +81,7 @@ class _LoginState extends State<Login> {
           }
           return null;
         },
-        decoration: decorate("Username", Icons.person),
+        decoration: decorate("Username", Icons.person, 'Phone Number'),
       ),
     );
   }
@@ -99,7 +102,7 @@ class _LoginState extends State<Login> {
           }
           return null;
         },
-        decoration: decorate("Password", Icons.lock),
+        decoration: decorate("Password", Icons.lock, 'Password'),
       ),
     );
   }
@@ -111,37 +114,21 @@ class _LoginState extends State<Login> {
     var data = {'username': username, 'password': password};
     debugPrint(username);
     debugPrint(password);
+
     var response = await http.post(url, body: json.encode(data));
 
     var message = jsonDecode(response.body);
+    debugPrint(message);
 
     if (message == 'Login Successful') {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(message),
-            actions: <Widget>[
-              ElevatedButton(
-                child: const Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Dashboard()));
-                },
-              ),
-            ],
-          );
-        },
-      );
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const Dashboard()));
     } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(message),
+            title: Text(message, style: const TextStyle(color: Colors.red)),
             actions: <Widget>[
               ElevatedButton(
                 child: const Text("OK"),
@@ -156,9 +143,10 @@ class _LoginState extends State<Login> {
     }
   }
 
-  InputDecoration decorate(String label, icon) {
+  InputDecoration decorate(String label, icon, String hint) {
     return InputDecoration(
         labelText: label,
+        hintText: hint,
         prefixIcon: Icon(icon),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5.0),
