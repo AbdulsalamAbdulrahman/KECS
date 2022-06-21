@@ -112,13 +112,13 @@ class _LoginState extends State<Login> {
         Uri.parse('https://kadunaelectric.com/meterreading/mobile_login.php');
 
     var data = {'username': username, 'password': password};
-    debugPrint(username);
-    debugPrint(password);
+    // debugPrint(username);
+    // debugPrint(password);
 
     var response = await http.post(url, body: json.encode(data));
 
     var message = jsonDecode(response.body);
-    debugPrint(message);
+    // debugPrint(message);
 
     if (message == 'Login Successful') {
       Navigator.push(
