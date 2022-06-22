@@ -14,6 +14,13 @@ class _LoginState extends State<Login> {
   final key = GlobalKey<FormState>();
   String username = '';
   String password = '';
+
+  bool _isObscure = true;
+
+  // void _toggle() {
+
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -57,6 +64,8 @@ class _LoginState extends State<Login> {
                   }
                 },
               ),
+              TextButton(
+                  onPressed: () {}, child: const Text('Forgot Password?'))
             ],
           ),
         ),
@@ -69,7 +78,7 @@ class _LoginState extends State<Login> {
 
     return Material(
       child: TextFormField(
-        keyboardType: TextInputType.text,
+        // keyboardType: TextInputType.text,
         onSaved: (value) => username = value.toString(),
         onChanged: (value) {
           if (value.isNotEmpty) {}
@@ -87,23 +96,40 @@ class _LoginState extends State<Login> {
   }
 
   Widget pass() {
-    return Material(
-      child: TextFormField(
-        keyboardType: TextInputType.text,
-        obscureText: true,
-        onSaved: (value) => password = value.toString(),
-        onChanged: (value) {
-          if (value.isNotEmpty) {}
-          // return null;
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return "please enter your password";
-          }
-          return null;
-        },
-        decoration: decorate("Password", Icons.lock, 'Password'),
+    return TextFormField(
+      keyboardType: TextInputType.text,
+      obscureText: _isObscure,
+      decoration: InputDecoration(
+        labelText: 'Password',
+        hintText: 'Enter your password',
+        prefixIcon: Icon(Icons.lock),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5.0),
+          borderSide: const BorderSide(),
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _isObscure ? Icons.visibility : Icons.visibility_off,
+            color: Colors.green,
+          ),
+          onPressed: () {
+            setState(() {
+              _isObscure = !_isObscure;
+            });
+          },
+        ),
       ),
+      onSaved: (value) => password = value.toString(),
+      onChanged: (value) {
+        if (value.isNotEmpty) {}
+        // return null;
+      },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "please enter your password";
+        }
+        return null;
+      },
     );
   }
 
@@ -145,12 +171,13 @@ class _LoginState extends State<Login> {
 
   InputDecoration decorate(String label, icon, String hint) {
     return InputDecoration(
-        labelText: label,
-        hintText: hint,
-        prefixIcon: Icon(icon),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5.0),
-          borderSide: const BorderSide(),
-        ));
+      labelText: label,
+      hintText: hint,
+      prefixIcon: Icon(icon),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5.0),
+        borderSide: const BorderSide(),
+      ),
+    );
   }
 }

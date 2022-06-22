@@ -126,29 +126,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
             children: [
-              _card('Total\nTarget', '\n1000'),
-              _card('Collection\nResponse', '\n1000'),
-              _card('Total\nCollection', '\n1150'),
+              _card('Total\nBills Allocated', '\n1000'),
+              _card('Bills\nDelivered', '\n1000'),
+              _card('Bills\nUndelivered', '\n1150'),
             ],
           ),
-          Wrap(
-            alignment: WrapAlignment.spaceEvenly,
-            children: [
-              _card1('Customers', '\n1000'),
-              _card1(
-                'Delivered',
-                '\n100',
-              ),
-              _card1(
-                'Undelivered',
-                '\n100',
-              ),
-              _card1(
-                'Defaulters',
-                '\n100',
-              ),
-            ],
-          ),
+          // Wrap(
+          //   alignment: WrapAlignment.spaceEvenly,
+          //   children: [
+          //     _card1('Customers', '\n1000'),
+          //     _card1(
+          //       'Delivered',
+          //       '\n100',
+          //     ),
+          //     _card1(
+          //       'Undelivered',
+          //       '\n100',
+          //     ),
+          //     // _card1(
+          //     //   'Disc',
+          //     //   '\n100',
+          //     // ),
+          //   ],
+          // ),
         ],
       ),
     );
@@ -220,30 +220,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _card1(String text, String text1) {
-    return SizedBox(
-      height: 60,
-      width: 87,
-      child: Card(
-        child: Column(children: <Widget>[
-          Text(
-            text,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
-          ),
-          Text(
-            text1,
-            style: const TextStyle(
-              color: Colors.green,
-              fontWeight: FontWeight.w600,
-            ),
-          )
-        ]),
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-      ),
-    );
-  }
+  // Widget _card1(String text, String text1) {
+  //   return SizedBox(
+  //     height: 60,
+  //     width: 87,
+  //     child: Card(
+  //       child: Column(children: <Widget>[
+  //         Text(
+  //           text,
+  //           textAlign: TextAlign.center,
+  //           style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+  //         ),
+  //         Text(
+  //           text1,
+  //           style: const TextStyle(
+  //             color: Colors.green,
+  //             fontWeight: FontWeight.w600,
+  //           ),
+  //         )
+  //       ]),
+  //       shape:
+  //           RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+  //     ),
+  //   );
+  // }
 
   Widget card2(
     icon,

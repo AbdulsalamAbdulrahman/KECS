@@ -31,7 +31,7 @@ class _SplashPageState extends State<SplashPage> {
         ),
       ),
       navigator: const Login(),
-      durationInSeconds: 2,
+      durationInSeconds: 5,
     );
   }
 }
