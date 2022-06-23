@@ -42,7 +42,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 // <-- SEE HERE
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage('green.png'), fit: BoxFit.cover),
+                        image: AssetImage('S.jpg'), fit: BoxFit.cover),
                     color: Colors.white),
                 accountName: Text(
                   "Abdulsalalm Abdulrahman",
@@ -59,7 +59,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 currentAccountPicture: Image(
-                  image: AssetImage('S.png'),
+                  image: AssetImage('KK.png'),
                 ),
               ),
               const Padding(padding: EdgeInsets.only(top: 10.0)),
@@ -68,26 +68,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Navigator.of(context).pop();
                 },
                 leading: const Icon(Icons.home_outlined,
-                    size: 20.0, color: Colors.white),
+                    size: 25.0, color: Colors.white),
                 title: const Text(
                   'Home',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                 ),
                 textColor: Colors.white,
                 dense: true,
               ),
+              const Padding(padding: EdgeInsets.only(top: 10.0)),
               listTile(
                   'Profile', Icons.account_circle_outlined, const Profile()),
+              const Padding(padding: EdgeInsets.only(top: 10.0)),
               listTile('Report', Icons.feedback_outlined, const Report()),
+              const Padding(padding: EdgeInsets.only(top: 10.0)),
               ListTile(
                 onTap: () {
                   Navigator.of(context).pop();
                 },
                 leading: const Icon(Icons.power_settings_new_outlined,
-                    size: 20.0, color: Colors.white),
+                    size: 25.0, color: Colors.white),
                 title: const Text(
                   'Sign Out',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                 ),
                 textColor: Colors.white,
                 dense: true,
@@ -312,10 +315,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           return log;
         }));
       },
-      leading: Icon(icon, size: 20.0, color: Colors.white),
+      leading: Icon(icon, size: 25.0, color: Colors.white),
       title: Text(
         text,
-        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
       ),
       textColor: Colors.white,
       dense: true,

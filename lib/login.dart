@@ -82,7 +82,7 @@ class _LoginState extends State<Login> {
 
     return Material(
       child: TextFormField(
-        // keyboardType: TextInputType.text,
+        keyboardType: TextInputType.text,
         onSaved: (value) => username = value.toString(),
         onChanged: (value) {
           if (value.isNotEmpty) {}
@@ -150,9 +150,9 @@ class _LoginState extends State<Login> {
       'password': password,
       'jobtitle': jobtitle
     };
-    debugPrint(username);
-    debugPrint(password);
-    debugPrint(jobtitle);
+    // debugPrint(username);
+    // debugPrint(password);
+    // debugPrint(jobtitle);
 
     var response = await http.post(url, body: json.encode(data));
 
