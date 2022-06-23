@@ -29,59 +29,64 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            AppBar(
-              automaticallyImplyLeading: false,
-              title: const Text('Bill Delivered'),
-            ),
-            Form(
-              key: key,
-              child: Padding(
-                padding: const EdgeInsets.all(19.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Padding(
-                        padding: EdgeInsets.only(top: 0.0),
-                        child: Center(
-                            child: SizedBox(
-                          width: 200,
-                          height: 70,
-                        ))),
-                    recipient(),
-                    const SizedBox(height: 10.0),
-                    recipient1(),
-                    const Padding(padding: EdgeInsets.all(5.0)),
-                    dropDown(),
-                    const SizedBox(height: 10.0),
-                    comment(),
-                    const Padding(padding: EdgeInsets.all(5.0)),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(500, 50),
-                        maximumSize: const Size(500, 50),
-                      ),
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: const Text(
-                          'Submit',
-                          style: TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: <Widget>[
+        Material(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                AppBar(
+                  automaticallyImplyLeading: false,
+                  title: const Text('Bill Delivered'),
                 ),
-              ),
-            ),
-          ],
-        ));
+                Form(
+                  key: key,
+                  child: Padding(
+                    padding: const EdgeInsets.all(19.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Padding(
+                            padding: EdgeInsets.only(top: 0.0),
+                            child: Center(
+                                child: SizedBox(
+                              width: 200,
+                              height: 70,
+                            ))),
+                        recipient(),
+                        const SizedBox(height: 10.0),
+                        recipient1(),
+                        const Padding(padding: EdgeInsets.all(5.0)),
+                        dropDown(),
+                        const SizedBox(height: 10.0),
+                        comment(),
+                        const Padding(padding: EdgeInsets.all(5.0)),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(500, 50),
+                            maximumSize: const Size(500, 50),
+                          ),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: const Text(
+                              'Submit',
+                              style: TextStyle(
+                                  fontSize: 15.0, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ))
+      ],
+    );
   }
 
   Widget recipient() {

@@ -46,50 +46,55 @@ class _StatusScreenState extends State<StatusScreen> {
   }
 
   Widget card() {
-    return SizedBox(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const Padding(padding: EdgeInsets.all(8)),
-              container('Seal Broken'),
-              const Padding(padding: EdgeInsets.all(8)),
-              OutlinedButton(
-                onPressed: () {},
-                child: const Text("Upload Image"),
-              ),
-              const Padding(padding: EdgeInsets.all(8)),
-              Form(
-                  child: Column(
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: <Widget>[
+        SizedBox(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  textField('Kilowatt Hour Readings', 1),
                   const Padding(padding: EdgeInsets.all(8)),
-                  textField('MDI', 1),
+                  container('Seal Broken'),
                   const Padding(padding: EdgeInsets.all(8)),
-                  dropDown(),
-                  const Padding(padding: EdgeInsets.all(8)),
-                  textField('Comment', 8),
-                  const Padding(padding: EdgeInsets.all(8)),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(500, 50),
-                      maximumSize: const Size(500, 50),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      'Submit',
-                      style: TextStyle(
-                          fontSize: 15.0, fontWeight: FontWeight.bold),
-                    ),
+                  OutlinedButton(
+                    onPressed: () {},
+                    child: const Text("Upload Image"),
                   ),
-                ],
-              )),
-            ]),
-      ),
+                  const Padding(padding: EdgeInsets.all(8)),
+                  Form(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      textField('Kilowatt Hour Readings', 1),
+                      const Padding(padding: EdgeInsets.all(8)),
+                      textField('MDI', 1),
+                      const Padding(padding: EdgeInsets.all(8)),
+                      dropDown(),
+                      const Padding(padding: EdgeInsets.all(8)),
+                      textField('Comment', 8),
+                      const Padding(padding: EdgeInsets.all(8)),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(500, 50),
+                          maximumSize: const Size(500, 50),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          'Submit',
+                          style: TextStyle(
+                              fontSize: 15.0, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  )),
+                ]),
+          ),
+        )
+      ],
     );
   }
 

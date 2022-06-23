@@ -14,12 +14,11 @@ class _LoginState extends State<Login> {
   final key = GlobalKey<FormState>();
   String username = '';
   String password = '';
+  String jobtitle = '';
 
   bool _isObscure = true;
 
-  // void _toggle() {
-
-  // }
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -43,24 +42,29 @@ class _LoginState extends State<Login> {
               const SizedBox(height: 10.0),
               pass(),
               const SizedBox(height: 10.0),
-              ElevatedButton(
+              ElevatedButton.icon(
+                icon: _isLoading
+                    ? const SizedBox(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                        height: 15.0,
+                        width: 15.0,
+                      )
+                    : const Text(''),
+                label: Text(
+                  _isLoading ? '' : 'Sign in',
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.bold),
+                ),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(500, 50),
                   maximumSize: const Size(500, 50),
                 ),
-                child: Container(
-                  alignment: Alignment.center,
-                  child: const Text(
-                    'Sign in',
-                    style:
-                        TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
-                  ),
-                ),
                 onPressed: () {
                   if (key.currentState!.validate()) {
                     key.currentState!.save();
-
-                    userLogin();
+                    _isLoading ? null : userLogin();
                   }
                 },
               ),
@@ -102,7 +106,7 @@ class _LoginState extends State<Login> {
       decoration: InputDecoration(
         labelText: 'Password',
         hintText: 'Enter your password',
-        prefixIcon: Icon(Icons.lock),
+        prefixIcon: const Icon(Icons.lock),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5.0),
           borderSide: const BorderSide(),
@@ -134,12 +138,21 @@ class _LoginState extends State<Login> {
   }
 
   Future userLogin() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     Uri url =
         Uri.parse('https://kadunaelectric.com/meterreading/mobile_login.php');
 
-    var data = {'username': username, 'password': password};
-    // debugPrint(username);
-    // debugPrint(password);
+    var data = {
+      'username': username,
+      'password': password,
+      'jobtitle': jobtitle
+    };
+    debugPrint(username);
+    debugPrint(password);
+    debugPrint(jobtitle);
 
     var response = await http.post(url, body: json.encode(data));
 
@@ -167,6 +180,10 @@ class _LoginState extends State<Login> {
         },
       );
     }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   InputDecoration decorate(String label, icon, String hint) {

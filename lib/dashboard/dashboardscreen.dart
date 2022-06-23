@@ -33,46 +33,65 @@ class _DashboardScreenState extends State<DashboardScreen> {
       drawer: Drawer(
         backgroundColor: Colors.green,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 50.0),
+          // padding: const EdgeInsets.symmetric(vertical: 50.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
-                    Padding(padding: EdgeInsets.only(top: 50.0)),
-                    CircleAvatar(
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.green,
-                      ),
-                      backgroundColor: Colors.white,
-                      radius: 22.0,
-                    ),
-                    SizedBox(height: 16.0),
-                    Text(
-                      "Hi , Abdulsalam",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 20.0),
-                  ],
+              const UserAccountsDrawerHeader(
+                // <-- SEE HERE
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('green.png'), fit: BoxFit.cover),
+                    color: Colors.white),
+                accountName: Text(
+                  "Abdulsalalm Abdulrahman",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                accountEmail: Text(
+                  "09048554096",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                currentAccountPicture: Image(
+                  image: AssetImage('S.png'),
                 ),
               ),
-              const Divider(
-                height: 1,
-                thickness: 1,
+              const Padding(padding: EdgeInsets.only(top: 10.0)),
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                leading: const Icon(Icons.home_outlined,
+                    size: 20.0, color: Colors.white),
+                title: const Text(
+                  'Home',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                textColor: Colors.white,
+                dense: true,
               ),
-              // listTile('Home', Icons.home, const DashboardScreen()),
-              listTile('Profile', Icons.account_circle, const Profile()),
-              listTile('Report', Icons.feedback, const Report()),
-              // listTile('Logout', Icons.power_settings_new,
-              //     const DashboardScreen()),
+              listTile(
+                  'Profile', Icons.account_circle_outlined, const Profile()),
+              listTile('Report', Icons.feedback_outlined, const Report()),
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                leading: const Icon(Icons.power_settings_new_outlined,
+                    size: 20.0, color: Colors.white),
+                title: const Text(
+                  'Sign Out',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                textColor: Colors.white,
+                dense: true,
+              )
             ],
           ),
         ),
@@ -166,6 +185,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             card2(Icons.receipt_long, 'Bill \n Distribution', '/Bill'),
           ],
         ),
+        const Padding(padding: EdgeInsets.only(top: 10)),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[

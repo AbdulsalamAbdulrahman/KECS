@@ -26,38 +26,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
-        children: <Widget>[
-          Form(
-            key: key,
-            child: Padding(
-              padding: const EdgeInsets.all(19.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Padding(
-                      padding: EdgeInsets.only(top: 0.0),
-                      child: Center(
-                          child: SizedBox(
-                        width: 200,
-                        height: 70,
-                      ))),
-                  textField('Name'),
-                  const SizedBox(height: 10.0),
-                  textField('Phone'),
-                  const SizedBox(height: 10.0),
-                  textField('Payroll ID'),
-                  const SizedBox(height: 10.0),
-                  button('Update Profile'),
-                  const SizedBox(height: 10.0),
-                  button('Change Password')
-                ],
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: <Widget>[
+        Material(
+          child: Column(
+            children: <Widget>[
+              Form(
+                key: key,
+                child: Padding(
+                  padding: const EdgeInsets.all(19.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Padding(
+                          padding: EdgeInsets.only(top: 0.0),
+                          child: Center(
+                              child: SizedBox(
+                            width: 200,
+                            height: 70,
+                          ))),
+                      textField('Name'),
+                      const SizedBox(height: 10.0),
+                      textField('Phone'),
+                      const SizedBox(height: 10.0),
+                      textField('Payroll ID'),
+                      const SizedBox(height: 10.0),
+                      button('Update Profile'),
+                      const SizedBox(height: 10.0),
+                      button('Change Password')
+                    ],
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        )
+      ],
     );
   }
 
