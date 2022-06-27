@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kecs/dashboard/dashboard.dart';
 
 class Login extends StatefulWidget {
@@ -148,18 +149,20 @@ class _LoginState extends State<Login> {
     var data = {
       'username': username,
       'password': password,
-      'jobtitle': jobtitle
     };
-    // debugPrint(username);
-    // debugPrint(password);
-    // debugPrint(jobtitle);
+
+    debugPrint(username);
+    debugPrint(password);
 
     var response = await http.post(url, body: json.encode(data));
 
     var message = jsonDecode(response.body);
     // debugPrint(message);
 
-    if (message == 'Login Successful') {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setString('login', username);
+
+    if (response.statusCode == 200) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const Dashboard()));
     } else {

@@ -44,6 +44,7 @@ dependencies:
   file_picker: ^4.6.1
   connectivity_plus: ^2.3.3
   double_back_to_close_app: ^2.1.0
+  shared_preferences: ^2.0.15
   # back_pressed: ^0.0.2
   
 

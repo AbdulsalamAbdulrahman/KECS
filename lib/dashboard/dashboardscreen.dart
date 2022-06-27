@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  String username = '';
   final key = GlobalKey<FormState>();
 
   late String _timestring;
@@ -21,6 +23,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _timestring =
         "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     super.initState();
+    getCred();
+  }
+
+  void getCred() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      username = pref.getString("login")!;
+    });
   }
 
   @override
@@ -38,27 +48,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const UserAccountsDrawerHeader(
+              UserAccountsDrawerHeader(
                 // <-- SEE HERE
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('S.jpg'), fit: BoxFit.cover),
                     color: Colors.white),
                 accountName: Text(
-                  "Abdulsalalm Abdulrahman",
-                  style: TextStyle(
+                  "Hello $username",
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                accountEmail: Text(
+                accountEmail: const Text(
                   "09048554096",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                currentAccountPicture: Image(
+                currentAccountPicture: const Image(
                   image: AssetImage('KK.png'),
                 ),
               ),
@@ -138,7 +148,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(children: [
-                  texts("Abdulsalam Abdulrahman(109083)"),
+                  texts("$username(109083)"),
                   texts("33kv Kawo"),
                   texts("KAWO AREA OFFICE"),
                 ]),
