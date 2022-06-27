@@ -163,8 +163,9 @@ class _LoginState extends State<Login> {
     await pref.setString('login', username);
 
     if (response.statusCode == 200) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const Dashboard()));
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const Dashboard()),
+          (route) => false);
     } else {
       showDialog(
         context: context,

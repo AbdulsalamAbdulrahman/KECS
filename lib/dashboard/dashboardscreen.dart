@@ -1,6 +1,7 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kecs/login.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -93,8 +94,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               listTile('Report', Icons.feedback_outlined, const Report()),
               const Padding(padding: EdgeInsets.only(top: 10.0)),
               ListTile(
-                onTap: () {
-                  Navigator.of(context).pop();
+                onTap: () async {
+                  SharedPreferences pref =
+                      await SharedPreferences.getInstance();
+                  await pref.clear();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => const Login()),
+                      (route) => false);
                 },
                 leading: const Icon(Icons.power_settings_new_outlined,
                     size: 25.0, color: Colors.white),
