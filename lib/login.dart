@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kecs/dashboard/dashboardscreen1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kecs/dashboard/dashboard.dart';
 
@@ -15,7 +17,6 @@ class _LoginState extends State<Login> {
   final key = GlobalKey<FormState>();
   String username = '';
   String password = '';
-  String jobtitle = '';
 
   bool _isObscure = true;
 
@@ -151,27 +152,59 @@ class _LoginState extends State<Login> {
       'password': password,
     };
 
-    debugPrint(username);
-    debugPrint(password);
+    var response = await http.post(
+      url,
+      body: json.encode(data),
+    );
+    // var jsondata = json.decode(response.body);
 
-    var response = await http.post(url, body: json.encode(data));
-
-    var message = jsonDecode(response.body);
-    // debugPrint(message);
-
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setString('login', username);
+    // SharedPreferences pref = await SharedPreferences.getInstance();
+    // await pref.setString('login', jsondata);
 
     if (response.statusCode == 200) {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const Dashboard()),
-          (route) => false);
+      var jsondata = json.decode(response.body);
+      debugPrint(response.body);
+
+      String fullname = jsondata["fullname"];
+      String jobtitle = jsondata["jobtitle"];
+      String payrollid = jsondata["payrollid"];
+      debugPrint(fullname);
+      debugPrint(jobtitle);
+      debugPrint(payrollid);
+
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      await pref.setString('fullname', fullname);
+      await pref.setString('jobtitle', jobtitle);
+      await pref.setString('payrollid', payrollid);
+
+      if (jobtitle == "SalesRep") {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const Dashboard()));
+      } else if (jobtitle == "Reader") {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const Dashboard1()));
+      }
+
+      // String jobtitle = jsondata["jobtitle"];
+      // String areaoffice = jsondata["areaoffice"];
+      // String payrollid = jsondata["payrollid"];
+
+      // SharedPreferences pref = await SharedPreferences.getInstance();
+      // await pref.setString('fullname', fullname);
+      // await pref.setString('jobtitle', jobtitle);
+      // await pref.setString('areaoffice', areaoffice);
+      // await pref.setString('payrollid', payrollid);
+
+      // debugPrint(jobtitle);
+      // debugPrint(areaoffice);
+      // debugPrint(payrollid);
+
     } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(message, style: const TextStyle(color: Colors.red)),
+            title: const Text('error', style: TextStyle(color: Colors.red)),
             actions: <Widget>[
               ElevatedButton(
                 child: const Text("OK"),

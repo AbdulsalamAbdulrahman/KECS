@@ -46,43 +46,36 @@ class _ReportScreenState extends State<ReportScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: <Widget>[
-        Scaffold(
-          body: _selectedDateRange == null
-              ? const Center(
-                  child: Text('Press the button to show the picker'),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Start date
-                      Text(
-                        "Start date: ${_selectedDateRange?.start.toString().split(' ')[0]}",
-                        style:
-                            const TextStyle(fontSize: 24, color: Colors.blue),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      // End date
-                      Text(
-                          "End date: ${_selectedDateRange?.end.toString().split(' ')[0]}",
-                          style:
-                              const TextStyle(fontSize: 24, color: Colors.red))
-                    ],
+    return Scaffold(
+      body: _selectedDateRange == null
+          ? const Center(
+              child: Text('Press the button to show the picker'),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Start date
+                  Text(
+                    "Start date: ${_selectedDateRange?.start.toString().split(' ')[0]}",
+                    style: const TextStyle(fontSize: 24, color: Colors.blue),
                   ),
-                ),
-          // This button is used to show the date range picker
-          floatingActionButton: FloatingActionButton(
-            onPressed: _show,
-            child: const Icon(Icons.date_range),
-          ),
-        )
-      ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  // End date
+                  Text(
+                      "End date: ${_selectedDateRange?.end.toString().split(' ')[0]}",
+                      style: const TextStyle(fontSize: 24, color: Colors.red))
+                ],
+              ),
+            ),
+      // This button is used to show the date range picker
+      floatingActionButton: FloatingActionButton(
+        onPressed: _show,
+        child: const Icon(Icons.date_range),
+      ),
     );
   }
 }

@@ -1,23 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:kecs/login.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
-class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+import '../login.dart';
+
+class Dashboard1 extends StatelessWidget {
+  const Dashboard1({Key? key}) : super(key: key);
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: DashboardScreen1(),
+    );
+  }
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class DashboardScreen1 extends StatefulWidget {
+  const DashboardScreen1({Key? key}) : super(key: key);
+
+  @override
+  State<DashboardScreen1> createState() => _DashboardScreen1State();
+}
+
+class _DashboardScreen1State extends State<DashboardScreen1> {
+  final key = GlobalKey<FormState>();
+
   String fullname = '';
   String jobtitle = "";
   String payrollid = "";
-
-  final key = GlobalKey<FormState>();
 
   late String _timestring;
 
@@ -163,9 +175,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
             children: [
-              _card('Total\nBills Allocated', '\n1000'),
-              _card('Bills\nDelivered', '\n1000'),
-              _card('Bills\nUndelivered', '\n1150'),
+              _card('Total\nAllocated', '\n1000'),
+              _card('Meters\nRead', '\n1000'),
+              _card('Meters\nUnRead', '\n1150'),
             ],
           ),
           // Wrap(
@@ -200,14 +212,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             card2(Icons.electrical_services, 'Meter Reading', '/Meter'),
-            card2(Icons.receipt_long, 'Bill \n Distribution', '/Bill'),
+            card3(Icons.receipt_long, 'Bill \n Distribution', '/Bill'),
           ],
         ),
         const Padding(padding: EdgeInsets.only(top: 10)),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            card2(Icons.bolt, 'Tracking', '/Tracking'),
+            card3(Icons.bolt, 'Tracking', '/Tracking'),
             card2(Icons.people_rounded, 'My\nCustomers', '/MyCustomers')
           ],
         ),
@@ -316,6 +328,45 @@ class _DashboardScreenState extends State<DashboardScreen> {
           shape: RoundedRectangleBorder(
               side: const BorderSide(
                   color: Colors.green, style: BorderStyle.solid, width: 2.0),
+              borderRadius: BorderRadius.circular(15.0)),
+        ),
+      ),
+    );
+  }
+
+  Widget card3(
+    icon,
+    String text,
+    String text2,
+  ) {
+    return SizedBox(
+      height: 120,
+      width: 120,
+      child: GestureDetector(
+        onTap: () {
+          // Navigator.of(context).pop();
+          // Navigator.of(context).pushNamed(text2);
+        },
+        child: Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                icon,
+                color: Colors.red,
+              ),
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.red),
+              ),
+            ],
+          ),
+          elevation: 5,
+          shadowColor: Colors.green,
+          shape: RoundedRectangleBorder(
+              side: const BorderSide(
+                  color: Colors.red, style: BorderStyle.solid, width: 2.0),
               borderRadius: BorderRadius.circular(15.0)),
         ),
       ),
