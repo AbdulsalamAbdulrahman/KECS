@@ -160,6 +160,11 @@ class _LoginState extends State<Login> {
     var jsondata = json.decode(response.body);
 
     // SharedPreferences pref = await SharedPreferences.getInstance();
+    // await pref.setString('username', username);
+
+    // debugPrint(username);
+
+    // SharedPreferences pref = await SharedPreferences.getInstance();
     // await pref.setString('login', jsondata);
 
     if (response.statusCode == 200) {
@@ -174,8 +179,10 @@ class _LoginState extends State<Login> {
       debugPrint(jobtitle);
       debugPrint(payrollid);
       debugPrint(areaoffice);
+      debugPrint(username);
 
       SharedPreferences pref = await SharedPreferences.getInstance();
+      await pref.setString('username', username);
       await pref.setString('fullname', fullname);
       await pref.setString('jobtitle', jobtitle);
       await pref.setString('payrollid', payrollid);

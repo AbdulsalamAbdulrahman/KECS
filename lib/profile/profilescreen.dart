@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -24,6 +25,32 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final key = GlobalKey<FormState>();
 
+  String fullname = '';
+  String payrollid = "";
+  String username = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getCred();
+  }
+
+  // @override
+  // void dispose() {
+  //   // dispose it here
+  //   TextEditingController.dispose();
+  //   super.dispose();
+  // }
+
+  void getCred() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      fullname = pref.getString("fullname")!;
+      payrollid = pref.getString("payrollid")!;
+      username = pref.getString("username")!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -46,11 +73,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 200,
                             height: 70,
                           ))),
-                      textField('Name'),
+                      textField('Name', fullname, true),
                       const SizedBox(height: 10.0),
-                      textField('Phone'),
+                      textField('Phone', username, true),
                       const SizedBox(height: 10.0),
-                      textField('Payroll ID'),
+                      textField('Payroll ID', payrollid, false),
                       const SizedBox(height: 10.0),
                       button('Update Profile'),
                       const SizedBox(height: 10.0),
@@ -66,10 +93,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget textField(String text) {
+  Widget textField(String text, String initialValue, _bool) {
     BorderRadius.circular(30.0);
     return Material(
       child: TextFormField(
+        // initialValue: initial,
+        enabled: _bool,
+        controller: TextEditingController(text: initialValue),
         keyboardType: TextInputType.text,
         decoration: decorate(text),
       ),
