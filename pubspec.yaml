@@ -45,6 +45,7 @@ dependencies:
   connectivity_plus: ^2.3.3
   double_back_to_close_app: ^2.1.0
   shared_preferences: ^2.0.15
+  image_picker: ^0.8.5+3
   # back_pressed: ^0.0.2
   
 

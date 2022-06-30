@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kecs/mycustomers/mycustomers.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-
 import '../login.dart';
 
 class Dashboard1 extends StatelessWidget {
@@ -30,6 +30,7 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
   String fullname = '';
   String jobtitle = "";
   String payrollid = "";
+  String areaoffice = "";
 
   late String _timestring;
 
@@ -47,6 +48,7 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
       fullname = pref.getString("fullname")!;
       jobtitle = pref.getString("jobtitle")!;
       payrollid = pref.getString("payrollid")!;
+      areaoffice = pref.getString("areaoffice")!;
     });
   }
 
@@ -107,7 +109,11 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
               listTile(
                   'Profile', Icons.account_circle_outlined, const Profile()),
               const Padding(padding: EdgeInsets.only(top: 10.0)),
-              listTile('Report', Icons.feedback_outlined, const Report()),
+              listTile(
+                  'Generate Report', Icons.feedback_outlined, const Report()),
+              const Padding(padding: EdgeInsets.only(top: 10.0)),
+              listTile('My Customers', Icons.people_outline_rounded,
+                  const MyCustomers()),
               const Padding(padding: EdgeInsets.only(top: 10.0)),
               ListTile(
                 onTap: () async {
@@ -167,7 +173,7 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
                 child: Column(children: [
                   texts("$fullname $payrollid"),
                   texts("33kv Kawo"),
-                  texts("KAWO AREA OFFICE"),
+                  texts(areaoffice),
                 ]),
               )
             ],
@@ -180,24 +186,6 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
               _card('Meters\nUnRead', '\n1150'),
             ],
           ),
-          // Wrap(
-          //   alignment: WrapAlignment.spaceEvenly,
-          //   children: [
-          //     _card1('Customers', '\n1000'),
-          //     _card1(
-          //       'Delivered',
-          //       '\n100',
-          //     ),
-          //     _card1(
-          //       'Undelivered',
-          //       '\n100',
-          //     ),
-          //     // _card1(
-          //     //   'Disc',
-          //     //   '\n100',
-          //     // ),
-          //   ],
-          // ),
         ],
       ),
     );
@@ -212,6 +200,7 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             card2(Icons.electrical_services, 'Meter Reading', '/Meter'),
+            // card2(Icons.receipt_long, 'Bill \n Distribution', '/Bill'),
             card3(Icons.receipt_long, 'Bill \n Distribution', '/Bill'),
           ],
         ),
@@ -220,7 +209,7 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             card3(Icons.bolt, 'Tracking', '/Tracking'),
-            card2(Icons.people_rounded, 'My\nCustomers', '/MyCustomers')
+            card3(Icons.bolt, 'Disconnection\nReconnection', '/Connection')
           ],
         ),
       ],
@@ -269,31 +258,6 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
       ),
     );
   }
-
-  // Widget _card1(String text, String text1) {
-  //   return SizedBox(
-  //     height: 60,
-  //     width: 87,
-  //     child: Card(
-  //       child: Column(children: <Widget>[
-  //         Text(
-  //           text,
-  //           textAlign: TextAlign.center,
-  //           style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
-  //         ),
-  //         Text(
-  //           text1,
-  //           style: const TextStyle(
-  //             color: Colors.green,
-  //             fontWeight: FontWeight.w600,
-  //           ),
-  //         )
-  //       ]),
-  //       shape:
-  //           RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-  //     ),
-  //   );
-  // }
 
   Widget card2(
     icon,

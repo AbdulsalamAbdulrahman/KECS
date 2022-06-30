@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kecs/bill/bill.dart';
+import 'package:kecs/connection/connection.dart';
 import 'package:kecs/dashboard/dashboard.dart';
-import 'package:kecs/meterreading/meter.dart';
+import 'package:kecs/meter/meterreading.dart';
 import 'package:kecs/mycustomers/mycustomers.dart';
 import 'package:kecs/splash_page.dart';
 import 'package:kecs/tracking/tracking.dart';
@@ -34,10 +35,11 @@ class MyApp extends StatelessWidget {
       home: const SplashPage(),
       routes: <String, WidgetBuilder>{
         '/Dashboard': (BuildContext context) => const Dashboard(),
-        '/Meter': (BuildContext context) => const Meter(),
         '/Bill': (BuildContext context) => const Bill(),
         '/MyCustomers': (BuildContext context) => const MyCustomers(),
-        '/Tracking': (BuildContext context) => const Tracking()
+        '/Tracking': (BuildContext context) => const Tracking(),
+        '/Connection': (BuildContext context) => const Connection(),
+        '/Meter': (BuildContext context) => const Meter(),
       },
     );
   }

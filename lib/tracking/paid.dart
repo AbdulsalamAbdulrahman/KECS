@@ -58,16 +58,6 @@ class _PaidScreenState extends State<PaidScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Upload',
-                          style: TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
                     // const Padding(padding: EdgeInsets.all(5.0)),
                     container('Customer Satisfied'),
                     container1('Customer Experience'),

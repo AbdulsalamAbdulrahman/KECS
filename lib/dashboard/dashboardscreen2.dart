@@ -1,25 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:kecs/login.dart';
 import 'package:kecs/mycustomers/mycustomers.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
+import '../login.dart';
 
-class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+class Dashboard2 extends StatelessWidget {
+  const Dashboard2({Key? key}) : super(key: key);
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: DashboardScreen2(),
+    );
+  }
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class DashboardScreen2 extends StatefulWidget {
+  const DashboardScreen2({Key? key}) : super(key: key);
+
+  @override
+  State<DashboardScreen2> createState() => _DashboardScreen2State();
+}
+
+class _DashboardScreen2State extends State<DashboardScreen2> {
+  final key = GlobalKey<FormState>();
+
   String fullname = '';
   String jobtitle = "";
   String payrollid = "";
   String areaoffice = "";
-
-  final key = GlobalKey<FormState>();
 
   late String _timestring;
 
@@ -161,7 +172,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(children: [
                   texts("$fullname $payrollid"),
-                  texts("33kv Kawo"),
                   texts(areaoffice),
                 ]),
               )
@@ -170,9 +180,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
             children: [
-              _card('Total\nBills Allocated', '\n1000'),
-              _card('Bills\nDelivered', '\n1000'),
-              _card('Bills\nUndelivered', '\n1150'),
+              _card('Diconnected', '\n1000'),
+              _card('Reconnected', '\n1000'),
+              _card('Defaulters', '\n1150'),
             ],
           ),
         ],
@@ -189,15 +199,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             card3(Icons.electrical_services, 'Meter Reading', '/Meter'),
-            card2(Icons.receipt_long, 'Bill \n Distribution', '/Bill'),
+            card3(Icons.receipt_long, 'Bill \n Distribution', '/Bill'),
           ],
         ),
         const Padding(padding: EdgeInsets.only(top: 10)),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            card2(Icons.bolt, 'Tracking', '/Tracking'),
-            card3(Icons.bolt, 'Disconnection\nReconnection', '/Connection')
+            card3(Icons.bolt, 'Tracking', '/Tracking'),
+            card2(Icons.bolt, 'Disconnection\nReconnection', '/Connection')
           ],
         ),
       ],

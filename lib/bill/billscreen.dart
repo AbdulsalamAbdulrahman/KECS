@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kecs/bill/delivered.dart';
@@ -17,8 +16,21 @@ class _BillScreenState extends State<BillScreen> {
 
   final TextEditingController _inputController = TextEditingController();
 
+  @override
+  void dispose() {
+    _inputController.dispose();
+    super.dispose();
+  }
+
   String dropdownValue = 'Select Status';
+
   bool _visible = false;
+
+  void _toggle() {
+    setState(() {
+      _visible = !_visible;
+    });
+  }
 
   List _customers = [];
 
@@ -28,18 +40,6 @@ class _BillScreenState extends State<BillScreen> {
     setState(() {
       _customers = data["customers"];
     });
-  }
-
-  void _toggle() {
-    setState(() {
-      _visible = !_visible;
-    });
-  }
-
-  @override
-  void dispose() {
-    _inputController.dispose();
-    super.dispose();
   }
 
   @override
@@ -61,25 +61,23 @@ class _BillScreenState extends State<BillScreen> {
                     card1(),
                     card2(),
                     const Padding(padding: EdgeInsets.all(5.0)),
-                    Visibility(
-                        visible: _visible,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              if (dropdownValue == 'Delivered') {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const DeliveredScreen()));
-                              } else if (dropdownValue == 'Not Delivered') {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const NotDeliveredScreen()));
-                              }
-                            },
-                            child: const Text('Continue')))
+                    ElevatedButton(
+                        onPressed: () {
+                          if (dropdownValue == 'Delivered') {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const DeliveredScreen()));
+                          } else if (dropdownValue == 'Not Delivered') {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const NotDeliveredScreen()));
+                          }
+                        },
+                        child: const Text('Continue'))
                   ],
                 )
               ],
@@ -119,7 +117,7 @@ class _BillScreenState extends State<BillScreen> {
                             }
                           : null,
                       child: const Text(
-                        'Submit',
+                        'Search',
                         style: TextStyle(
                             fontSize: 15.0, fontWeight: FontWeight.bold),
                       ),
@@ -160,8 +158,6 @@ class _BillScreenState extends State<BillScreen> {
                     container('Total Payment:', ''),
                     container('Total Billed Amount:', ''),
                     container('Closing Balance:', ''),
-                    container('Latitude:', ''),
-                    container('Longitude:', ''),
                     dropDown()
                   ]),
             ),

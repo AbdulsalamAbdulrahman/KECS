@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kecs/dashboard/dashboardscreen1.dart';
+import 'package:kecs/dashboard/dashboardscreen2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kecs/dashboard/dashboard.dart';
 
@@ -156,7 +157,7 @@ class _LoginState extends State<Login> {
       url,
       body: json.encode(data),
     );
-    // var jsondata = json.decode(response.body);
+    var jsondata = json.decode(response.body);
 
     // SharedPreferences pref = await SharedPreferences.getInstance();
     // await pref.setString('login', jsondata);
@@ -168,14 +169,17 @@ class _LoginState extends State<Login> {
       String fullname = jsondata["fullname"];
       String jobtitle = jsondata["jobtitle"];
       String payrollid = jsondata["payrollid"];
+      String areaoffice = jsondata["areaoffice"];
       debugPrint(fullname);
       debugPrint(jobtitle);
       debugPrint(payrollid);
+      debugPrint(areaoffice);
 
       SharedPreferences pref = await SharedPreferences.getInstance();
       await pref.setString('fullname', fullname);
       await pref.setString('jobtitle', jobtitle);
       await pref.setString('payrollid', payrollid);
+      await pref.setString('areaoffice', areaoffice);
 
       if (jobtitle == "SalesRep") {
         Navigator.push(context,
@@ -183,6 +187,9 @@ class _LoginState extends State<Login> {
       } else if (jobtitle == "Reader") {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const Dashboard1()));
+      } else if (jobtitle == "Disconnection") {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const Dashboard2()));
       }
 
       // String jobtitle = jsondata["jobtitle"];
@@ -204,7 +211,7 @@ class _LoginState extends State<Login> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('error', style: TextStyle(color: Colors.red)),
+            title: Text(jsondata, style: const TextStyle(color: Colors.red)),
             actions: <Widget>[
               ElevatedButton(
                 child: const Text("OK"),

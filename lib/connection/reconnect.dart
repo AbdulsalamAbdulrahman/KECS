@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Unpaid extends StatelessWidget {
-  const Unpaid({
+class Reconnect extends StatelessWidget {
+  const Reconnect({
     Key? key,
   }) : super(key: key);
 
@@ -9,23 +9,23 @@ class Unpaid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bill Unpaid'),
+        title: const Text('Bill Reconnect'),
       ),
-      body: const UnpaidScreen(),
+      body: const ReconnectScreen(),
     );
   }
 }
 
-class UnpaidScreen extends StatefulWidget {
-  const UnpaidScreen({
+class ReconnectScreen extends StatefulWidget {
+  const ReconnectScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<UnpaidScreen> createState() => _UnpaidScreenState();
+  State<ReconnectScreen> createState() => _ReconnectScreenState();
 }
 
-class _UnpaidScreenState extends State<UnpaidScreen> {
+class _ReconnectScreenState extends State<ReconnectScreen> {
   final key = GlobalKey<FormState>();
   String dropdownValue = 'Select Reason';
   bool valuefirst = false;
@@ -50,8 +50,6 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
                           width: 200,
                           height: 70,
                         ))),
-                    noticenumber(),
-                    const SizedBox(height: 10.0),
                     dropDown(),
                     const SizedBox(height: 10.0),
                     comment(),
@@ -80,17 +78,6 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
             ),
           ],
         ));
-  }
-
-  Widget noticenumber() {
-    BorderRadius.circular(30.0);
-
-    return Material(
-      child: TextFormField(
-        keyboardType: TextInputType.text,
-        decoration: decorate("Notice Number"),
-      ),
-    );
   }
 
   Widget comment() {

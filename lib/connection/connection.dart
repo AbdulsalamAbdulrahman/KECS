@@ -1,21 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:kecs/tracking/paid.dart';
-import 'package:kecs/tracking/unpaid.dart';
 
-class TrackingScreen extends StatefulWidget {
-  const TrackingScreen({Key? key}) : super(key: key);
+class Connection extends StatelessWidget {
+  const Connection({Key? key}) : super(key: key);
 
   @override
-  State<TrackingScreen> createState() => _TrackingScreenState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Connection'),
+      ),
+      body: const ConnectionScreen(),
+    );
+  }
 }
 
-class _TrackingScreenState extends State<TrackingScreen> {
-  final key = GlobalKey<FormState>();
-  // final _controller = TextEditingController();
+class ConnectionScreen extends StatefulWidget {
+  const ConnectionScreen({Key? key}) : super(key: key);
 
-  // void clearText() {
-  //   _controller.clear();
-  // }
+  @override
+  State<ConnectionScreen> createState() => _ConnectionScreenState();
+}
+
+class _ConnectionScreenState extends State<ConnectionScreen> {
+  final key = GlobalKey<FormState>();
+
+  String dropdownValue = 'Select Status';
+  bool _visible = false;
+
   final TextEditingController _inputController = TextEditingController();
 
   @override
@@ -23,10 +34,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
     _inputController.dispose();
     super.dispose();
   }
-
-  String dropdownValue = 'Select Status';
-
-  bool _visible = false;
 
   void _toggle() {
     setState(() {
@@ -41,9 +48,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
           color: Colors.white,
           child: Column(
             children: <Widget>[
-              AppBar(
-                title: const Text('Tracking'),
-              ),
               Wrap(
                 children: [
                   // const Padding(padding: EdgeInsets.all(20.0)),
@@ -53,24 +57,24 @@ class _TrackingScreenState extends State<TrackingScreen> {
                   const Padding(padding: EdgeInsets.all(5.0)),
                   ElevatedButton(
                       onPressed: () {
-                        if (dropdownValue == 'Paid') {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Paid()));
-                        } else if (dropdownValue == 'Unpaid') {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Unpaid()));
-                          // } else if (dropdownValue == 'Disconnected') {
-                          //   // _controller.clear();
-                          //   setState(() {
-                          //     // dropdownValue = <String;
-                          //   });
-                        }
+                        // if (dropdownValue == 'Disconnect') {
+                        //   Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => const Disconnect()));
+                        // } else if (dropdownValue == 'Reconnect') {
+                        //   Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => const Reconnect()));
+                        //   } else if (dropdownValue == 'Disconnected') {
+                        //     // _controller.clear();
+                        //     setState(() {
+                        //       // dropdownValue = <String;
+                        //     });
+                        // }
                       },
-                      child: const Text('Continue'))
+                      child: const Text('Submit'))
                 ],
               )
             ],
@@ -141,13 +145,12 @@ class _TrackingScreenState extends State<TrackingScreen> {
                     const Text('Customer Billing Information',
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.bold)),
-                    container('Name:'),
-                    container('Address:'),
+                    container('Address: '),
                     container('Account Number:'),
                     container('Meter Number:'),
                     container('Last Payment Date:'),
                     container('Total Payment:'),
-                    container('Total Billed Amount:'),
+                    container('Notice Number:'),
                     container('Closing Balance:'),
                     dropDown()
                   ]),
@@ -209,11 +212,8 @@ class _TrackingScreenState extends State<TrackingScreen> {
           dropdownValue = newValue!;
         });
       },
-      items: <String>[
-        'Select Status',
-        'Paid',
-        'Unpaid',
-      ].map<DropdownMenuItem<String>>((String value) {
+      items: <String>['Select Status', 'Disconnected', 'Reconnected']
+          .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(
