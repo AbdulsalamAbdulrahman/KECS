@@ -187,6 +187,7 @@ class _LoginState extends State<Login> {
 
       SharedPreferences pref = await SharedPreferences.getInstance();
       await pref.setString('fullname', fullname);
+
       await pref.setString('jobtitle', jobtitle);
       await pref.setString('payrollid', payrollid);
       await pref.setString('areaoffice', areaoffice);
