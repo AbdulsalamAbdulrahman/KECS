@@ -175,18 +175,23 @@ class _LoginState extends State<Login> {
       String jobtitle = jsondata["jobtitle"];
       String payrollid = jsondata["payrollid"];
       String areaoffice = jsondata["areaoffice"];
+      String feeder = jsondata["feeder"];
+      String phonenumber = jsondata["phonenumber"];
+
       debugPrint(fullname);
       debugPrint(jobtitle);
       debugPrint(payrollid);
       debugPrint(areaoffice);
-      debugPrint(username);
+      debugPrint(feeder);
+      debugPrint(phonenumber);
 
       SharedPreferences pref = await SharedPreferences.getInstance();
-      await pref.setString('username', username);
       await pref.setString('fullname', fullname);
       await pref.setString('jobtitle', jobtitle);
       await pref.setString('payrollid', payrollid);
       await pref.setString('areaoffice', areaoffice);
+      await pref.setString('feeder', feeder);
+      await pref.setString('phonenumber', phonenumber);
 
       if (jobtitle == "SalesRep") {
         Navigator.push(context,

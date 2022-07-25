@@ -18,6 +18,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String jobtitle = "";
   String payrollid = "";
   String areaoffice = "";
+  String feeder = "";
 
   final key = GlobalKey<FormState>();
 
@@ -38,6 +39,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       jobtitle = pref.getString("jobtitle")!;
       payrollid = pref.getString("payrollid")!;
       areaoffice = pref.getString("areaoffice")!;
+      feeder = pref.getString("feeder")!;
     });
   }
 
@@ -94,10 +96,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 textColor: Colors.white,
                 dense: true,
               ),
-              const Padding(padding: EdgeInsets.only(top: 10.0)),
+              _padding(10.0),
               listTile(
                   'Profile', Icons.account_circle_outlined, const Profile()),
-              const Padding(padding: EdgeInsets.only(top: 10.0)),
+              _padding(10.0),
               listTile(
                   'Generate Report', Icons.feedback_outlined, const Report()),
               const Padding(padding: EdgeInsets.only(top: 10.0)),
@@ -161,7 +163,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(children: [
                   texts("$fullname $payrollid"),
-                  texts("33kv Kawo"),
+                  texts(feeder),
                   texts(areaoffice),
                 ]),
               )
@@ -343,5 +345,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
       // padding: EdgeInsets.zero,
     );
+  }
+
+  Padding _padding(value) {
+    return Padding(padding: EdgeInsets.all(value));
   }
 }

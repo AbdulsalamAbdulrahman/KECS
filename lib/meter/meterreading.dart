@@ -138,7 +138,6 @@ class _MeterScreenState extends State<MeterScreen> {
                     container('Meter Number:'),
                     container('Last Payment Date:'),
                     container('Total Payment:'),
-                    container('Notice Number:'),
                     container('Closing Balance:'),
                   ]),
             ),
@@ -167,7 +166,7 @@ class _MeterScreenState extends State<MeterScreen> {
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.bold)),
                     container('Date:'),
-                    container('Tinme:'),
+                    container('Time:'),
                   ]),
             ),
             elevation: 5,

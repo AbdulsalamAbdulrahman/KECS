@@ -138,9 +138,9 @@ class _StatusScreenState extends State<StatusScreen> {
       },
       items: <String>[
         'Select Remark',
+        'Ok',
         'Meter Faulty',
         'Meter Mismatch',
-        'Ok',
         'Disconnected',
         'Meter by pass',
         'Meter Tempered',

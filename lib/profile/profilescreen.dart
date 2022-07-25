@@ -27,7 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   String fullname = '';
   String payrollid = "";
-  String username = '';
+  String phonenumber = '';
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       fullname = pref.getString("fullname")!;
       payrollid = pref.getString("payrollid")!;
-      username = pref.getString("username")!;
+      phonenumber = pref.getString("phonenumber")!;
     });
   }
 
@@ -75,7 +75,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ))),
                       textField('Name', fullname, true),
                       const SizedBox(height: 10.0),
-                      textField('Phone', username, true),
+                      textField('Phone', phonenumber, true),
+                      const SizedBox(height: 10.0),
+                      textField('Email', '', true),
                       const SizedBox(height: 10.0),
                       textField('Payroll ID', payrollid, false),
                       const SizedBox(height: 10.0),

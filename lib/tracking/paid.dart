@@ -27,13 +27,9 @@ class _PaidScreenState extends State<PaidScreen> {
 
   String dropdownValue = 'Select Recipient';
 
-  String _satisfied = "Yes";
   String _experience = "Good";
-  String _service = "Good";
 
-  final List<String> _status = ["Yes", "No"];
-  final List<String> _status1 = ["Good", "Bad"];
-  final List<String> _status2 = ["Good", "Poor"];
+  final List<String> _status1 = ["Good", "Average", "Bad"];
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +55,7 @@ class _PaidScreenState extends State<PaidScreen> {
                       ),
                     ),
                     // const Padding(padding: EdgeInsets.all(5.0)),
-                    container('Customer Satisfied'),
                     container1('Customer Experience'),
-                    container2('Customer Service'),
                     const Padding(padding: EdgeInsets.all(5.0)),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -88,36 +82,8 @@ class _PaidScreenState extends State<PaidScreen> {
         ));
   }
 
-  Widget container(String text) {
-    return Row(
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.only(top: 10),
-          decoration: BoxDecoration(border: Border.all(color: Colors.white)),
-          child: Text(
-            text,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
-        RadioGroup<String>.builder(
-          direction: Axis.horizontal,
-          groupValue: _satisfied,
-          horizontalAlignment: MainAxisAlignment.spaceAround,
-          onChanged: (value) => setState(() {
-            _satisfied = value!;
-          }),
-          items: _status,
-          textStyle: const TextStyle(fontSize: 15),
-          itemBuilder: (item) => RadioButtonBuilder(
-            item,
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget container1(String text) {
-    return Row(
+    return Wrap(
       children: <Widget>[
         Container(
           padding: const EdgeInsets.only(top: 10),
@@ -135,34 +101,6 @@ class _PaidScreenState extends State<PaidScreen> {
             _experience = value!;
           }),
           items: _status1,
-          textStyle: const TextStyle(fontSize: 15),
-          itemBuilder: (item) => RadioButtonBuilder(
-            item,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget container2(String text) {
-    return Row(
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.only(top: 10),
-          decoration: BoxDecoration(border: Border.all(color: Colors.white)),
-          child: Text(
-            text,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
-        RadioGroup<String>.builder(
-          direction: Axis.horizontal,
-          groupValue: _service,
-          horizontalAlignment: MainAxisAlignment.spaceAround,
-          onChanged: (value) => setState(() {
-            _service = value!;
-          }),
-          items: _status2,
           textStyle: const TextStyle(fontSize: 15),
           itemBuilder: (item) => RadioButtonBuilder(
             item,
