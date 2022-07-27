@@ -8,6 +8,7 @@ class Bill extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: BillScreen(),
+      // appBar: AppBar(),
     );
   }
 }

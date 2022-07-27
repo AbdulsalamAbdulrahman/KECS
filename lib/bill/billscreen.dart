@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:kecs/bill/billinfo.dart';
-// import 'package:kecs/bill/delivered.dart';
-// import 'package:kecs/bill/notdelivered.dart';
+// import 'package:kecs/bill/billinfo.dart';
+import 'package:kecs/bill/delivered.dart';
+import 'package:kecs/bill/notdelivered.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BillScreen extends StatefulWidget {
@@ -17,50 +17,94 @@ class BillScreen extends StatefulWidget {
 class _BillScreenState extends State<BillScreen> {
   final key = GlobalKey<FormState>();
 
+  bool _isLoading = false;
+
   String accno = "";
+  String name = '';
+  String address = "";
+  String accnumber = '';
+  String meterno = "";
+  String lastpay = "";
+  double closingb = 0;
+  int lastpayamt = 0;
 
   String dropdownValue = 'Select Status';
 
   Future getAccNo() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     Uri url = Uri.parse(
         'https://kadunaelectric.com/meterreading/kecs/dotnet_billinghistory.php?id=$accno');
 
     var data = {
       'accno': accno,
     };
-    print(accno);
+
     var response = await http.post(
       url,
       body: json.encode(data),
     );
 
-    // final jsondata = json.decode(response.body);
+    final jsondata = json.decode(response.body);
+    // print(jsondata);
 
-    // print(apidata);
-
-    if (response.statusCode == 200) {
-      // print(response.body);
-      final data = json.decode(response.body);
-      print(data[0]['customerName']);
-
-      String name = data[0]['customerName'];
-
-      debugPrint(name);
+    if (jsondata != "Invalid Account Number") {
+      String name = jsondata[0]['customerName'];
+      String address = jsondata[0]['customerAddress'];
+      String accnumber = jsondata[0]['customerAccountNo'];
+      String meterno = jsondata[0]['meterNumber'];
+      String lastpay = jsondata[0]['lastPaymentDate'];
+      double closingb = jsondata[0]['closingBalance'];
+      int lastpayamt = jsondata[0]['lastPaymentAmount'];
 
       SharedPreferences pref = await SharedPreferences.getInstance();
       await pref.setString('name', name);
+      await pref.setString('address', address);
+      await pref.setString('accnumber', accnumber);
+      await pref.setString('meterno', meterno);
+      await pref.setString('lastpay', lastpay);
+      await pref.setDouble('closingb', closingb);
+      await pref.setInt('lastpayamt', lastpayamt);
 
-      // SharedPreferences pref = await SharedPreferences.getInstance();
-      // pref.setString("name", data[0]['customerName']);
-
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: (context) => const BillInfo()));
-      // String customername = jsondata["customerName"];
-
-      // print(customername);
+      getCred();
     } else {
-      print('Failed');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title:
+                Text(jsondata, style: const TextStyle(color: Colors.black54)),
+            actions: <Widget>[
+              ElevatedButton(
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  void getCred() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      name = pref.getString("name")!;
+      address = pref.getString("address")!;
+      accnumber = pref.getString("accnumber")!;
+      meterno = pref.getString("meterno")!;
+      lastpay = pref.getString("lastpay")!;
+      closingb = pref.getDouble("closingb")!;
+      lastpayamt = pref.getInt("lastpayamt")!;
+    });
   }
 
   @override
@@ -80,26 +124,37 @@ class _BillScreenState extends State<BillScreen> {
                     // listView()
                     // const Padding(padding: EdgeInsets.all(20.0)),
                     card(),
-                    // card1(),
-                    // card2(),
-                    // const Padding(padding: EdgeInsets.all(5.0)),
-                    // ElevatedButton(
-                    //     onPressed: () {
-                    //       if (dropdownValue == 'Delivered') {
-                    //         Navigator.push(
-                    //             context,
-                    //             MaterialPageRoute(
-                    //                 builder: (context) =>
-                    //                     const DeliveredScreen()));
-                    //       } else if (dropdownValue == 'Not Delivered') {
-                    //         Navigator.push(
-                    //             context,
-                    //             MaterialPageRoute(
-                    //                 builder: (context) =>
-                    //                     const NotDeliveredScreen()));
-                    //       }
-                    //     },
-                    //     child: const Text('Continue'))
+                    card1(),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(500, 50),
+                            maximumSize: const Size(500, 50),
+                          ),
+                          onPressed: name == ""
+                              ? null
+                              : () {
+                                  if (dropdownValue == 'Delivered') {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                DeliveredScreen(
+                                                  dropdownValue: dropdownValue,
+                                                )));
+                                  } else if (dropdownValue == 'Not Delivered') {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                NotDeliveredScreen(
+                                                  dropdownValue: dropdownValue,
+                                                )));
+                                  }
+                                },
+                          child: const Text('Continue')),
+                    ),
                   ],
                 )
               ],
@@ -139,23 +194,37 @@ class _BillScreenState extends State<BillScreen> {
                   ),
                 ),
                 const Padding(padding: EdgeInsets.all(3.0)),
-                ElevatedButton(
+                ElevatedButton.icon(
+                  icon: _isLoading
+                      ? const SizedBox(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                          height: 15.0,
+                          width: 15.0,
+                        )
+                      : const Text(''),
+                  label: Text(
+                    _isLoading ? '' : 'Search Account',
+                    style: const TextStyle(
+                        fontSize: 15.0, fontWeight: FontWeight.bold),
+                  ),
                   onPressed: () async {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
-                      getAccNo();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BillInfo()));
+                      _isLoading ? null : getAccNo();
                       // getCred();
                     }
                   },
-                  child: const Text(
-                    'Search',
-                    style:
-                        TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(500, 50),
+                    maximumSize: const Size(500, 50),
                   ),
+                  // child: const Text(
+                  //   'Search',
+                  //   style:
+                  //       TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                  // ),
                 )
               ]),
         ),
@@ -181,41 +250,16 @@ class _BillScreenState extends State<BillScreen> {
                 const Text('Customer Billing Information',
                     style:
                         TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                container('Name', ''),
-                container('Address: ', ''),
-                container('Account Number:', ''),
-                container('Meter Number:', ''),
-                container('Last Payment Date:', ''),
-                container('Total Payment:', ''),
-                container('Total Billed Amount:', ''),
-                container('Closing Balance:', ''),
-                dropDown()
-              ]),
-        ),
-        elevation: 5,
-        shadowColor: Colors.green,
-        shape: const RoundedRectangleBorder(
-          side: BorderSide(
-              color: Colors.green, style: BorderStyle.solid, width: 2.0),
-        ),
-      ),
-    );
-  }
-
-  Widget card2() {
-    return SizedBox(
-      width: 500,
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Text('Payment Details',
-                    style:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                container('Last Vending:', ''),
-                container('Last Vending Date:', ''),
+                container('Name: ', name),
+                container('Address: ', address),
+                container('Account Number:', accnumber),
+                container('Meter Number:', meterno),
+                container('Last Payment Date:', lastpay),
+                container3('Last Payment Amount:', lastpayamt),
+                container2('Closing Balance:', closingb),
+                dropDown(),
+                const Padding(padding: EdgeInsets.all(5.0)),
+                const Padding(padding: EdgeInsets.all(5.0)),
               ]),
         ),
         elevation: 5,
@@ -240,6 +284,44 @@ class _BillScreenState extends State<BillScreen> {
           ),
           Text(
             text1,
+            style: const TextStyle(fontWeight: FontWeight.normal),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget container2(text, double text1) {
+    return Container(
+      padding: const EdgeInsets.only(top: 10),
+      decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+      child: Row(
+        children: [
+          Text(
+            text,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            '$text1',
+            style: const TextStyle(fontWeight: FontWeight.normal),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget container3(text, int text1) {
+    return Container(
+      padding: const EdgeInsets.only(top: 10),
+      decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+      child: Row(
+        children: [
+          Text(
+            text,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            text1.toString(),
             style: const TextStyle(fontWeight: FontWeight.normal),
           ),
         ],

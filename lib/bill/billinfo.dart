@@ -10,6 +10,11 @@ class BillInfo extends StatefulWidget {
 
 class _BillInfoState extends State<BillInfo> {
   String name = '';
+  String address = "";
+  String accnumber = '';
+  String meterno = "";
+  double lastpay = "" as double;
+  double closingb = "" as double;
 
   final key = GlobalKey<FormState>();
 
@@ -23,6 +28,11 @@ class _BillInfoState extends State<BillInfo> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
       name = pref.getString("name")!;
+      address = pref.getString("address")!;
+      accnumber = pref.getString("accnumber")!;
+      meterno = pref.getString("meterno")!;
+      lastpay = pref.getDouble("lastpay")!;
+      closingb = pref.getDouble("closingb")!;
     });
   }
 
@@ -49,13 +59,13 @@ class _BillInfoState extends State<BillInfo> {
                     // ElevatedButton(
                     //     onPressed: () {
                     //       if (dropdownValue == 'Delivered') {
-                    //         Navigator.push(
+                    //         .push(
                     //             context,
                     //             MaterialPageRoute(
                     //                 builder: (context) =>
                     //                     const DeliveredScreen()));
                     //       } else if (dropdownValue == 'Not Delivered') {
-                    //         Navigator.push(
+                    //         .push(
                     //             context,
                     //             MaterialPageRoute(
                     //                 builder: (context) =>
@@ -83,14 +93,14 @@ class _BillInfoState extends State<BillInfo> {
                 const Text('Customer Billing Information',
                     style:
                         TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                container('Name', name),
-                container('Address: ', ''),
-                container('Account Number:', ''),
-                container('Meter Number:', ''),
-                container('Last Payment Date:', ''),
+                container('Name: ', name),
+                container('Address: ', address),
+                // container('Account Number:', accnumber),
+                container('Meter Number:', meterno),
+                // container('Last Payment Date:', lastpay),
                 container('Total Payment:', ''),
                 container('Total Billed Amount:', ''),
-                container('Closing Balance:', ''),
+                // container('Closing Balance:', closingb),
               ]),
         ),
         elevation: 5,

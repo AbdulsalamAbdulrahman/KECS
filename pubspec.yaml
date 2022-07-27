@@ -46,7 +46,7 @@ dependencies:
   double_back_to_close_app: ^2.1.0
   shared_preferences: ^2.0.15
   dio: ^4.0.4
-  # back_pressed: ^0.0.2
+  geolocator: ^8.0.0
   
 
 dev_dependencies:

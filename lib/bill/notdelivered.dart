@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kecs/bill/bill.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NotDelivered extends StatelessWidget {
   const NotDelivered({
@@ -14,9 +16,9 @@ class NotDelivered extends StatelessWidget {
 }
 
 class NotDeliveredScreen extends StatefulWidget {
-  const NotDeliveredScreen({
-    Key? key,
-  }) : super(key: key);
+  final String dropdownValue;
+  const NotDeliveredScreen({Key? key, required this.dropdownValue})
+      : super(key: key);
 
   @override
   State<NotDeliveredScreen> createState() => _NotDeliveredScreenState();
@@ -25,6 +27,23 @@ class NotDeliveredScreen extends StatefulWidget {
 class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
   final key = GlobalKey<FormState>();
   String dropdownValue = 'Select Reason';
+
+  String name = '';
+  String address = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getCred();
+  }
+
+  void getCred() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      name = pref.getString("name")!;
+      address = pref.getString("address")!;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +82,14 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
                             fontSize: 15.0, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
+                    onPressed: () async {
+                      debugPrint(name + address + widget.dropdownValue);
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      await prefs.clear();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => const Bill()),
+                          (route) => false);
                     },
                   ),
                 ],

@@ -1,7 +1,7 @@
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:kecs/bill/bill.dart';
-// import 'package:kecs/login.dart';
+// import 'package:kecs/bill/bill.dart';
+import 'package:kecs/login.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -25,10 +25,10 @@ class _SplashPageState extends State<SplashPage> {
       loadingText: const Text(
         "Loading...",
         style: TextStyle(
-          color: Colors.green,
+          color: Color.fromARGB(255, 73, 95, 74),
         ),
       ),
-      navigator: const Bill(),
+      navigator: const Login(),
       durationInSeconds: 3,
     );
   }

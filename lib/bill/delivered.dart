@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kecs/bill/bill.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Delivered extends StatelessWidget {
-  const Delivered({
-    Key? key,
-  }) : super(key: key);
+  const Delivered({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,10 @@ class Delivered extends StatelessWidget {
 }
 
 class DeliveredScreen extends StatefulWidget {
-  const DeliveredScreen({Key? key}) : super(key: key);
+  final String dropdownValue;
+
+  const DeliveredScreen({Key? key, required this.dropdownValue})
+      : super(key: key);
 
   @override
   State<DeliveredScreen> createState() => _DeliveredScreenState();
@@ -25,7 +28,25 @@ class DeliveredScreen extends StatefulWidget {
 
 class _DeliveredScreenState extends State<DeliveredScreen> {
   final key = GlobalKey<FormState>();
-  String dropdownValue = 'Select Recipient';
+
+  String dropdownValue2 = 'Select Recipient';
+
+  String name = '';
+  String address = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getCred();
+  }
+
+  void getCred() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      name = pref.getString("name")!;
+      address = pref.getString("address")!;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,8 +96,15 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                                   fontSize: 15.0, fontWeight: FontWeight.bold),
                             ),
                           ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
+                          onPressed: () async {
+                            debugPrint(name + address + widget.dropdownValue);
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            await prefs.clear();
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => const Bill()),
+                                (route) => false);
                           },
                         ),
                       ],
@@ -122,10 +150,10 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
   Widget dropDown() {
     return DropdownButtonFormField<String>(
       decoration: decorate(''),
-      value: dropdownValue,
+      value: dropdownValue2,
       onChanged: (String? newValue) {
         setState(() {
-          dropdownValue = newValue!;
+          dropdownValue2 = newValue!;
         });
       },
       items: <String>[

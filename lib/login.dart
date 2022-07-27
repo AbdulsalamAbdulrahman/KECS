@@ -178,12 +178,12 @@ class _LoginState extends State<Login> {
       String feeder = jsondata["feeder"];
       String phonenumber = jsondata["phonenumber"];
 
-      debugPrint(fullname);
-      debugPrint(jobtitle);
-      debugPrint(payrollid);
-      debugPrint(areaoffice);
-      debugPrint(feeder);
-      debugPrint(phonenumber);
+      // debugPrint(fullname);
+      // debugPrint(jobtitle);
+      // debugPrint(payrollid);
+      // debugPrint(areaoffice);
+      // debugPrint(feeder);
+      // debugPrint(phonenumber);
 
       SharedPreferences pref = await SharedPreferences.getInstance();
       await pref.setString('fullname', fullname);
