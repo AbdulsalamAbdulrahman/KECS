@@ -5,8 +5,10 @@ import 'package:kecs/bill/bill.dart';
 import 'package:kecs/connection/connection.dart';
 import 'package:kecs/dashboard/dashboard.dart';
 import 'package:kecs/meter/meterreading.dart';
+import 'package:kecs/modal_fit.dart';
 import 'package:kecs/mycustomers/mycustomers.dart';
 import 'package:kecs/splash_page.dart';
+import 'package:kecs/tracking/nonppm_tracking.dart';
 import 'package:kecs/tracking/tracking.dart';
 
 void main() {
@@ -38,8 +40,10 @@ class MyApp extends StatelessWidget {
         '/Bill': (BuildContext context) => const Bill(),
         '/MyCustomers': (BuildContext context) => const MyCustomers(),
         '/Tracking': (BuildContext context) => const Tracking(),
+        '/NonPPM': (BuildContext context) => const NonPPM(),
         '/Connection': (BuildContext context) => const Connection(),
         '/Meter': (BuildContext context) => const Meter(),
+        '/ModalFit': (BuildContext context) => const ModalFit(),
       },
     );
   }

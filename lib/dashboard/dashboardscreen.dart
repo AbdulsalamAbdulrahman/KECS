@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kecs/floating_modal.dart';
 import 'package:kecs/login.dart';
+import 'package:kecs/modal_fit.dart';
 import 'package:kecs/mycustomers/mycustomers.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
@@ -29,17 +31,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _timestring =
         "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     super.initState();
-    getCred();
+    _getCred();
   }
 
-  void getCred() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
+  void _getCred() async {
+    SharedPreferences prefLogin = await SharedPreferences.getInstance();
     setState(() {
-      fullname = pref.getString("fullname")!;
-      jobtitle = pref.getString("jobtitle")!;
-      payrollid = pref.getString("payrollid")!;
-      areaoffice = pref.getString("areaoffice")!;
-      feeder = pref.getString("feeder")!;
+      fullname = prefLogin.getString("fullname")!;
+      jobtitle = prefLogin.getString("jobtitle")!;
+      payrollid = prefLogin.getString("payrollid")!;
+      areaoffice = prefLogin.getString("areaoffice")!;
+      feeder = prefLogin.getString("feeder")!;
     });
   }
 
@@ -108,9 +110,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               const Padding(padding: EdgeInsets.only(top: 10.0)),
               ListTile(
                 onTap: () async {
-                  SharedPreferences pref =
+                  SharedPreferences prefLogin =
                       await SharedPreferences.getInstance();
-                  await pref.clear();
+                  await prefLogin.clear();
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => const Login()),
                       (route) => false);
@@ -172,9 +174,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
             children: [
-              _card('Total\nBills Allocated', '\n1000'),
-              _card('Bills\nDelivered', '\n1000'),
-              _card('Bills\nUndelivered', '\n1150'),
+              _card('Total\nBills Allocated', '\n0'),
+              _card('Bills\nDelivered', '\n0'),
+              _card('Bills\nUndelivered', '\n0'),
             ],
           ),
         ],
@@ -198,7 +200,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            card2(Icons.bolt, 'Tracking', '/Tracking'),
+            _card2(Icons.bolt, 'Tracking'),
             card3(Icons.bolt, 'Disconnection\nReconnection', '/Connection')
           ],
         ),
@@ -261,6 +263,43 @@ class _DashboardScreenState extends State<DashboardScreen> {
         onTap: () {
           // Navigator.of(context).pop();
           Navigator.of(context).pushNamed(text2);
+        },
+        child: Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                icon,
+                color: Colors.green,
+              ),
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.green),
+              ),
+            ],
+          ),
+          elevation: 5,
+          shadowColor: Colors.green,
+          shape: RoundedRectangleBorder(
+              side: const BorderSide(
+                  color: Colors.green, style: BorderStyle.solid, width: 2.0),
+              borderRadius: BorderRadius.circular(15.0)),
+        ),
+      ),
+    );
+  }
+
+  Widget _card2(icon, String text) {
+    return SizedBox(
+      height: 120,
+      width: 120,
+      child: GestureDetector(
+        onTap: () {
+          // Navigator.of(context).pop();
+          // Navigator.of(context).pushNamed(text2);
+          showFloatingModalBottomSheet(
+              context: context, builder: (context) => const ModalFit());
         },
         child: Card(
           child: Column(

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-// import 'package:kecs/bill/billinfo.dart';
 import 'package:kecs/bill/delivered.dart';
 import 'package:kecs/bill/notdelivered.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,7 +47,6 @@ class _BillScreenState extends State<BillScreen> {
     );
 
     final jsondata = json.decode(response.body);
-    // print(jsondata);
 
     if (jsondata != "Invalid Account Number") {
       String name = jsondata[0]['customerName'];
@@ -59,14 +57,14 @@ class _BillScreenState extends State<BillScreen> {
       double closingb = jsondata[0]['closingBalance'];
       int lastpayamt = jsondata[0]['lastPaymentAmount'];
 
-      SharedPreferences pref = await SharedPreferences.getInstance();
-      await pref.setString('name', name);
-      await pref.setString('address', address);
-      await pref.setString('accnumber', accnumber);
-      await pref.setString('meterno', meterno);
-      await pref.setString('lastpay', lastpay);
-      await pref.setDouble('closingb', closingb);
-      await pref.setInt('lastpayamt', lastpayamt);
+      SharedPreferences prefBill = await SharedPreferences.getInstance();
+      await prefBill.setString('name', name);
+      await prefBill.setString('address', address);
+      await prefBill.setString('accnumber', accnumber);
+      await prefBill.setString('meterno', meterno);
+      await prefBill.setString('lastpay', lastpay);
+      await prefBill.setDouble('closingb', closingb);
+      await prefBill.setInt('lastpayamt', lastpayamt);
 
       getCred();
     } else {
@@ -95,15 +93,15 @@ class _BillScreenState extends State<BillScreen> {
   }
 
   void getCred() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
+    SharedPreferences prefBill = await SharedPreferences.getInstance();
     setState(() {
-      name = pref.getString("name")!;
-      address = pref.getString("address")!;
-      accnumber = pref.getString("accnumber")!;
-      meterno = pref.getString("meterno")!;
-      lastpay = pref.getString("lastpay")!;
-      closingb = pref.getDouble("closingb")!;
-      lastpayamt = pref.getInt("lastpayamt")!;
+      name = prefBill.getString("name")!;
+      address = prefBill.getString("address")!;
+      accnumber = prefBill.getString("accnumber")!;
+      meterno = prefBill.getString("meterno")!;
+      lastpay = prefBill.getString("lastpay")!;
+      closingb = prefBill.getDouble("closingb")!;
+      lastpayamt = prefBill.getInt("lastpayamt")!;
     });
   }
 

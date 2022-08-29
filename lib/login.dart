@@ -159,17 +159,8 @@ class _LoginState extends State<Login> {
     );
     var jsondata = json.decode(response.body);
 
-    // SharedPreferences pref = await SharedPreferences.getInstance();
-    // await pref.setString('username', username);
-
-    // debugPrint(username);
-
-    // SharedPreferences pref = await SharedPreferences.getInstance();
-    // await pref.setString('login', jsondata);
-
     if (response.statusCode == 200) {
       var jsondata = json.decode(response.body);
-      debugPrint(response.body);
 
       String fullname = jsondata["fullname"];
       String jobtitle = jsondata["jobtitle"];
@@ -178,21 +169,14 @@ class _LoginState extends State<Login> {
       String feeder = jsondata["feeder"];
       String phonenumber = jsondata["phonenumber"];
 
-      // debugPrint(fullname);
-      // debugPrint(jobtitle);
-      // debugPrint(payrollid);
-      // debugPrint(areaoffice);
-      // debugPrint(feeder);
-      // debugPrint(phonenumber);
+      SharedPreferences prefLogin = await SharedPreferences.getInstance();
+      await prefLogin.setString('fullname', fullname);
 
-      SharedPreferences pref = await SharedPreferences.getInstance();
-      await pref.setString('fullname', fullname);
-
-      await pref.setString('jobtitle', jobtitle);
-      await pref.setString('payrollid', payrollid);
-      await pref.setString('areaoffice', areaoffice);
-      await pref.setString('feeder', feeder);
-      await pref.setString('phonenumber', phonenumber);
+      await prefLogin.setString('jobtitle', jobtitle);
+      await prefLogin.setString('payrollid', payrollid);
+      await prefLogin.setString('areaoffice', areaoffice);
+      await prefLogin.setString('feeder', feeder);
+      await prefLogin.setString('phonenumber', phonenumber);
 
       if (jobtitle == "SalesRep") {
         Navigator.push(context,
@@ -204,21 +188,6 @@ class _LoginState extends State<Login> {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const Dashboard2()));
       }
-
-      // String jobtitle = jsondata["jobtitle"];
-      // String areaoffice = jsondata["areaoffice"];
-      // String payrollid = jsondata["payrollid"];
-
-      // SharedPreferences pref = await SharedPreferences.getInstance();
-      // await pref.setString('fullname', fullname);
-      // await pref.setString('jobtitle', jobtitle);
-      // await pref.setString('areaoffice', areaoffice);
-      // await pref.setString('payrollid', payrollid);
-
-      // debugPrint(jobtitle);
-      // debugPrint(areaoffice);
-      // debugPrint(payrollid);
-
     } else {
       showDialog(
         context: context,

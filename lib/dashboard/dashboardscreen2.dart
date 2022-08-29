@@ -43,12 +43,12 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
   }
 
   void getCred() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
+    SharedPreferences prefLogin = await SharedPreferences.getInstance();
     setState(() {
-      fullname = pref.getString("fullname")!;
-      jobtitle = pref.getString("jobtitle")!;
-      payrollid = pref.getString("payrollid")!;
-      areaoffice = pref.getString("areaoffice")!;
+      fullname = prefLogin.getString("fullname")!;
+      jobtitle = prefLogin.getString("jobtitle")!;
+      payrollid = prefLogin.getString("payrollid")!;
+      areaoffice = prefLogin.getString("areaoffice")!;
     });
   }
 
@@ -117,9 +117,9 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
               const Padding(padding: EdgeInsets.only(top: 10.0)),
               ListTile(
                 onTap: () async {
-                  SharedPreferences pref =
+                  SharedPreferences prefLogin =
                       await SharedPreferences.getInstance();
-                  await pref.clear();
+                  await prefLogin.clear();
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => const Login()),
                       (route) => false);
@@ -180,9 +180,9 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
             children: [
-              _card('Diconnected', '\n1000'),
-              _card('Reconnected', '\n1000'),
-              _card('Defaulters', '\n1150'),
+              _card('Diconnected', '\n0'),
+              _card('Reconnected', '\n0'),
+              _card('Defaulters', '\n0'),
             ],
           ),
         ],

@@ -1,7 +1,11 @@
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
-// import 'package:kecs/bill/bill.dart';
+// import 'package:kecs/dashboard/dashboard.dart';
+// import 'package:kecs/dashboard/dashboardscreen.dart';
 import 'package:kecs/login.dart';
+// import 'package:kecs/bill/bill.dart';
+// import 'package:kecs/login.dart';
+// import 'package:kecs/tracking/trackingscreen.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);

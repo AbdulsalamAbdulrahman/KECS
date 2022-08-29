@@ -38,10 +38,10 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
   }
 
   void getCred() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
+    SharedPreferences prefBill = await SharedPreferences.getInstance();
     setState(() {
-      name = pref.getString("name")!;
-      address = pref.getString("address")!;
+      name = prefBill.getString("name")!;
+      address = prefBill.getString("address")!;
     });
   }
 
@@ -52,7 +52,7 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
         child: Column(
           children: <Widget>[
             AppBar(
-              automaticallyImplyLeading: false,
+              // automaticallyImplyLeading: false,
               title: const Text('Bill Not Delivered'),
             ),
             Padding(
@@ -84,12 +84,13 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
                     ),
                     onPressed: () async {
                       debugPrint(name + address + widget.dropdownValue);
-                      SharedPreferences prefs =
+                      SharedPreferences prefNotDelivered =
                           await SharedPreferences.getInstance();
-                      await prefs.clear();
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => const Bill()),
-                          (route) => false);
+                      await prefNotDelivered.clear();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Bill()));
                     },
                   ),
                 ],

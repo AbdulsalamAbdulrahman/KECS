@@ -41,10 +41,10 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
   }
 
   void getCred() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
+    SharedPreferences prefBill = await SharedPreferences.getInstance();
     setState(() {
-      name = pref.getString("name")!;
-      address = pref.getString("address")!;
+      name = prefBill.getString("name")!;
+      address = prefBill.getString("address")!;
     });
   }
 
@@ -58,7 +58,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
             child: Column(
               children: <Widget>[
                 AppBar(
-                  automaticallyImplyLeading: false,
+                  // automaticallyImplyLeading: false,
                   title: const Text('Bill Delivered'),
                 ),
                 Form(
@@ -98,13 +98,13 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                           ),
                           onPressed: () async {
                             debugPrint(name + address + widget.dropdownValue);
-                            SharedPreferences prefs =
+                            SharedPreferences prefDelivered =
                                 await SharedPreferences.getInstance();
-                            await prefs.clear();
-                            Navigator.of(context).pushAndRemoveUntil(
+                            await prefDelivered.clear();
+                            Navigator.push(
+                                context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Bill()),
-                                (route) => false);
+                                    builder: (context) => const Bill()));
                           },
                         ),
                       ],

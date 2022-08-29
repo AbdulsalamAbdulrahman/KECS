@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'package:kecs/connection/disconnect.dart';
+import 'package:kecs/connection/reconnect.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Connection extends StatelessWidget {
   const Connection({Key? key}) : super(key: key);
@@ -24,62 +30,142 @@ class ConnectionScreen extends StatefulWidget {
 class _ConnectionScreenState extends State<ConnectionScreen> {
   final key = GlobalKey<FormState>();
 
+  bool _isLoading = false;
+
+  String accno = "";
+  String name = '';
+  String address = "";
+  String accnumber = '';
+  String meterno = "";
+  String lastpay = "";
+  double closingb = 0;
+  int lastpayamt = 0;
+
   String dropdownValue = 'Select Status';
-  bool _visible = false;
 
-  final TextEditingController _inputController = TextEditingController();
+  Future getAccNo() async {
+    setState(() {
+      _isLoading = true;
+    });
 
-  @override
-  void dispose() {
-    _inputController.dispose();
-    super.dispose();
+    Uri url = Uri.parse(
+        'https://kadunaelectric.com/meterreading/kecs/dotnet_billinghistory.php?id=$accno');
+
+    var data = {
+      'accno': accno,
+    };
+
+    var response = await http.post(
+      url,
+      body: json.encode(data),
+    );
+
+    final jsondata = json.decode(response.body);
+
+    if (jsondata != "Invalid Account Number") {
+      String name = jsondata[0]['customerName'];
+      String address = jsondata[0]['customerAddress'];
+      String accnumber = jsondata[0]['customerAccountNo'];
+      String meterno = jsondata[0]['meterNumber'];
+      String lastpay = jsondata[0]['lastPaymentDate'];
+      double closingb = jsondata[0]['closingBalance'];
+      int lastpayamt = jsondata[0]['lastPaymentAmount'];
+
+      SharedPreferences prefConn = await SharedPreferences.getInstance();
+      await prefConn.setString('name', name);
+      await prefConn.setString('address', address);
+      await prefConn.setString('accnumber', accnumber);
+      await prefConn.setString('meterno', meterno);
+      await prefConn.setString('lastpay', lastpay);
+      await prefConn.setDouble('closingb', closingb);
+      await prefConn.setInt('lastpayamt', lastpayamt);
+
+      getCred();
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title:
+                Text(jsondata, style: const TextStyle(color: Colors.black54)),
+            actions: <Widget>[
+              ElevatedButton(
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
-  void _toggle() {
+  void getCred() async {
+    SharedPreferences prefConn = await SharedPreferences.getInstance();
     setState(() {
-      _visible = !_visible;
+      name = prefConn.getString("name")!;
+      address = prefConn.getString("address")!;
+      accnumber = prefConn.getString("accnumber")!;
+      meterno = prefConn.getString("meterno")!;
+      lastpay = prefConn.getString("lastpay")!;
+      closingb = prefConn.getDouble("closingb")!;
+      lastpayamt = prefConn.getInt("lastpayamt")!;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: <Widget>[
-      Material(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              Wrap(
-                children: [
-                  // const Padding(padding: EdgeInsets.all(20.0)),
-                  card(),
-                  card1(),
-                  card2(),
-                  const Padding(padding: EdgeInsets.all(5.0)),
-                  ElevatedButton(
-                      onPressed: () {
-                        // if (dropdownValue == 'Disconnect') {
-                        //   Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) => const Disconnect()));
-                        // } else if (dropdownValue == 'Reconnect') {
-                        //   Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) => const Reconnect()));
-                        //   } else if (dropdownValue == 'Disconnected') {
-                        //     // _controller.clear();
-                        //     setState(() {
-                        //       // dropdownValue = <String;
-                        //     });
-                        // }
-                      },
-                      child: const Text('Submit'))
-                ],
-              )
-            ],
-          ))
-    ]);
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: <Widget>[
+        Material(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                Wrap(
+                  children: [
+                    // listView()
+                    // const Padding(padding: EdgeInsets.all(20.0)),
+                    card(),
+                    card1(),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(500, 50),
+                            maximumSize: const Size(500, 50),
+                          ),
+                          onPressed: name == ""
+                              ? null
+                              : () {
+                                  if (dropdownValue == 'Disconnected') {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Disconnect()));
+                                  } else if (dropdownValue == 'Reconnected') {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Reconnect()));
+                                  }
+                                },
+                          child: const Text('Continue')),
+                    ),
+                  ],
+                )
+              ],
+            ))
+      ],
+    );
   }
 
   Widget card() {
@@ -95,30 +181,56 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
                         TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
                 const Padding(padding: EdgeInsets.all(5.0)),
                 Form(
+                  key: key,
                   child: TextFormField(
-                    controller: _inputController,
+                    onSaved: (value) => accno = value.toString(),
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {}
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "please enter your account number";
+                      }
+                      return null;
+                    },
+                    // controller: _inputController,
                     keyboardType: TextInputType.text,
                     decoration: decorate('Account Number'),
                   ),
                 ),
                 const Padding(padding: EdgeInsets.all(3.0)),
-                ValueListenableBuilder<TextEditingValue>(
-                  valueListenable: _inputController,
-                  builder: (context, value, child) {
-                    return ElevatedButton(
-                      onPressed: value.text.isNotEmpty
-                          ? () {
-                              _toggle();
-                            }
-                          : null,
-                      child: const Text(
-                        'Search',
-                        style: TextStyle(
-                            fontSize: 15.0, fontWeight: FontWeight.bold),
-                      ),
-                    );
+                ElevatedButton.icon(
+                  icon: _isLoading
+                      ? const SizedBox(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                          height: 15.0,
+                          width: 15.0,
+                        )
+                      : const Text(''),
+                  label: Text(
+                    _isLoading ? '' : 'Search Account',
+                    style: const TextStyle(
+                        fontSize: 15.0, fontWeight: FontWeight.bold),
+                  ),
+                  onPressed: () async {
+                    if (key.currentState!.validate()) {
+                      key.currentState!.save();
+                      _isLoading ? null : getAccNo();
+                      // getCred();
+                    }
                   },
-                ),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(500, 50),
+                    maximumSize: const Size(500, 50),
+                  ),
+                  // child: const Text(
+                  //   'Search',
+                  //   style:
+                  //       TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                  // ),
+                )
               ]),
         ),
         elevation: 5,
@@ -132,74 +244,92 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
   }
 
   Widget card1() {
-    return Visibility(
-        visible: _visible,
-        child: SizedBox(
-          width: 500,
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text('Customer Billing Information',
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold)),
-                    container('Address: '),
-                    container('Account Number:'),
-                    container('Meter Number:'),
-                    container('Last Payment Date:'),
-                    container('Total Payment:'),
-                    container('Notice Number:'),
-                    container('Closing Balance:'),
-                    dropDown()
-                  ]),
-            ),
-            elevation: 5,
-            shadowColor: Colors.green,
-            shape: const RoundedRectangleBorder(
-              side: BorderSide(
-                  color: Colors.green, style: BorderStyle.solid, width: 2.0),
-            ),
-          ),
-        ));
+    return SizedBox(
+      width: 500,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text('Customer Billing Information',
+                    style:
+                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                container('Name: ', name),
+                container('Address: ', address),
+                container('Account Number:', accnumber),
+                container('Meter Number:', meterno),
+                container('Last Payment Date:', lastpay),
+                container3('Last Payment Amount:', lastpayamt),
+                container2('Closing Balance:', closingb),
+                dropDown(),
+                const Padding(padding: EdgeInsets.all(5.0)),
+                const Padding(padding: EdgeInsets.all(5.0)),
+              ]),
+        ),
+        elevation: 5,
+        shadowColor: Colors.green,
+        shape: const RoundedRectangleBorder(
+          side: BorderSide(
+              color: Colors.green, style: BorderStyle.solid, width: 2.0),
+        ),
+      ),
+    );
   }
 
-  Widget card2() {
-    return Visibility(
-        visible: _visible,
-        child: SizedBox(
-          width: 500,
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text('Payment Details',
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold)),
-                    container('Last Vending:'),
-                    container('Last Vending Date:'),
-                  ]),
-            ),
-            elevation: 5,
-            shadowColor: Colors.green,
-            shape: const RoundedRectangleBorder(
-              side: BorderSide(
-                  color: Colors.green, style: BorderStyle.solid, width: 2.0),
-            ),
-          ),
-        ));
-  }
-
-  Widget container(String text) {
+  Widget container(text, String text1) {
     return Container(
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
-      child: Text(
-        text,
-        style: const TextStyle(fontWeight: FontWeight.bold),
+      child: Row(
+        children: [
+          Text(
+            text,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            text1,
+            style: const TextStyle(fontWeight: FontWeight.normal),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget container2(text, double text1) {
+    return Container(
+      padding: const EdgeInsets.only(top: 10),
+      decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+      child: Row(
+        children: [
+          Text(
+            text,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            '$text1',
+            style: const TextStyle(fontWeight: FontWeight.normal),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget container3(text, int text1) {
+    return Container(
+      padding: const EdgeInsets.only(top: 10),
+      decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+      child: Row(
+        children: [
+          Text(
+            text,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            text1.toString(),
+            style: const TextStyle(fontWeight: FontWeight.normal),
+          ),
+        ],
       ),
     );
   }

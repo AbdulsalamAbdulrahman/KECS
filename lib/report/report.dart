@@ -37,7 +37,6 @@ class _ReportScreenState extends State<ReportScreen> {
 
     if (result != null) {
       // Rebuild the UI
-      // debugPrint(result.start.toString());
       setState(() {
         _selectedDateRange = result;
       });

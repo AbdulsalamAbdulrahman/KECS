@@ -1,32 +1,31 @@
-import 'package:flutter/material.dart';
-import 'package:kecs/meter/status.dart';
 import 'dart:convert';
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kecs/tracking/paid.dart';
+import 'package:kecs/tracking/unpaid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Meter extends StatelessWidget {
-  const Meter({Key? key}) : super(key: key);
+class NonPPM extends StatelessWidget {
+  const NonPPM({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meter Reading'),
-      ),
-      body: const MeterScreen(),
+    return const Scaffold(
+      body: NonPPMScreen(),
+      // appBar: AppBar(),
     );
   }
 }
 
-class MeterScreen extends StatefulWidget {
-  const MeterScreen({Key? key}) : super(key: key);
+class NonPPMScreen extends StatefulWidget {
+  const NonPPMScreen({Key? key}) : super(key: key);
 
   @override
-  State<MeterScreen> createState() => _MeterScreenState();
+  State<NonPPMScreen> createState() => _NonPPMScreenState();
 }
 
-class _MeterScreenState extends State<MeterScreen> {
+class _NonPPMScreenState extends State<NonPPMScreen> {
   final key = GlobalKey<FormState>();
 
   bool _isLoading = false;
@@ -70,14 +69,14 @@ class _MeterScreenState extends State<MeterScreen> {
       double closingb = jsondata[0]['closingBalance'];
       int lastpayamt = jsondata[0]['lastPaymentAmount'];
 
-      SharedPreferences prefMeter = await SharedPreferences.getInstance();
-      await prefMeter.setString('name', name);
-      await prefMeter.setString('address', address);
-      await prefMeter.setString('accnumber', accnumber);
-      await prefMeter.setString('meterno', meterno);
-      await prefMeter.setString('lastpay', lastpay);
-      await prefMeter.setDouble('closingb', closingb);
-      await prefMeter.setInt('lastpayamt', lastpayamt);
+      SharedPreferences prefNonPPM = await SharedPreferences.getInstance();
+      await prefNonPPM.setString('name', name);
+      await prefNonPPM.setString('address', address);
+      await prefNonPPM.setString('accnumber', accnumber);
+      await prefNonPPM.setString('meterno', meterno);
+      await prefNonPPM.setString('lastpay', lastpay);
+      await prefNonPPM.setDouble('closingb', closingb);
+      await prefNonPPM.setInt('lastpayamt', lastpayamt);
 
       getCred();
     } else {
@@ -106,15 +105,15 @@ class _MeterScreenState extends State<MeterScreen> {
   }
 
   void getCred() async {
-    SharedPreferences prefMeter = await SharedPreferences.getInstance();
+    SharedPreferences prefNonPPM = await SharedPreferences.getInstance();
     setState(() {
-      name = prefMeter.getString("name")!;
-      address = prefMeter.getString("address")!;
-      accnumber = prefMeter.getString("accnumber")!;
-      meterno = prefMeter.getString("meterno")!;
-      lastpay = prefMeter.getString("lastpay")!;
-      closingb = prefMeter.getDouble("closingb")!;
-      lastpayamt = prefMeter.getInt("lastpayamt")!;
+      name = prefNonPPM.getString("name")!;
+      address = prefNonPPM.getString("address")!;
+      accnumber = prefNonPPM.getString("accnumber")!;
+      meterno = prefNonPPM.getString("meterno")!;
+      lastpay = prefNonPPM.getString("lastpay")!;
+      closingb = prefNonPPM.getDouble("closingb")!;
+      lastpayamt = prefNonPPM.getInt("lastpayamt")!;
     });
   }
 
@@ -127,6 +126,9 @@ class _MeterScreenState extends State<MeterScreen> {
             color: Colors.white,
             child: Column(
               children: <Widget>[
+                AppBar(
+                  title: const Text('Tracking(Non PPM)'),
+                ),
                 Wrap(
                   children: [
                     // listView()
@@ -143,11 +145,19 @@ class _MeterScreenState extends State<MeterScreen> {
                           onPressed: name == ""
                               ? null
                               : () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const StatusScreen()));
+                                  if (dropdownValue == 'Paid') {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Paid()));
+                                  } else if (dropdownValue == 'Unpaid') {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Unpaid()));
+                                  }
                                 },
                           child: const Text('Continue')),
                     ),
@@ -333,8 +343,11 @@ class _MeterScreenState extends State<MeterScreen> {
           dropdownValue = newValue!;
         });
       },
-      items: <String>['Select Status', 'Delivered', 'Not Delivered']
-          .map<DropdownMenuItem<String>>((String value) {
+      items: <String>[
+        'Select Status',
+        'Paid',
+        'Unpaid',
+      ].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(
