@@ -52,6 +52,8 @@ class _DisconnectScreenState extends State<DisconnectScreen> {
                         ))),
                     dropDown(),
                     const SizedBox(height: 10.0),
+                    noticenumber(),
+                    const SizedBox(height: 10.0),
                     comment(),
                     const Padding(padding: EdgeInsets.all(5.0)),
                     checkbox(),
@@ -138,6 +140,17 @@ class _DisconnectScreenState extends State<DisconnectScreen> {
         ),
       ])
     ]);
+  }
+
+  Widget noticenumber() {
+    BorderRadius.circular(30.0);
+
+    return Material(
+      child: TextFormField(
+        keyboardType: TextInputType.text,
+        decoration: decorate("Notice Number"),
+      ),
+    );
   }
 
   InputDecoration decorate(String label) {
