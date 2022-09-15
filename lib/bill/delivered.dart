@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kecs/bill/bill.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Delivered extends StatelessWidget {
@@ -33,6 +32,11 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
 
   String name = '';
   String address = "";
+  String accnumber = '';
+  String meterno = "";
+  String lastpay = "";
+  double closingb = 0;
+  int lastpayamt = 0;
 
   @override
   void initState() {
@@ -45,6 +49,11 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
     setState(() {
       name = prefBill.getString("name")!;
       address = prefBill.getString("address")!;
+      accnumber = prefBill.getString("accnumber")!;
+      meterno = prefBill.getString("meterno")!;
+      lastpay = prefBill.getString("lastpay")!;
+      closingb = prefBill.getDouble("closingb")!;
+      lastpayamt = prefBill.getInt("lastpayamt")!;
     });
   }
 
@@ -97,14 +106,19 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                             ),
                           ),
                           onPressed: () async {
-                            debugPrint(name + address + widget.dropdownValue);
+                            print(name +
+                                address +
+                                accnumber +
+                                meterno +
+                                lastpay +
+                                widget.dropdownValue);
+                            print(closingb);
+                            print(lastpayamt);
+
                             SharedPreferences prefDelivered =
                                 await SharedPreferences.getInstance();
                             await prefDelivered.clear();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Bill()));
+                            Navigator.of(context).pushNamed('/Bill');
                           },
                         ),
                       ],

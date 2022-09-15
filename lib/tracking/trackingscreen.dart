@@ -20,23 +20,23 @@ class _TrackingScreenState extends State<TrackingScreen> {
 
   String meterno = '';
   String meternumber = "";
-  String accno = "";
+  dynamic accnum = 0;
   String name = '';
   String address = "";
-  String tariff = "";
-  String feeder = "";
-  String areaofficeppm = '';
-  String lastdate = '';
-  String lastamount = '';
+  String feeder33 = "";
+  String feeder11 = "";
+  String regional = '';
+  bool isPPM = false;
+  String llastdate = '';
+  String llastamount = '';
   String dropdownValue = 'Select Status';
-
   Future getMeterInfo() async {
     setState(() {
       _isLoading = true;
     });
 
-    Uri url =
-        Uri.parse('https://kadunaelectric.com/meterreading/kecs/tracking.php');
+    Uri url = Uri.parse(
+        'https://kadunaelectric.com/meterreading/kecs/search.php?uid=$meterno');
 
     var data = {
       'meterno': meterno,
@@ -53,22 +53,30 @@ class _TrackingScreenState extends State<TrackingScreen> {
       final jsondata = json.decode(response.body);
       debugPrint(response.body);
 
-      String name = jsondata['name'];
-      String address = jsondata['address'];
-      String accno = jsondata['accno'];
-      String meternumber = jsondata['meterno'];
-      String tariff = jsondata['tariff'];
-      String feeder = jsondata['feeder'];
-      String areaofficeppm = jsondata['areaofficeppm'];
+      String name = jsondata['customerName'];
+      String address = jsondata['customerAddress'];
+      String accno = jsondata['customerAccountNo'];
+      String meternumber = jsondata['meterNumber'];
+      String feeder33 = jsondata['feeder33kV'];
+      String feeder11 = jsondata['feeder11KV'];
+      String regional = jsondata['regionalOffice'];
+      bool isPPM = jsondata['isPPM'];
+
+      dynamic myInt = int.parse(accno);
+
+      setState(() {
+        accnum = myInt;
+      });
 
       SharedPreferences prefPPM = await SharedPreferences.getInstance();
       await prefPPM.setString('name', name);
       await prefPPM.setString('address', address);
-      await prefPPM.setString('accno', accno);
-      await prefPPM.setString('meternumber', meternumber);
-      await prefPPM.setString('tariff', tariff);
-      await prefPPM.setString('feeder', feeder);
-      await prefPPM.setString('areaofficeppm', areaofficeppm);
+      // await prefPPM.setString('accno', accno);
+      await prefPPM.setString('meterno', meternumber);
+      await prefPPM.setString('feeder33', feeder33);
+      await prefPPM.setString('feeder11', feeder11);
+      await prefPPM.setString('regional', regional);
+      await prefPPM.setBool('isPPM', isPPM);
 
       getCredppm();
     } else {
@@ -90,6 +98,8 @@ class _TrackingScreenState extends State<TrackingScreen> {
         },
       );
     }
+    getLastPayment();
+
     setState(() {
       _isLoading = false;
     });
@@ -97,15 +107,11 @@ class _TrackingScreenState extends State<TrackingScreen> {
 
   Future getLastPayment() async {
     Uri url = Uri.parse(
-        'https://kadunaelectric.com/meterreading/kecs/searchpaymentresult.php?AccountNumber=$meterno');
-
-    var data = {
-      'meterno': meterno,
-    };
+        'https://kadunaelectric.com/meterreading/kecs/searchpaymentresult.php?AccountNumber=$accnum');
 
     var response = await http.post(
       url,
-      body: json.encode(data),
+      body: json.encode(accnum),
     );
 
     var jsondata = json.decode(response.body);
@@ -116,11 +122,16 @@ class _TrackingScreenState extends State<TrackingScreen> {
       String lastdate = jsondata['lastdate'];
       String lastamount = jsondata['lastamount'];
 
-      SharedPreferences prefPPM = await SharedPreferences.getInstance();
-      await prefPPM.setString('lastdate', lastdate);
-      await prefPPM.setString('lastamount', lastamount);
+      debugPrint(lastdate + lastamount);
+      setState(() {
+        llastdate = lastdate;
+        llastamount = lastamount;
+      });
+      // SharedPreferences prefPPM = await SharedPreferences.getInstance();
+      // await prefPPM.setString('lastdate', lastdate);
+      // await prefPPM.setString('lastamount', lastamount);
 
-      getCredppm();
+      // getCredppm();
     }
   }
 
@@ -129,13 +140,14 @@ class _TrackingScreenState extends State<TrackingScreen> {
     setState(() {
       name = prefPPM.getString("name")!;
       address = prefPPM.getString("address")!;
-      accno = prefPPM.getString("accno")!;
-      meternumber = prefPPM.getString("meternumber")!;
-      tariff = prefPPM.getString("tariff")!;
-      feeder = prefPPM.getString("feeder")!;
-      areaofficeppm = prefPPM.getString("areaofficeppm")!;
-      lastdate = prefPPM.getString("lastdate")!;
-      lastamount = prefPPM.getString("lastamount")!;
+      // accno = prefPPM.getString("accno")!;
+      meternumber = prefPPM.getString("meterno")!;
+      feeder33 = prefPPM.getString("feeder33")!;
+      feeder11 = prefPPM.getString("feeder11")!;
+      regional = prefPPM.getString("regional")!;
+      isPPM = prefPPM.getBool("isPPM")!;
+      // lastdate = prefPPM.getString("lastdate")!;
+      // lastamount = prefPPM.getString("lastamount")!;
     });
   }
 
@@ -215,13 +227,13 @@ class _TrackingScreenState extends State<TrackingScreen> {
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "please enter your account number";
+                        return "please enter your meter number";
                       }
                       return null;
                     },
                     // controller: _inputController,
                     keyboardType: TextInputType.text,
-                    decoration: decorate('Account Number'),
+                    decoration: decorate('Meter Number'),
                   ),
                 ),
                 const Padding(padding: EdgeInsets.all(3.0)),
@@ -236,15 +248,18 @@ class _TrackingScreenState extends State<TrackingScreen> {
                         )
                       : const Text(''),
                   label: Text(
-                    _isLoading ? '' : 'Search Account',
+                    _isLoading ? '' : 'Search Meter',
                     style: const TextStyle(
                         fontSize: 15.0, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () async {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
-                      getLastPayment();
                       _isLoading ? null : getMeterInfo();
+                      // if (_isLoading == true) {
+                      //   getMeterInfo();
+                      //   getLastPayment();
+                      // }
 
                       // getCred();
                     }
@@ -292,12 +307,13 @@ class _TrackingScreenState extends State<TrackingScreen> {
                     container('Name: ', name),
                     container('Address: ', address),
                     container('Meter Number:', meternumber),
-                    container('Account Number:', accno),
-                    container('Tariff:', tariff),
-                    container('Feeder:', feeder),
-                    container('Area Office:', areaofficeppm),
-                    container('Last Vending Date:', lastdate),
-                    container('Last Amount Vended:', lastamount),
+                    container3('Account Number:', accnum),
+                    container('feeder 33KV:', feeder33),
+                    container('feeder 11KV:', feeder11),
+                    container('Area Office:', regional),
+                    container2('isPPM:', isPPM),
+                    container('Last Vending Date:', llastdate),
+                    container('Last Amount Vended:', llastamount),
                     dropDown(),
                   ],
                 ),
@@ -334,7 +350,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
     );
   }
 
-  Widget container2(text, double text1) {
+  Widget container2(text, bool text1) {
     return Container(
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),

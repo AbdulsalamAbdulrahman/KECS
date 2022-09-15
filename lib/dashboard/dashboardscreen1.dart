@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kecs/mycustomers/mycustomers.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -112,9 +111,9 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
               listTile(
                   'Generate Report', Icons.feedback_outlined, const Report()),
               const Padding(padding: EdgeInsets.only(top: 10.0)),
-              listTile('My Customers', Icons.people_outline_rounded,
-                  const MyCustomers()),
-              const Padding(padding: EdgeInsets.only(top: 10.0)),
+              // listTile('My Customers', Icons.people_outline_rounded,
+              //     const MyCustomers()),
+              // const Padding(padding: EdgeInsets.only(top: 10.0)),
               ListTile(
                 onTap: () async {
                   SharedPreferences prefLogin =

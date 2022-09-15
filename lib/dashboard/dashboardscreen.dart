@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:kecs/floating_modal.dart';
 import 'package:kecs/login.dart';
 import 'package:kecs/modal_fit.dart';
-import 'package:kecs/mycustomers/mycustomers.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -105,9 +104,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               listTile(
                   'Generate Report', Icons.feedback_outlined, const Report()),
               const Padding(padding: EdgeInsets.only(top: 10.0)),
-              listTile('My Customers', Icons.people_outline_rounded,
-                  const MyCustomers()),
-              const Padding(padding: EdgeInsets.only(top: 10.0)),
+              // listTile('My Customers', Icons.people_outline_rounded,
+              //     const MyCustomers()),
+              // const Padding(padding: EdgeInsets.only(top: 10.0)),
               ListTile(
                 onTap: () async {
                   SharedPreferences prefLogin =
@@ -174,7 +173,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
             children: [
-              _card('Total\nBills Allocated', '\n0'),
+              _card('Total\nBills Processed', '\n0'),
               _card('Bills\nDelivered', '\n0'),
               _card('Bills\nUndelivered', '\n0'),
             ],

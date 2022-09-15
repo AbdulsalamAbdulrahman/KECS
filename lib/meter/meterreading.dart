@@ -28,30 +28,30 @@ class MeterScreen extends StatefulWidget {
 
 class _MeterScreenState extends State<MeterScreen> {
   final key = GlobalKey<FormState>();
-
   bool _isLoading = false;
 
-  String accno = "";
+  String meterno = '';
+  String meternumber = "";
+  dynamic accnum = 0;
   String name = '';
   String address = "";
-  String accnumber = '';
-  String meterno = "";
-  String lastpay = "";
-  double closingb = 0;
-  int lastpayamt = 0;
-
+  String feeder33 = "";
+  String feeder11 = "";
+  String regional = '';
+  bool isPPM = false;
+  String llastdate = '';
+  String llastamount = '';
   String dropdownValue = 'Select Status';
-
-  Future getAccNo() async {
+  Future getMeterInfo() async {
     setState(() {
       _isLoading = true;
     });
 
     Uri url = Uri.parse(
-        'https://kadunaelectric.com/meterreading/kecs/dotnet_billinghistory.php?id=$accno');
+        'https://kadunaelectric.com/meterreading/kecs/search.php?uid=$meterno');
 
     var data = {
-      'accno': accno,
+      'meterno': meterno,
     };
 
     var response = await http.post(
@@ -61,25 +61,36 @@ class _MeterScreenState extends State<MeterScreen> {
 
     final jsondata = json.decode(response.body);
 
-    if (jsondata != "Invalid Account Number") {
-      String name = jsondata[0]['customerName'];
-      String address = jsondata[0]['customerAddress'];
-      String accnumber = jsondata[0]['customerAccountNo'];
-      String meterno = jsondata[0]['meterNumber'];
-      String lastpay = jsondata[0]['lastPaymentDate'];
-      double closingb = jsondata[0]['closingBalance'];
-      int lastpayamt = jsondata[0]['lastPaymentAmount'];
+    if (jsondata != "Invalid Meter Number") {
+      final jsondata = json.decode(response.body);
+      debugPrint(response.body);
+
+      String name = jsondata['customerName'];
+      String address = jsondata['customerAddress'];
+      String accno = jsondata['customerAccountNo'];
+      String meternumber = jsondata['meterNumber'];
+      String feeder33 = jsondata['feeder33kV'];
+      String feeder11 = jsondata['feeder11KV'];
+      String regional = jsondata['regionalOffice'];
+      bool isPPM = jsondata['isPPM'];
+
+      dynamic myInt = int.parse(accno);
+
+      setState(() {
+        accnum = myInt;
+      });
 
       SharedPreferences prefMeter = await SharedPreferences.getInstance();
       await prefMeter.setString('name', name);
       await prefMeter.setString('address', address);
-      await prefMeter.setString('accnumber', accnumber);
-      await prefMeter.setString('meterno', meterno);
-      await prefMeter.setString('lastpay', lastpay);
-      await prefMeter.setDouble('closingb', closingb);
-      await prefMeter.setInt('lastpayamt', lastpayamt);
+      // await prefMeter.setString('accno', accno);
+      await prefMeter.setString('meterno', meternumber);
+      await prefMeter.setString('feeder33', feeder33);
+      await prefMeter.setString('feeder11', feeder11);
+      await prefMeter.setString('regional', regional);
+      await prefMeter.setBool('isPPM', isPPM);
 
-      getCred();
+      getCredppm();
     } else {
       showDialog(
         context: context,
@@ -99,64 +110,99 @@ class _MeterScreenState extends State<MeterScreen> {
         },
       );
     }
+    getLastPayment();
 
     setState(() {
       _isLoading = false;
     });
   }
 
-  void getCred() async {
+  Future getLastPayment() async {
+    Uri url = Uri.parse(
+        'https://kadunaelectric.com/meterreading/kecs/searchpaymentresult.php?AccountNumber=$accnum');
+
+    var response = await http.post(
+      url,
+      body: json.encode(accnum),
+    );
+
+    var jsondata = json.decode(response.body);
+
+    if (jsondata != "Invalid Meter Number") {
+      final jsondata = json.decode(response.body);
+      debugPrint(response.body);
+      String lastdate = jsondata['lastdate'];
+      String lastamount = jsondata['lastamount'];
+
+      debugPrint(lastdate + lastamount);
+      setState(() {
+        llastdate = lastdate;
+        llastamount = lastamount;
+      });
+      // SharedPreferences prefMeter = await SharedPreferences.getInstance();
+      // await prefMeter.setString('lastdate', lastdate);
+      // await prefMeter.setString('lastamount', lastamount);
+
+      // getCredppm();
+    }
+  }
+
+  void getCredppm() async {
     SharedPreferences prefMeter = await SharedPreferences.getInstance();
     setState(() {
       name = prefMeter.getString("name")!;
       address = prefMeter.getString("address")!;
-      accnumber = prefMeter.getString("accnumber")!;
-      meterno = prefMeter.getString("meterno")!;
-      lastpay = prefMeter.getString("lastpay")!;
-      closingb = prefMeter.getDouble("closingb")!;
-      lastpayamt = prefMeter.getInt("lastpayamt")!;
+      // accno = prefMeter.getString("accno")!;
+      meternumber = prefMeter.getString("meterno")!;
+      feeder33 = prefMeter.getString("feeder33")!;
+      feeder11 = prefMeter.getString("feeder11")!;
+      regional = prefMeter.getString("regional")!;
+      isPPM = prefMeter.getBool("isPPM")!;
+      // lastdate = prefMeter.getString("lastdate")!;
+      // lastamount = prefMeter.getString("lastamount")!;
     });
   }
 
+  // void getCredppmm() async {
+  //   SharedPreferences prefMeter = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     lastdate = pref.getString("lastdate")!;
+  //     lastamount = pref.getString("lastamount")!;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: <Widget>[
-        Material(
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                Wrap(
-                  children: [
-                    // listView()
-                    // const Padding(padding: EdgeInsets.all(20.0)),
-                    card(),
-                    card1(),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(500, 50),
-                            maximumSize: const Size(500, 50),
-                          ),
-                          onPressed: name == ""
-                              ? null
-                              : () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const StatusScreen()));
-                                },
-                          child: const Text('Continue')),
-                    ),
-                  ],
-                )
-              ],
-            ))
-      ],
-    );
+    return ListView(children: <Widget>[
+      Material(
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              Wrap(
+                children: [
+                  // const Padding(padding: EdgeInsets.all(20.0)),
+                  card(),
+                  card1(),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(500, 50),
+                          maximumSize: const Size(500, 50),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const StatusScreen()));
+                        },
+                        child: const Text('Continue')),
+                  ),
+                ],
+              )
+            ],
+          ))
+    ]);
   }
 
   Widget card() {
@@ -174,19 +220,19 @@ class _MeterScreenState extends State<MeterScreen> {
                 Form(
                   key: key,
                   child: TextFormField(
-                    onSaved: (value) => accno = value.toString(),
+                    onSaved: (value) => meterno = value.toString(),
                     onChanged: (value) {
                       if (value.isNotEmpty) {}
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "please enter your account number";
+                        return "please enter your meter number";
                       }
                       return null;
                     },
                     // controller: _inputController,
                     keyboardType: TextInputType.text,
-                    decoration: decorate('Account Number'),
+                    decoration: decorate('Meter Number'),
                   ),
                 ),
                 const Padding(padding: EdgeInsets.all(3.0)),
@@ -201,14 +247,19 @@ class _MeterScreenState extends State<MeterScreen> {
                         )
                       : const Text(''),
                   label: Text(
-                    _isLoading ? '' : 'Search Account',
+                    _isLoading ? '' : 'Search Meter Number',
                     style: const TextStyle(
                         fontSize: 15.0, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () async {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
-                      _isLoading ? null : getAccNo();
+                      _isLoading ? null : getMeterInfo();
+                      // if (_isLoading == true) {
+                      //   getMeterInfo();
+                      //   getLastPayment();
+                      // }
+
                       // getCred();
                     }
                   },
@@ -246,14 +297,25 @@ class _MeterScreenState extends State<MeterScreen> {
                 const Text('Customer Billing Information',
                     style:
                         TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                container('Name: ', name),
-                container('Address: ', address),
-                container('Account Number:', accnumber),
-                container('Meter Number:', meterno),
-                container('Last Payment Date:', lastpay),
-                container3('Last Payment Amount:', lastpayamt),
-                container2('Closing Balance:', closingb),
-                dropDown(),
+                Wrap(
+                  textDirection: TextDirection.ltr,
+                  verticalDirection: VerticalDirection.down,
+                  direction: Axis.vertical,
+                  alignment: WrapAlignment.start,
+                  children: [
+                    container('Name: ', name),
+                    container('Address: ', address),
+                    container('Meter Number:', meternumber),
+                    container3('Account Number:', accnum),
+                    container('feeder 33KV:', feeder33),
+                    container('feeder 11KV:', feeder11),
+                    container('Regional Office:', regional),
+                    container2('isPPM:', isPPM),
+                    container('Last Vending Date:', llastdate),
+                    container('Last Amount Vended:', llastamount),
+                    dropDown(),
+                  ],
+                ),
                 const Padding(padding: EdgeInsets.all(5.0)),
                 const Padding(padding: EdgeInsets.all(5.0)),
               ]),
@@ -287,7 +349,7 @@ class _MeterScreenState extends State<MeterScreen> {
     );
   }
 
-  Widget container2(text, double text1) {
+  Widget container2(text, bool text1) {
     return Container(
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
@@ -333,8 +395,11 @@ class _MeterScreenState extends State<MeterScreen> {
           dropdownValue = newValue!;
         });
       },
-      items: <String>['Select Status', 'Delivered', 'Not Delivered']
-          .map<DropdownMenuItem<String>>((String value) {
+      items: <String>[
+        'Select Status',
+        'Ok',
+        'Unpaid',
+      ].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(
