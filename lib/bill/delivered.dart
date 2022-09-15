@@ -118,7 +118,8 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                             SharedPreferences prefDelivered =
                                 await SharedPreferences.getInstance();
                             await prefDelivered.clear();
-                            Navigator.of(context).pushNamed('/Bill');
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
                           },
                         ),
                       ],

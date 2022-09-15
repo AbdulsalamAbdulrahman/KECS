@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kecs/bill/bill.dart';
+import 'package:kecs/bill/billscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotDelivered extends StatelessWidget {
@@ -90,7 +90,7 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Bill()));
+                              builder: (context) => const BillScreen()));
                     },
                   ),
                 ],

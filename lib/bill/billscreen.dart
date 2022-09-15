@@ -6,6 +6,18 @@ import 'package:kecs/bill/delivered.dart';
 import 'package:kecs/bill/notdelivered.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+class Bill extends StatelessWidget {
+  const Bill({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: BillScreen(),
+      // appBar: AppBar(),
+    );
+  }
+}
+
 class BillScreen extends StatefulWidget {
   const BillScreen({Key? key}) : super(key: key);
 
