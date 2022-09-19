@@ -69,6 +69,13 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
       double closingb = jsondata[0]['closingBalance'];
       int lastpayamt = jsondata[0]['lastPaymentAmount'];
 
+      setState(() {
+        for (var i = 0; i < jsondata.length; i++) {
+          var history = jsondata[i]['monthYear'];
+          print(history);
+        }
+      });
+
       SharedPreferences prefNonPPM = await SharedPreferences.getInstance();
       await prefNonPPM.setString('name', name);
       await prefNonPPM.setString('address', address);
@@ -263,6 +270,19 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
                 container('Last Payment Date:', lastpay),
                 container3('Last Payment Amount:', lastpayamt),
                 container2('Closing Balance:', closingb),
+                const Padding(padding: EdgeInsets.all(5.0)),
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => FullScreenDialog(),
+                        fullscreenDialog: true,
+                      ),
+                    );
+                  },
+                  child: const Text("View 6 month history"),
+                ),
                 dropDown(),
                 const Padding(padding: EdgeInsets.all(5.0)),
                 const Padding(padding: EdgeInsets.all(5.0)),
@@ -366,5 +386,22 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
           borderRadius: BorderRadius.circular(5.0),
           borderSide: const BorderSide(),
         ));
+  }
+}
+
+class FullScreenDialog extends StatelessWidget {
+  const FullScreenDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        // backgroundColor: const Color(0xFF6200EE),
+        title: const Text('Six(6) Month History'),
+      ),
+      body: Center(
+        child: Text(""),
+      ),
+    );
   }
 }

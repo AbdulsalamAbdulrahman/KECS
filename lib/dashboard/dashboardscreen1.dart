@@ -316,12 +316,12 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
             children: <Widget>[
               Icon(
                 icon,
-                color: Colors.red,
+                color: Colors.grey,
               ),
               Text(
                 text,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.red),
+                style: const TextStyle(color: Colors.grey),
               ),
             ],
           ),
@@ -329,7 +329,7 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
           shadowColor: Colors.green,
           shape: RoundedRectangleBorder(
               side: const BorderSide(
-                  color: Colors.red, style: BorderStyle.solid, width: 2.0),
+                  color: Colors.grey, style: BorderStyle.solid, width: 2.0),
               borderRadius: BorderRadius.circular(15.0)),
         ),
       ),
