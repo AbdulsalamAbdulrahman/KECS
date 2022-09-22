@@ -180,7 +180,7 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
             children: [
-              _card('Total\nAllocated', '\n0'),
+              _card('Total\nProcessed', '\n0'),
               _card('Meters\nRead', '\n0'),
               _card('Meters\nUnRead', '\n0'),
             ],

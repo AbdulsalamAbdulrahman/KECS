@@ -134,7 +134,7 @@ class _MeterScreenState extends State<MeterScreen> {
       String lastdate = jsondata['lastdate'];
       String lastamount = jsondata['lastamount'];
 
-      debugPrint(lastdate + lastamount);
+      // debugPrint(lastdate + lastamount);
       setState(() {
         llastdate = lastdate;
         llastamount = lastamount;
@@ -194,7 +194,9 @@ class _MeterScreenState extends State<MeterScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const StatusScreen()));
+                                  builder: (context) => const Status(
+                                        title: '',
+                                      )));
                         },
                         child: const Text('Continue')),
                   ),
@@ -313,7 +315,7 @@ class _MeterScreenState extends State<MeterScreen> {
                     container2('isPPM:', isPPM),
                     container('Last Vending Date:', llastdate),
                     container('Last Amount Vended:', llastamount),
-                    dropDown(),
+                    // dropDown(),
                   ],
                 ),
                 const Padding(padding: EdgeInsets.all(5.0)),

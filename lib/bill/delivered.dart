@@ -156,41 +156,33 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                         comment(),
                         const Padding(padding: EdgeInsets.all(5.0)),
                         ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(500, 50),
-                            maximumSize: const Size(500, 50),
-                          ),
-                          icon: _isLoading
-                              ? const SizedBox(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                  height: 15.0,
-                                  width: 15.0,
-                                )
-                              : const Text(''),
-                          label: Text(
-                            _isLoading ? '' : 'Submit',
-                            style: const TextStyle(
-                                fontSize: 15.0, fontWeight: FontWeight.bold),
-                          ),
-                          onPressed: () async {
-                            // print(name +
-                            //     address +
-                            //     accnumber +
-                            //     meterno +
-                            //     lastpay +
-                            //     widget.dropdownValue);
-                            // print(closingb);
-                            // print(lastpayamt);
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(500, 50),
+                              maximumSize: const Size(500, 50),
+                            ),
+                            icon: _isLoading
+                                ? const SizedBox(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                    height: 15.0,
+                                    width: 15.0,
+                                  )
+                                : const Text(''),
+                            label: Text(
+                              _isLoading ? '' : 'Submit',
+                              style: const TextStyle(
+                                  fontSize: 15.0, fontWeight: FontWeight.bold),
+                            ),
+                            onPressed: () async {
+                              if (key.currentState!.validate()) {
+                                SharedPreferences prefDelivered =
+                                    await SharedPreferences.getInstance();
+                                await prefDelivered.clear();
 
-                            SharedPreferences prefDelivered =
-                                await SharedPreferences.getInstance();
-                            await prefDelivered.clear();
-
-                            _isLoading ? null : sendData();
-                          },
-                        ),
+                                _isLoading ? null : sendData();
+                              }
+                            }),
                       ],
                     ),
                   ),
@@ -205,6 +197,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
     BorderRadius.circular(30.0);
     return Material(
       child: TextFormField(
+        validator: validateField,
         controller: recipientN,
         keyboardType: TextInputType.text,
         decoration: decorate("Recipient Name"),
@@ -215,6 +208,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
   Widget recipient1() {
     return Material(
       child: TextFormField(
+        validator: validateField,
         controller: recipientP,
         keyboardType: TextInputType.phone,
         decoration: decorate("Recipient Phone"),
@@ -225,6 +219,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
   Widget comment() {
     return Material(
       child: TextFormField(
+        validator: validateField,
         controller: commentC,
         keyboardType: TextInputType.multiline,
         decoration: decorate("Comment"),
@@ -235,6 +230,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
 
   Widget dropDown() {
     return DropdownButtonFormField<String>(
+      validator: validateD,
       decoration: decorate(''),
       value: dropdownValue2,
       onChanged: (String? newValue) {
@@ -285,6 +281,20 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
         );
       },
     );
+  }
+
+  String? validateField(value) {
+    if (value.isEmpty) {
+      return "field is required";
+    }
+    return null;
+  }
+
+  String? validateD(value) {
+    if (value == 'Select Recipient') {
+      return "field is required";
+    }
+    return null;
   }
 
   InputDecoration decorate(String label) {

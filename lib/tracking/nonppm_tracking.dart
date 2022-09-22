@@ -69,12 +69,10 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
       double closingb = jsondata[0]['closingBalance'];
       int lastpayamt = jsondata[0]['lastPaymentAmount'];
 
-      setState(() {
-        for (var i = 0; i < jsondata.length; i++) {
-          var history = jsondata[i]['monthYear'];
-          print(history);
-        }
-      });
+      for (var i = 0; i < jsondata.length; i++) {
+        List<String> _history = jsondata[i]['monthYear'];
+        print(_history);
+      }
 
       SharedPreferences prefNonPPM = await SharedPreferences.getInstance();
       await prefNonPPM.setString('name', name);
@@ -400,7 +398,7 @@ class FullScreenDialog extends StatelessWidget {
         title: const Text('Six(6) Month History'),
       ),
       body: Center(
-        child: Text(""),
+        child: Text("Under Construction"),
       ),
     );
   }
