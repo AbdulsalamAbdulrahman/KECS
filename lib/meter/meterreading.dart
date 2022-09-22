@@ -32,16 +32,17 @@ class _MeterScreenState extends State<MeterScreen> {
 
   String meterno = '';
   String meternumber = "";
-  dynamic accnum = 0;
+  int accnum = 0;
   String name = '';
   String address = "";
   String feeder33 = "";
   String feeder11 = "";
   String regional = '';
-  bool isPPM = false;
+  bool isMD = false;
   String llastdate = '';
   String llastamount = '';
   String dropdownValue = 'Select Status';
+
   Future getMeterInfo() async {
     setState(() {
       _isLoading = true;
@@ -72,9 +73,9 @@ class _MeterScreenState extends State<MeterScreen> {
       String feeder33 = jsondata['feeder33kV'];
       String feeder11 = jsondata['feeder11KV'];
       String regional = jsondata['regionalOffice'];
-      bool isPPM = jsondata['isPPM'];
+      bool isMD = jsondata['isMD'];
 
-      dynamic myInt = int.parse(accno);
+      int myInt = int.parse(accno);
 
       setState(() {
         accnum = myInt;
@@ -83,12 +84,12 @@ class _MeterScreenState extends State<MeterScreen> {
       SharedPreferences prefMeter = await SharedPreferences.getInstance();
       await prefMeter.setString('name', name);
       await prefMeter.setString('address', address);
-      // await prefMeter.setString('accno', accno);
+      await prefMeter.setInt('accnum', accnum);
       await prefMeter.setString('meterno', meternumber);
       await prefMeter.setString('feeder33', feeder33);
       await prefMeter.setString('feeder11', feeder11);
       await prefMeter.setString('regional', regional);
-      await prefMeter.setBool('isPPM', isPPM);
+      await prefMeter.setBool('isMD', isMD);
 
       getCredppm();
     } else {
@@ -139,9 +140,11 @@ class _MeterScreenState extends State<MeterScreen> {
         llastdate = lastdate;
         llastamount = lastamount;
       });
-      // SharedPreferences prefMeter = await SharedPreferences.getInstance();
-      // await prefMeter.setString('lastdate', lastdate);
-      // await prefMeter.setString('lastamount', lastamount);
+
+      // print(llastdate + llastamount);
+      SharedPreferences prefMeter = await SharedPreferences.getInstance();
+      await prefMeter.setString('lastdate', llastdate);
+      await prefMeter.setString('lastamount', llastamount);
 
       // getCredppm();
     }
@@ -152,14 +155,14 @@ class _MeterScreenState extends State<MeterScreen> {
     setState(() {
       name = prefMeter.getString("name")!;
       address = prefMeter.getString("address")!;
-      // accno = prefMeter.getString("accno")!;
+      accnum = prefMeter.getInt("accnum")!;
       meternumber = prefMeter.getString("meterno")!;
       feeder33 = prefMeter.getString("feeder33")!;
       feeder11 = prefMeter.getString("feeder11")!;
       regional = prefMeter.getString("regional")!;
-      isPPM = prefMeter.getBool("isPPM")!;
-      // lastdate = prefMeter.getString("lastdate")!;
-      // lastamount = prefMeter.getString("lastamount")!;
+      isMD = prefMeter.getBool("isMD")!;
+      llastdate = prefMeter.getString("lastdate")!;
+      llastamount = prefMeter.getString("lastamount")!;
     });
   }
 
@@ -190,14 +193,15 @@ class _MeterScreenState extends State<MeterScreen> {
                           minimumSize: const Size(500, 50),
                           maximumSize: const Size(500, 50),
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Status(
-                                        title: '',
-                                      )));
-                        },
+                        onPressed: llastamount == ""
+                            ? null
+                            : () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const StatusScreen()));
+                              },
                         child: const Text('Continue')),
                   ),
                 ],
@@ -263,6 +267,7 @@ class _MeterScreenState extends State<MeterScreen> {
                       // }
 
                       // getCred();
+
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -312,7 +317,7 @@ class _MeterScreenState extends State<MeterScreen> {
                     container('feeder 33KV:', feeder33),
                     container('feeder 11KV:', feeder11),
                     container('Regional Office:', regional),
-                    container2('isPPM:', isPPM),
+                    container2('isMD:', isMD),
                     container('Last Vending Date:', llastdate),
                     container('Last Amount Vended:', llastamount),
                     // dropDown(),

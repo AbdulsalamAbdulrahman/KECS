@@ -3,9 +3,10 @@ import 'package:group_radio_button/group_radio_button.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Status extends StatelessWidget {
-  const Status({Key? key, required String title}) : super(key: key);
+  const Status({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class Status extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Meter Reading'),
       ),
-      body: const StatusScreen(),
+      body: const Status(),
     );
   }
 }
@@ -28,7 +29,13 @@ class StatusScreen extends StatefulWidget {
 class _StatusScreenState extends State<StatusScreen> {
   final key = GlobalKey<FormState>();
 
-  String phpurl = 'https://kadunaelectric.com/meterreading/kecs/write_bill.php';
+  TextEditingController kwh = TextEditingController();
+  TextEditingController mdi = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController commentM = TextEditingController();
+
+  String phpurl =
+      'https://kadunaelectric.com/meterreading/kecs/write_meter_reading.php';
 
   String dropdownValue = 'Select Remark';
 
@@ -41,17 +48,56 @@ class _StatusScreenState extends State<StatusScreen> {
   String _seal = "Yes";
   final List<String> _status = ["Yes", "No"];
 
+  String meterno = '';
+  String meternumber = "";
+  int accnum = 0;
+  String name = '';
+  String address = "";
+  String feeder33 = "";
+  String feeder11 = "";
+  String regional = '';
+  bool isMD = false;
+  String llastdate = '';
+  String llastamount = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getCred();
+  }
+
+  void getCred() async {
+    SharedPreferences prefMeter = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefMeter.getString("name")!;
+      address = prefMeter.getString("address")!;
+      accnum = prefMeter.getInt("accnum")!;
+      meternumber = prefMeter.getString("meterno")!;
+      feeder33 = prefMeter.getString("feeder33")!;
+      feeder11 = prefMeter.getString("feeder11")!;
+      regional = prefMeter.getString("regional")!;
+      isMD = prefMeter.getBool("isMD")!;
+      llastdate = prefMeter.getString("lastdate")!;
+      llastamount = prefMeter.getString("lastamount")!;
+    });
+  }
+
   Future sendData() async {
     setState(() {
       _isLoading = true;
     });
 
     var res = await http.post(Uri.parse(phpurl), body: {
-      // "fullname": name,
-      // "address": address,
-      // "accnumber": accnumber,
-      // "status": widget.dropdownValue,
-      // "reason": dropdownValue,
+      "fullname": name,
+      "isMD": isMD.toString(),
+      "kwh": kwh.text,
+      "mdi": mdi.text,
+      "phone": phone.text,
+      "meternumber": meternumber,
+      "accnum": accnum.toString(),
+      "readStatus": dropdownValue,
+      "readerRemark": commentM.text,
+      "sealStatus": dropdownValueSeal,
     }); //sending post request with header data
 
     if (res.statusCode == 200) {
@@ -96,6 +142,10 @@ class _StatusScreenState extends State<StatusScreen> {
             children: <Widget>[
               Wrap(
                 children: [
+                  AppBar(
+                    // automaticallyImplyLeading: false,
+                    title: const Text('Meter Reading'),
+                  ),
                   card(),
                 ],
               )
@@ -122,15 +172,17 @@ class _StatusScreenState extends State<StatusScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      textField('Kilowatt Hour Readings', 1),
+                      textField('Kilowatt Hour Readings', 1, kwh),
                       const Padding(padding: EdgeInsets.all(8)),
-                      textField('MDI', 1),
+                      textField('MDI', 1, mdi),
+                      const Padding(padding: EdgeInsets.all(8)),
+                      textField('Phone Number', 1, phone),
                       const Padding(padding: EdgeInsets.all(8)),
                       dropDown(),
                       const Padding(padding: EdgeInsets.all(8)),
                       dropDownSeal(),
                       const Padding(padding: EdgeInsets.all(8)),
-                      textField('Comment', 8),
+                      textField('Comment', 8, commentM),
                       const Padding(padding: EdgeInsets.all(8)),
                       ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
@@ -153,10 +205,10 @@ class _StatusScreenState extends State<StatusScreen> {
                           ),
                           onPressed: () async {
                             if (key.currentState!.validate()) {
-                              // debugPrint(
-                              //     name + address + widget.dropdownValue);
-
                               _isLoading ? null : sendData();
+                              SharedPreferences prefMeter =
+                                  await SharedPreferences.getInstance();
+                              await prefMeter.clear();
                             }
                           }),
                     ],
@@ -166,8 +218,9 @@ class _StatusScreenState extends State<StatusScreen> {
     );
   }
 
-  Widget textField(String text, int n) {
+  Widget textField(String text, int n, controllerV) {
     return TextFormField(
+      controller: controllerV,
       validator: validateField,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
@@ -237,7 +290,7 @@ class _StatusScreenState extends State<StatusScreen> {
 
   Widget dropDownSeal() {
     return DropdownButtonFormField<String>(
-      validator: validateD,
+      validator: validateDS,
       decoration: decorate(''),
       value: dropdownValueSeal,
       onChanged: (String? newValue) {
@@ -286,14 +339,21 @@ class _StatusScreenState extends State<StatusScreen> {
   }
 
   String? validateField(value) {
-    if (value == 'Select Remark') {
+    if (value.isEmpty) {
+      return "field is required";
+    }
+    return null;
+  }
+
+  String? validateDS(value) {
+    if (value == 'Select Status') {
       return "field is required";
     }
     return null;
   }
 
   String? validateD(value) {
-    if (value == 'Select Recipient') {
+    if (value == 'Select Remark') {
       return "field is required";
     }
     return null;

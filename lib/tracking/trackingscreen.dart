@@ -26,7 +26,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
   String feeder33 = "";
   String feeder11 = "";
   String regional = '';
-  bool isPPM = false;
+  bool isMD = false;
   String llastdate = '';
   String llastamount = '';
   String dropdownValue = 'Select Status';
@@ -60,7 +60,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
       String feeder33 = jsondata['feeder33kV'];
       String feeder11 = jsondata['feeder11KV'];
       String regional = jsondata['regionalOffice'];
-      bool isPPM = jsondata['isPPM'];
+      bool isMD = jsondata['isMD'];
 
       dynamic myInt = int.parse(accno);
 
@@ -76,7 +76,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
       await prefPPM.setString('feeder33', feeder33);
       await prefPPM.setString('feeder11', feeder11);
       await prefPPM.setString('regional', regional);
-      await prefPPM.setBool('isPPM', isPPM);
+      await prefPPM.setBool('isMD', isMD);
 
       getCredppm();
     } else {
@@ -145,7 +145,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
       feeder33 = prefPPM.getString("feeder33")!;
       feeder11 = prefPPM.getString("feeder11")!;
       regional = prefPPM.getString("regional")!;
-      isPPM = prefPPM.getBool("isPPM")!;
+      isMD = prefPPM.getBool("isMD")!;
       // lastdate = prefPPM.getString("lastdate")!;
       // lastamount = prefPPM.getString("lastamount")!;
     });
@@ -311,7 +311,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                     container('feeder 33KV:', feeder33),
                     container('feeder 11KV:', feeder11),
                     container('Area Office:', regional),
-                    container2('isPPM:', isPPM),
+                    container2('isMD:', isMD),
                     container('Last Vending Date:', llastdate),
                     container('Last Amount Vended:', llastamount),
                     dropDown(),

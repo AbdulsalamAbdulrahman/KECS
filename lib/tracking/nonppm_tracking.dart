@@ -71,7 +71,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
 
       for (var i = 0; i < jsondata.length; i++) {
         List<String> _history = jsondata[i]['monthYear'];
-        print(_history);
+        debugPrint('$_history');
       }
 
       SharedPreferences prefNonPPM = await SharedPreferences.getInstance();
@@ -274,7 +274,8 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) => FullScreenDialog(),
+                        builder: (BuildContext context) =>
+                            const FullScreenDialog(),
                         fullscreenDialog: true,
                       ),
                     );
@@ -397,7 +398,7 @@ class FullScreenDialog extends StatelessWidget {
         // backgroundColor: const Color(0xFF6200EE),
         title: const Text('Six(6) Month History'),
       ),
-      body: Center(
+      body: const Center(
         child: Text("Under Construction"),
       ),
     );
