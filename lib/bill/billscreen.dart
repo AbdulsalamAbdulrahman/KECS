@@ -158,7 +158,7 @@ class _BillScreenState extends State<BillScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      scrollDirection: Axis.vertical,
+      // scrollDirection: Axis.vertical,
       children: <Widget>[
         Material(
             color: Colors.white,
@@ -228,6 +228,7 @@ class _BillScreenState extends State<BillScreen> {
                 Form(
                   key: key,
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
                     onSaved: (value) => accno = value.toString(),
                     onChanged: (value) {
                       if (value.isNotEmpty) {}
@@ -239,7 +240,7 @@ class _BillScreenState extends State<BillScreen> {
                       return null;
                     },
                     // controller: _inputController,
-                    keyboardType: TextInputType.text,
+
                     decoration: decorate('Account Number'),
                   ),
                 ),
