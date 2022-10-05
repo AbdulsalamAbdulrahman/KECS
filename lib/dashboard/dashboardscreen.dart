@@ -7,6 +7,17 @@ import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+class Dashboard extends StatelessWidget {
+  const Dashboard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: DashboardScreen(),
+    );
+  }
+}
+
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
 
@@ -20,6 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String payrollid = "";
   String areaoffice = "";
   String feeder = "";
+  String id = '';
 
   final key = GlobalKey<FormState>();
 
@@ -36,6 +48,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void _getCred() async {
     SharedPreferences prefLogin = await SharedPreferences.getInstance();
     setState(() {
+      id = prefLogin.getString("id")!;
       fullname = prefLogin.getString("fullname")!;
       jobtitle = prefLogin.getString("jobtitle")!;
       payrollid = prefLogin.getString("payrollid")!;

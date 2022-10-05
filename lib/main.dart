@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kecs/bill/billscreen.dart';
 import 'package:kecs/connection/connection.dart';
-import 'package:kecs/dashboard/dashboard.dart';
+import 'package:kecs/dashboard/dashboardscreen.dart';
 import 'package:kecs/meter/meterreading.dart';
 import 'package:kecs/modal_fit.dart';
 import 'package:kecs/mycustomers/mycustomers.dart';

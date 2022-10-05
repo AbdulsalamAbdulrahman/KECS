@@ -30,6 +30,7 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
   String jobtitle = "";
   String payrollid = "";
   String areaoffice = "";
+  String id = '';
 
   late String _timestring;
 
@@ -44,6 +45,7 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
   void getCred() async {
     SharedPreferences prefLogin = await SharedPreferences.getInstance();
     setState(() {
+      id = prefLogin.getString("id")!;
       fullname = prefLogin.getString("fullname")!;
       jobtitle = prefLogin.getString("jobtitle")!;
       payrollid = prefLogin.getString("payrollid")!;

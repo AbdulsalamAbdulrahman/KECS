@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:kecs/dashboard/dashboardscreen1.dart';
 import 'package:kecs/dashboard/dashboardscreen2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:kecs/dashboard/dashboard.dart';
+import 'package:kecs/dashboard/dashboardscreen.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -145,8 +145,8 @@ class _LoginState extends State<Login> {
       _isLoading = true;
     });
 
-    Uri url =
-        Uri.parse('https://kadunaelectric.com/meterreading/mobile_login.php');
+    Uri url = Uri.parse(
+        'https://kadunaelectric.com/meterreading/kecs/mobile_login.php');
 
     var data = {
       'username': username,
@@ -168,10 +168,11 @@ class _LoginState extends State<Login> {
       String areaoffice = jsondata["areaoffice"];
       String feeder = jsondata["feeder"];
       String phonenumber = jsondata["phonenumber"];
+      String id = jsondata["id"];
 
       SharedPreferences prefLogin = await SharedPreferences.getInstance();
       await prefLogin.setString('fullname', fullname);
-
+      await prefLogin.setString('id', id);
       await prefLogin.setString('jobtitle', jobtitle);
       await prefLogin.setString('payrollid', payrollid);
       await prefLogin.setString('areaoffice', areaoffice);

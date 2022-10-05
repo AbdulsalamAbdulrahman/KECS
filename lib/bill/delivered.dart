@@ -20,8 +20,14 @@ class Delivered extends StatelessWidget {
 
 class DeliveredScreen extends StatefulWidget {
   final String dropdownValue;
+  final String geolat;
+  final String geolong;
 
-  const DeliveredScreen({Key? key, required this.dropdownValue})
+  const DeliveredScreen(
+      {Key? key,
+      required this.dropdownValue,
+      required this.geolat,
+      required this.geolong})
       : super(key: key);
 
   @override
@@ -50,6 +56,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
   String lastpay = "";
   double closingb = 0;
   int lastpayamt = 0;
+  String id = '';
 
   @override
   void initState() {
@@ -59,7 +66,10 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
 
   void getCred() async {
     SharedPreferences prefBill = await SharedPreferences.getInstance();
+    SharedPreferences prefLogin = await SharedPreferences.getInstance();
+
     setState(() {
+      id = prefLogin.getString("id")!;
       name = prefBill.getString("name")!;
       address = prefBill.getString("address")!;
       accnumber = prefBill.getString("accnumber")!;
@@ -85,6 +95,9 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
       "recipientname": recipientN.text,
       "recipientphone": recipientP.text,
       "comment": commentC.text,
+      "id": id,
+      "lat": widget.geolat,
+      "long": widget.geolong,
     }); //sending post request with header data
 
     if (res.statusCode == 200) {
@@ -175,6 +188,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                                   fontSize: 15.0, fontWeight: FontWeight.bold),
                             ),
                             onPressed: () async {
+                              // print(widget.geolong + widget.geolat);
                               if (key.currentState!.validate()) {
                                 SharedPreferences prefDelivered =
                                     await SharedPreferences.getInstance();

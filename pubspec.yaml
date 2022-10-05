@@ -46,8 +46,8 @@ dependencies:
   double_back_to_close_app: ^2.1.0
   shared_preferences: ^2.0.15
   dio: ^4.0.4
-  geolocator: ^8.0.0
   modal_bottom_sheet: ^2.1.0
+  location: ^4.4.0
   
 
 dev_dependencies:

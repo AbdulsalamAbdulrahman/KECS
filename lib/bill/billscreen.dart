@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kecs/bill/delivered.dart';
 import 'package:kecs/bill/notdelivered.dart';
+import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Bill extends StatelessWidget {
@@ -38,8 +39,38 @@ class _BillScreenState extends State<BillScreen> {
   String lastpay = "";
   double closingb = 0;
   int lastpayamt = 0;
+  String geolat = '';
+  String geolong = '';
 
   String dropdownValue = 'Select Status';
+
+  Future _initLocationService() async {
+    var location = Location();
+
+    if (!await location.serviceEnabled()) {
+      if (!await location.requestService()) {
+        return;
+      }
+    }
+
+    var permission = await location.hasPermission();
+    if (permission == PermissionStatus.denied) {
+      permission = await location.requestPermission();
+      if (permission != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    var loc = await location.getLocation();
+    var lat = loc.latitude.toString();
+    var long = loc.longitude.toString();
+
+    print("${loc.latitude} ${loc.longitude}");
+
+    setState(() {});
+    geolat = lat;
+    geolong = long;
+  }
 
   Future getAccNo() async {
     setState(() {
@@ -59,6 +90,13 @@ class _BillScreenState extends State<BillScreen> {
     );
 
     final jsondata = json.decode(response.body);
+
+    final List<dynamic> dataList = jsonDecode(response.body);
+    print(dataList[0]);
+    print(dataList[1]);
+
+    final item = dataList[0];
+    print(item['monthYear']); // foo
 
     if (jsondata != "Invalid Account Number") {
       String name = jsondata[0]['customerName'];
@@ -152,6 +190,8 @@ class _BillScreenState extends State<BillScreen> {
                                             builder: (context) =>
                                                 DeliveredScreen(
                                                   dropdownValue: dropdownValue,
+                                                  geolat: geolat,
+                                                  geolong: geolong,
                                                 )));
                                   } else if (dropdownValue == 'Not Delivered') {
                                     Navigator.push(
@@ -223,7 +263,7 @@ class _BillScreenState extends State<BillScreen> {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
                       _isLoading ? null : getAccNo();
-                      // getCred();
+                      _initLocationService();
                     }
                   },
                   style: ElevatedButton.styleFrom(
