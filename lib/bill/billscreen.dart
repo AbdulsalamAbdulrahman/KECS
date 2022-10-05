@@ -67,9 +67,10 @@ class _BillScreenState extends State<BillScreen> {
 
     print("${loc.latitude} ${loc.longitude}");
 
-    setState(() {});
-    geolat = lat;
-    geolong = long;
+    setState(() {
+      geolat = lat;
+      geolong = long;
+    });
   }
 
   Future getAccNo() async {
@@ -261,10 +262,11 @@ class _BillScreenState extends State<BillScreen> {
                         fontSize: 15.0, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () async {
+                    _initLocationService();
+
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
                       _isLoading ? null : getAccNo();
-                      _initLocationService();
                     }
                   },
                   style: ElevatedButton.styleFrom(
