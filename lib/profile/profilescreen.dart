@@ -44,7 +44,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void getCred() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
+    SharedPreferences prefLogin = await SharedPreferences.getInstance();
     setState(() {
+      id = prefLogin.getString("id")!;
       fullname = pref.getString("fullname")!;
       payrollid = pref.getString("payrollid")!;
       phonenumber = pref.getString("phonenumber")!;
