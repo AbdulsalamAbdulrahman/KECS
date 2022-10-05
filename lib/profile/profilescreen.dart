@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:kecs/login.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -34,9 +35,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String payrollid = "";
   String phonenumber = '';
   String id = '';
-  // String email = '';
+  String emaill = '';
 
   bool _isLoading = false;
+  final bool _isLoadingP = false;
+
   late bool error, sending, success;
   late String msg;
 
@@ -60,9 +63,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     SharedPreferences prefLogin = await SharedPreferences.getInstance();
     setState(() {
       id = prefLogin.getString("id")!;
+      emaill = prefLogin.getString("emaill")!;
       fullname = pref.getString("fullname")!;
       payrollid = pref.getString("payrollid")!;
       phonenumber = pref.getString("phonenumber")!;
+      email.text = emaill;
     });
   }
 
@@ -138,9 +143,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 10.0),
                       textField('Payroll ID', payrollid, false),
                       const SizedBox(height: 10.0),
-                      button('Update Profile'),
+                      button(),
                       const SizedBox(height: 10.0),
-                      button('Change Password')
+                      buttonP()
                     ],
                   ),
                 ),
@@ -179,7 +184,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget button(String text) {
+  Widget button() {
     return ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(500, 50),
@@ -195,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               )
             : const Text(''),
         label: Text(
-          _isLoading ? '' : 'Submit',
+          _isLoading ? '' : 'Update Profile',
           style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
         ),
         onPressed: () async {
@@ -203,6 +208,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
             _isLoading ? null : updateData();
           }
         });
+  }
+
+  Widget buttonP() {
+    return ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(500, 50),
+          maximumSize: const Size(500, 50),
+        ),
+        icon: _isLoadingP
+            ? const SizedBox(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+                height: 15.0,
+                width: 15.0,
+              )
+            : const Text(''),
+        label: Text(
+          _isLoadingP ? '' : 'Change Password',
+          style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+        ),
+        onPressed: () async {});
   }
 
   Future<dynamic> showMessage(String msg) async {
@@ -216,11 +243,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: const Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                // Navigator.of(context).pushAndRemoveUntil(
-                //     MaterialPageRoute(builder: (context) => const BillScreen()),
-                //     (route) => false);
               },
             ),
           ],

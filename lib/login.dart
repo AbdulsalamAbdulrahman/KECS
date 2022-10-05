@@ -169,10 +169,12 @@ class _LoginState extends State<Login> {
       String feeder = jsondata["feeder"];
       String phonenumber = jsondata["phonenumber"];
       String id = jsondata["id"];
+      String emaill = jsondata['email'];
 
       SharedPreferences prefLogin = await SharedPreferences.getInstance();
       await prefLogin.setString('fullname', fullname);
       await prefLogin.setString('id', id);
+      await prefLogin.setString('emaill', emaill);
       await prefLogin.setString('jobtitle', jobtitle);
       await prefLogin.setString('payrollid', payrollid);
       await prefLogin.setString('areaoffice', areaoffice);

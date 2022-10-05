@@ -12,8 +12,11 @@ class Bill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: BillScreen(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Bill Distribution'),
+      ),
+      body: const BillScreen(),
       // appBar: AppBar(),
     );
   }
@@ -159,57 +162,52 @@ class _BillScreenState extends State<BillScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      // scrollDirection: Axis.vertical,
+      scrollDirection: Axis.vertical,
       children: <Widget>[
         Material(
-            color: Colors.white,
             child: Column(
-              children: <Widget>[
-                AppBar(
-                  title: const Text('Bill Distribution'),
+          children: <Widget>[
+            Wrap(
+              children: [
+                // listView()
+                // const Padding(padding: EdgeInsets.all(20.0)),
+                card(),
+                card1(),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(500, 50),
+                        maximumSize: const Size(500, 50),
+                      ),
+                      onPressed: name == ""
+                          ? null
+                          : () {
+                              if (dropdownValue == 'Delivered') {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DeliveredScreen(
+                                              dropdownValue: dropdownValue,
+                                              geolat: geolat,
+                                              geolong: geolong,
+                                            )));
+                              } else if (dropdownValue == 'Not Delivered') {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            NotDeliveredScreen(
+                                              dropdownValue: dropdownValue,
+                                            )));
+                              }
+                            },
+                      child: const Text('Continue')),
                 ),
-                Wrap(
-                  children: [
-                    // listView()
-                    // const Padding(padding: EdgeInsets.all(20.0)),
-                    card(),
-                    card1(),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(500, 50),
-                            maximumSize: const Size(500, 50),
-                          ),
-                          onPressed: name == ""
-                              ? null
-                              : () {
-                                  if (dropdownValue == 'Delivered') {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                DeliveredScreen(
-                                                  dropdownValue: dropdownValue,
-                                                  geolat: geolat,
-                                                  geolong: geolong,
-                                                )));
-                                  } else if (dropdownValue == 'Not Delivered') {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                NotDeliveredScreen(
-                                                  dropdownValue: dropdownValue,
-                                                )));
-                                  }
-                                },
-                          child: const Text('Continue')),
-                    ),
-                  ],
-                )
               ],
-            ))
+            )
+          ],
+        ))
       ],
     );
   }
