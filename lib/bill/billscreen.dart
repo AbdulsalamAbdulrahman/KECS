@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kecs/bill/delivered.dart';
 import 'package:kecs/bill/notdelivered.dart';
-import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Bill extends StatelessWidget {
@@ -17,7 +17,6 @@ class Bill extends StatelessWidget {
         title: const Text('Bill Distribution'),
       ),
       body: const BillScreen(),
-      // appBar: AppBar(),
     );
   }
 }
@@ -47,32 +46,61 @@ class _BillScreenState extends State<BillScreen> {
 
   String dropdownValue = 'Select Status';
 
-  Future _initLocationService() async {
-    var location = Location();
+  //geo
+  bool servicestatus = false;
+  bool haspermission = false;
+  late LocationPermission permission;
+  late Position position;
+  String long = "", lat = "";
+  late StreamSubscription<Position> positionStream;
 
-    if (!await location.serviceEnabled()) {
-      if (!await location.requestService()) {
-        return;
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          debugPrint('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          debugPrint("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
       }
-    }
 
-    var permission = await location.hasPermission();
-    if (permission == PermissionStatus.denied) {
-      permission = await location.requestPermission();
-      if (permission != PermissionStatus.granted) {
-        return;
+      if (haspermission) {
+        setState(() {
+          //refresh the UI
+        });
       }
+    } else {
+      debugPrint("GPS Service is not enabled, turn on GPS location");
     }
-
-    var loc = await location.getLocation();
-    var lat = loc.latitude.toString();
-    var long = loc.longitude.toString();
-
-    print("${loc.latitude} ${loc.longitude}");
 
     setState(() {
-      geolat = lat;
+      //refresh the UI
+    });
+  }
+
+  getLocation() async {
+    position = await Geolocator.getCurrentPosition(
+        forceAndroidLocationManager: true,
+        desiredAccuracy: LocationAccuracy.high);
+    // print(position.longitude); //Output: 80.24599079
+    // print(position.latitude); //Output: 29.6593457
+
+    long = position.longitude.toString();
+    lat = position.latitude.toString();
+
+    debugPrint("$long, $lat");
+
+    setState(() {
       geolong = long;
+      geolat = lat;
     });
   }
 
@@ -167,10 +195,9 @@ class _BillScreenState extends State<BillScreen> {
         Material(
             child: Column(
           children: <Widget>[
-            Wrap(
-              children: [
-                // listView()
-                // const Padding(padding: EdgeInsets.all(20.0)),
+            Form(
+                child: Column(
+              children: <Widget>[
                 card(),
                 card1(),
                 Padding(
@@ -205,7 +232,7 @@ class _BillScreenState extends State<BillScreen> {
                       child: const Text('Continue')),
                 ),
               ],
-            )
+            ))
           ],
         ))
       ],
@@ -260,7 +287,7 @@ class _BillScreenState extends State<BillScreen> {
                         fontSize: 15.0, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () async {
-                    _initLocationService();
+                    checkGps();
 
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
