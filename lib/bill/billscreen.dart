@@ -62,7 +62,7 @@ class _BillScreenState extends State<BillScreen> {
       }
     }
 
-    var loc = await location.getLocation();
+    final loc = await location.getLocation();
     var lat = loc.latitude.toString();
     var long = loc.longitude.toString();
 
