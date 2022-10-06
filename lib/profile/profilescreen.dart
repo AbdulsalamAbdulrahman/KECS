@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:kecs/login.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);

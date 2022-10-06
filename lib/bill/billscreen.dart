@@ -17,7 +17,6 @@ class Bill extends StatelessWidget {
         title: const Text('Bill Distribution'),
       ),
       body: const BillScreen(),
-      // appBar: AppBar(),
     );
   }
 }
@@ -47,9 +46,8 @@ class _BillScreenState extends State<BillScreen> {
 
   String dropdownValue = 'Select Status';
 
-  Future _initLocationService() async {
+  Future<void> _initLocationService() async {
     var location = Location();
-
     if (!await location.serviceEnabled()) {
       if (!await location.requestService()) {
         return;
@@ -167,10 +165,9 @@ class _BillScreenState extends State<BillScreen> {
         Material(
             child: Column(
           children: <Widget>[
-            Wrap(
-              children: [
-                // listView()
-                // const Padding(padding: EdgeInsets.all(20.0)),
+            Form(
+                child: Column(
+              children: <Widget>[
                 card(),
                 card1(),
                 Padding(
@@ -205,7 +202,7 @@ class _BillScreenState extends State<BillScreen> {
                       child: const Text('Continue')),
                 ),
               ],
-            )
+            ))
           ],
         ))
       ],
