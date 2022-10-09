@@ -71,6 +71,8 @@ class _BillScreenState extends State<BillScreen> {
       }
     } else {
       debugPrint("GPS Service is not enabled, turn on GPS location");
+    } else {
+      debugPrint("GPS Service is not enabled, turn on GPS location");
     }
 
     setState(() {
@@ -92,6 +94,7 @@ class _BillScreenState extends State<BillScreen> {
 
     setState(() {
       geolong = long;
+      geolat = lat;
       geolat = lat;
     });
   }
