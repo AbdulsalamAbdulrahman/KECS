@@ -4,20 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kecs/bill/delivered.dart';
 import 'package:kecs/bill/notdelivered.dart';
-import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-class Bill extends StatelessWidget {
-  const Bill({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: BillScreen(),
-      // appBar: AppBar(),
-    );
-  }
-}
 
 class BillScreen extends StatefulWidget {
   const BillScreen({Key? key}) : super(key: key);
@@ -44,32 +32,67 @@ class _BillScreenState extends State<BillScreen> {
 
   String dropdownValue = 'Select Status';
 
-  Future _initLocationService() async {
-    var location = Location();
+  //geo
+  bool servicestatus = false;
+  bool haspermission = false;
+  late LocationPermission permission;
+  late Position position;
+  String long = "", lat = "";
+  late StreamSubscription<Position> positionStream;
 
-    if (!await location.serviceEnabled()) {
-      if (!await location.requestService()) {
-        return;
+  @override
+  void initState() {
+    checkGps();
+    super.initState();
+  }
+
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          debugPrint('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          debugPrint("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
       }
-    }
 
-    var permission = await location.hasPermission();
-    if (permission == PermissionStatus.denied) {
-      permission = await location.requestPermission();
-      if (permission != PermissionStatus.granted) {
-        return;
+      if (haspermission) {
+        setState(() {
+          //refresh the UI
+        });
       }
+    } else {
+      debugPrint("GPS Service is not enabled, turn on GPS location");
     }
-
-    var loc = await location.getLocation();
-    var lat = loc.latitude.toString();
-    var long = loc.longitude.toString();
-
-    print("${loc.latitude} ${loc.longitude}");
 
     setState(() {
-      geolat = lat;
+      //refresh the UI
+    });
+  }
+
+  getLocation() async {
+    position = await Geolocator.getCurrentPosition(
+        forceAndroidLocationManager: true,
+        desiredAccuracy: LocationAccuracy.high);
+    // print(position.longitude); //Output: 80.24599079
+    // print(position.latitude); //Output: 29.6593457
+
+    long = position.longitude.toString();
+    lat = position.latitude.toString();
+
+    debugPrint("$long, $lat");
+
+    setState(() {
       geolong = long;
+      geolat = lat;
     });
   }
 
@@ -92,12 +115,12 @@ class _BillScreenState extends State<BillScreen> {
 
     final jsondata = json.decode(response.body);
 
-    final List<dynamic> dataList = jsonDecode(response.body);
-    print(dataList[0]);
-    print(dataList[1]);
+    // final List<dynamic> dataList = jsonDecode(response.body);
+    // print(dataList[0]);
+    // print(dataList[1]);
 
-    final item = dataList[0];
-    print(item['monthYear']); // foo
+    // final item = dataList[0];
+    // print(item['monthYear']); // foo
 
     if (jsondata != "Invalid Account Number") {
       String name = jsondata[0]['customerName'];
@@ -159,57 +182,54 @@ class _BillScreenState extends State<BillScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      // scrollDirection: Axis.vertical,
+      scrollDirection: Axis.vertical,
       children: <Widget>[
         Material(
-            color: Colors.white,
             child: Column(
+          children: <Widget>[
+            AppBar(
+              title: const Text('Bill Distribution'),
+            ),
+            Form(
+                child: Column(
               children: <Widget>[
-                AppBar(
-                  title: const Text('Bill Distribution'),
+                card(),
+                card1(),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(500, 50),
+                        maximumSize: const Size(500, 50),
+                      ),
+                      onPressed: name == ""
+                          ? null
+                          : () {
+                              if (dropdownValue == 'Delivered') {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DeliveredScreen(
+                                              dropdownValue: dropdownValue,
+                                              geolat: geolat,
+                                              geolong: geolong,
+                                            )));
+                              } else if (dropdownValue == 'Not Delivered') {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            NotDeliveredScreen(
+                                              dropdownValue: dropdownValue,
+                                            )));
+                              }
+                            },
+                      child: const Text('Continue')),
                 ),
-                Wrap(
-                  children: [
-                    // listView()
-                    // const Padding(padding: EdgeInsets.all(20.0)),
-                    card(),
-                    card1(),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(500, 50),
-                            maximumSize: const Size(500, 50),
-                          ),
-                          onPressed: name == ""
-                              ? null
-                              : () {
-                                  if (dropdownValue == 'Delivered') {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                DeliveredScreen(
-                                                  dropdownValue: dropdownValue,
-                                                  geolat: geolat,
-                                                  geolong: geolong,
-                                                )));
-                                  } else if (dropdownValue == 'Not Delivered') {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                NotDeliveredScreen(
-                                                  dropdownValue: dropdownValue,
-                                                )));
-                                  }
-                                },
-                          child: const Text('Continue')),
-                    ),
-                  ],
-                )
               ],
             ))
+          ],
+        ))
       ],
     );
   }
@@ -262,11 +282,11 @@ class _BillScreenState extends State<BillScreen> {
                         fontSize: 15.0, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () async {
-                    _initLocationService();
-
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
                       _isLoading ? null : getAccNo();
+                      getLocation();
+                      // print(geolong + geolat);
                     }
                   },
                   style: ElevatedButton.styleFrom(

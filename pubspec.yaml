@@ -41,13 +41,12 @@ dependencies:
   group_radio_button: ^1.2.0
   easy_splash_screen: ^1.0.3
   shrink_sidemenu: ^2.0.0+2-null-safety
-  file_picker: ^4.6.1
   connectivity_plus: ^2.3.3
   double_back_to_close_app: ^2.1.0
   shared_preferences: ^2.0.15
-  dio: ^4.0.4
   modal_bottom_sheet: ^2.1.0
-  location: ^4.4.0
+  geolocator: ^9.0.1
+
   
 
 dev_dependencies:
