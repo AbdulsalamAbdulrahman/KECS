@@ -39,6 +39,8 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
   double closingb = 0;
   int lastpayamt = 0;
 
+  List dataList1 = [];
+
   String dropdownValue = 'Select Status';
 
   Future getAccNo() async {
@@ -60,6 +62,13 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
 
     final jsondata = json.decode(response.body);
 
+    final List<dynamic> dataList = jsonDecode(response.body);
+    // List.generate(3, (index) => {print(dataList[index])});
+
+    setState(() {
+      dataList1 = dataList;
+    });
+
     if (jsondata != "Invalid Account Number") {
       String name = jsondata[0]['customerName'];
       String address = jsondata[0]['customerAddress'];
@@ -69,10 +78,10 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
       double closingb = jsondata[0]['closingBalance'];
       int lastpayamt = jsondata[0]['lastPaymentAmount'];
 
-      for (var i = 0; i < jsondata.length; i++) {
-        List<String> _history = jsondata[i]['monthYear'];
-        debugPrint('$_history');
-      }
+      // for (var i = 0; i < jsondata.length; i++) {
+      //   List<String> _history = jsondata[i]['monthYear'];
+      //   debugPrint('$_history');
+      // }
 
       SharedPreferences prefNonPPM = await SharedPreferences.getInstance();
       await prefNonPPM.setString('name', name);
@@ -270,16 +279,20 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
                 container2('Closing Balance:', closingb),
                 const Padding(padding: EdgeInsets.all(5.0)),
                 OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) =>
-                            const FullScreenDialog(),
-                        fullscreenDialog: true,
-                      ),
-                    );
-                  },
+                  onPressed: dataList1.isEmpty
+                      ? null
+                      : () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  FullScreenDialog(
+                                dataList1: dataList1,
+                              ),
+                              fullscreenDialog: true,
+                            ),
+                          );
+                        },
                   child: const Text("View 6 month history"),
                 ),
                 dropDown(),
@@ -388,19 +401,55 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
   }
 }
 
-class FullScreenDialog extends StatelessWidget {
-  const FullScreenDialog({Key? key}) : super(key: key);
+class FullScreenDialog extends StatefulWidget {
+  final List dataList1;
+  const FullScreenDialog({
+    Key? key,
+    required this.dataList1,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<FullScreenDialog> createState() => _FullScreenDialogState();
+}
+
+class _FullScreenDialogState extends State<FullScreenDialog> {
+  final key = GlobalKey<FormState>();
+
+  List dataList1 = [];
+
+  @override
+  Widget build(Object context) {
     return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: const Color(0xFF6200EE),
-        title: const Text('Six(6) Month History'),
-      ),
-      body: const Center(
-        child: Text("Under Construction"),
-      ),
-    );
+        appBar: AppBar(title: const Text('6 month History')),
+        body: ListView.builder(
+            itemCount: widget.dataList1.length,
+            itemBuilder: (_, index) {
+              // final item = dataList1[index];
+              return Card(
+                // this key is required to save and restore ExpansionTile expanded state
+                key: PageStorageKey(widget.dataList1[index]),
+                color: Colors.green,
+                elevation: 4,
+                child: ExpansionTile(
+                  iconColor: Colors.white,
+                  collapsedIconColor: Colors.white,
+                  controlAffinity: ListTileControlAffinity.leading,
+                  childrenPadding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  expandedCrossAxisAlignment: CrossAxisAlignment.end,
+                  maintainState: true,
+                  title: Text(
+                    widget.dataList1[index]['monthYear'],
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  // contents
+                  children: [
+                    Text(
+                        "Amount: ${widget.dataList1[index]['lastPaymentAmount'].toString()}",
+                        style: const TextStyle(color: Colors.white))
+                  ],
+                ),
+              );
+            }));
   }
 }

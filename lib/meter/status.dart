@@ -206,9 +206,6 @@ class _StatusScreenState extends State<StatusScreen> {
                           onPressed: () async {
                             if (key.currentState!.validate()) {
                               _isLoading ? null : sendData();
-                              SharedPreferences prefMeter =
-                                  await SharedPreferences.getInstance();
-                              await prefMeter.clear();
                             }
                           }),
                     ],

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kecs/dashboard/dashboardscreen1.dart';
 import 'package:kecs/dashboard/dashboardscreen2.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kecs/dashboard/dashboardscreen.dart';
 
 class Login extends StatefulWidget {
@@ -16,8 +15,19 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final key = GlobalKey<FormState>();
+
   String username = '';
   String password = '';
+
+  String fullnameD = '';
+  String fullname = '';
+  String jobtitle = '';
+  String payrollid = '';
+  String areaoffice = '';
+  String feeder = '';
+  String phonenumber = '';
+  String id = '';
+  dynamic emaill = '';
 
   bool _isObscure = true;
 
@@ -169,27 +179,61 @@ class _LoginState extends State<Login> {
       String feeder = jsondata["feeder"];
       String phonenumber = jsondata["phonenumber"];
       String id = jsondata["id"];
-      String emaill = jsondata['email'];
+      dynamic emaill = jsondata['email'];
 
-      SharedPreferences prefLogin = await SharedPreferences.getInstance();
-      await prefLogin.setString('fullname', fullname);
-      await prefLogin.setString('id', id);
-      await prefLogin.setString('emaill', emaill);
-      await prefLogin.setString('jobtitle', jobtitle);
-      await prefLogin.setString('payrollid', payrollid);
-      await prefLogin.setString('areaoffice', areaoffice);
-      await prefLogin.setString('feeder', feeder);
-      await prefLogin.setString('phonenumber', phonenumber);
+      setState(() {
+        fullname = fullname;
+        jobtitle = jobtitle;
+        payrollid = payrollid;
+        areaoffice = areaoffice;
+        feeder = feeder;
+        phonenumber = phonenumber;
+        id = id;
+        emaill = emaill;
+      });
 
       if (jobtitle == "SalesRep") {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const Dashboard()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DashboardScreen(
+                      fullname: fullname,
+                      jobtitle: jobtitle,
+                      payrollid: payrollid,
+                      areaoffice: areaoffice,
+                      feeder: feeder,
+                      phonenumber: phonenumber,
+                      id: id,
+                      emaill: emaill,
+                    )));
       } else if (jobtitle == "Reader") {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const Dashboard1()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DashboardScreen1(
+                      fullname: fullname,
+                      jobtitle: jobtitle,
+                      payrollid: payrollid,
+                      areaoffice: areaoffice,
+                      feeder: feeder,
+                      phonenumber: phonenumber,
+                      id: id,
+                      emaill: emaill,
+                    )));
       } else if (jobtitle == "Disconnection") {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const Dashboard2()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DashboardScreen2(
+                      fullname: fullname,
+                      jobtitle: jobtitle,
+                      payrollid: payrollid,
+                      areaoffice: areaoffice,
+                      feeder: feeder,
+                      phonenumber: phonenumber,
+                      id: id,
+                      emaill: emaill,
+                    )));
       }
     } else {
       showDialog(

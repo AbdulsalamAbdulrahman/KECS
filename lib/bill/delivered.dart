@@ -190,10 +190,6 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                             onPressed: () async {
                               // print(widget.geolong + widget.geolat);
                               if (key.currentState!.validate()) {
-                                SharedPreferences prefDelivered =
-                                    await SharedPreferences.getInstance();
-                                await prefDelivered.clear();
-
                                 _isLoading ? null : sendData();
                               }
                             }),
@@ -233,7 +229,6 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
   Widget comment() {
     return Material(
       child: TextFormField(
-        validator: validateField,
         controller: commentC,
         keyboardType: TextInputType.multiline,
         decoration: decorate("Comment"),

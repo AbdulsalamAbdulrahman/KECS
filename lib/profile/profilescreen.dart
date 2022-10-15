@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
-      body: const ProfileScreen(),
-    );
-  }
-}
-
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  final String fullname;
+  final String id;
+  final String phonenumber;
+  final String payrollid;
+  final dynamic emaill;
+
+  const ProfileScreen(
+      {Key? key,
+      required this.fullname,
+      required this.id,
+      required this.phonenumber,
+      this.emaill,
+      required this.payrollid})
+      : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -30,12 +28,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   String phpurl = 'https://kadunaelectric.com/meterreading/kecs/profile.php';
 
-  String fullname = '';
-  String payrollid = "";
-  String phonenumber = '';
-  String id = '';
-  String emaill = '';
-
   bool _isLoading = false;
   final bool _isLoadingP = false;
 
@@ -43,40 +35,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late String msg;
 
   TextEditingController email = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController phone = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    getCred();
-  }
-
-  // @override
-  // void dispose() {
-  //   // dispose it here
-  //   TextEditingController.dispose();
-  //   super.dispose();
-  // }
-
-  void getCred() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    SharedPreferences prefLogin = await SharedPreferences.getInstance();
     setState(() {
-      id = prefLogin.getString("id")!;
-      emaill = prefLogin.getString("emaill")!;
-      fullname = pref.getString("fullname")!;
-      payrollid = pref.getString("payrollid")!;
-      phonenumber = pref.getString("phonenumber")!;
-      email.text = emaill;
+      name.text = widget.fullname;
+      email.text = widget.emaill;
+      phone.text = widget.phonenumber;
     });
+    getCurrentProfile();
   }
 
-  Future updateData() async {
+  Future updateProfile() async {
     setState(() {
       _isLoading = true;
     });
     var res = await http.post(Uri.parse(phpurl), body: {
-      "id": id,
+      "id": widget.id,
       "email": email.text,
+      "name": name.text,
+      "phone": phone.text,
     }); //sending post request with header data
 
     if (res.statusCode == 200) {
@@ -107,10 +88,81 @@ class _ProfileScreenState extends State<ProfileScreen> {
         //mark error and refresh UI with setState
       });
     }
+    getCurrentProfile();
     setState(() {
       _isLoading = false;
     });
   }
+
+  Future getCurrentProfile() async {
+    Uri url = Uri.parse(
+        'https://kadunaelectric.com/meterreading/kecs/profile_update.php');
+
+    var data = {
+      'username': widget.payrollid,
+    };
+
+    var response = await http.post(
+      url,
+      body: json.encode(data),
+    );
+
+    if (response.statusCode == 200) {
+      var jsondata = json.decode(response.body);
+
+      String updatedEmail = jsondata["email"];
+      String updatedName = jsondata["name"];
+      String updatedPhone = jsondata["phone"];
+
+      setState(() {
+        email.text = updatedEmail;
+        name.text = updatedName;
+        phone.text = updatedPhone;
+      });
+    }
+  }
+
+  // Future updatePassword() async {
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+  //   var res = await http.post(Uri.parse(phpurl), body: {
+  //     "id": widget.id,
+  //     "password": password.text,
+  //   }); //sending post request with header data
+
+  //   if (res.statusCode == 200) {
+  //     debugPrint(res.body); //print raw response on console
+  //     var data = json.decode(res.body); //decoding json to array
+  //     if (data["error"]) {
+  //       setState(() {
+  //         //refresh the UI when error is recieved from server
+  //         sending = false;
+  //         error = true;
+  //         msg = data["message"]; //error message from server
+  //       });
+  //     } else {
+  //       showMessage('Data Submitted Succesfully');
+  //       //after write success, make fields empty
+
+  //       setState(() {
+  //         sending = false;
+  //         success = true; //mark success and refresh UI with setState
+  //       });
+  //     }
+  //   } else {
+  //     //there is error
+  //     setState(() {
+  //       error = true;
+  //       msg = "Error during sending data.";
+  //       sending = false;
+  //       //mark error and refresh UI with setState
+  //     });
+  //   }
+  //   setState(() {
+  //     _isLoading = false;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +172,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Material(
           child: Column(
             children: <Widget>[
+              AppBar(
+                title: const Text('Profile Screen'),
+              ),
               Form(
                 key: key,
                 child: Padding(
@@ -134,13 +189,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 200,
                             height: 70,
                           ))),
-                      textField('Name', fullname, true),
+                      textFieldN('Name', true),
                       const SizedBox(height: 10.0),
-                      textField('Phone', phonenumber, true),
+                      textFieldP('Phone', true),
                       const SizedBox(height: 10.0),
                       textFieldE('Email', true),
                       const SizedBox(height: 10.0),
-                      textField('Payroll ID', payrollid, false),
+                      textField('Payroll ID', widget.payrollid, false),
                       const SizedBox(height: 10.0),
                       button(),
                       const SizedBox(height: 10.0),
@@ -165,6 +220,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
         controller: TextEditingController(text: initialValue),
         keyboardType: TextInputType.text,
         decoration: decorate(text),
+      ),
+    );
+  }
+
+  Widget textFieldN(String text, _bool) {
+    BorderRadius.circular(30.0);
+    return Material(
+      child: TextFormField(
+        // initialValue: initial,
+        enabled: _bool,
+        controller: name,
+        keyboardType: TextInputType.text,
+        decoration: decorate(text),
+        validator: validateField,
+      ),
+    );
+  }
+
+  Widget textFieldP(String text, _bool) {
+    BorderRadius.circular(30.0);
+    return Material(
+      child: TextFormField(
+        // initialValue: initial,
+        enabled: _bool,
+        controller: phone,
+        keyboardType: TextInputType.text,
+        decoration: decorate(text),
+        validator: validateField,
       ),
     );
   }
@@ -204,7 +287,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         onPressed: () async {
           if (key.currentState!.validate()) {
-            _isLoading ? null : updateData();
+            _isLoading ? null : updateProfile();
           }
         });
   }
@@ -241,6 +324,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             TextButton(
               child: const Text("OK"),
               onPressed: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
             ),

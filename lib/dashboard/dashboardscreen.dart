@@ -7,32 +7,33 @@ import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Dashboard extends StatelessWidget {
-  const Dashboard({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: DashboardScreen(),
-    );
-  }
-}
-
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  final String fullname;
+  final String jobtitle;
+  final String payrollid;
+  final String areaoffice;
+  final String id;
+  final String feeder;
+  final String phonenumber;
+  final dynamic emaill;
+
+  const DashboardScreen(
+      {Key? key,
+      required this.fullname,
+      required this.jobtitle,
+      required this.payrollid,
+      required this.areaoffice,
+      required this.id,
+      required this.feeder,
+      required this.phonenumber,
+      this.emaill})
+      : super(key: key);
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  String fullname = '';
-  String jobtitle = "";
-  String payrollid = "";
-  String areaoffice = "";
-  String feeder = "";
-  String id = '';
-
   final key = GlobalKey<FormState>();
 
   late String _timestring;
@@ -42,19 +43,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _timestring =
         "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     super.initState();
-    _getCred();
-  }
-
-  void _getCred() async {
-    SharedPreferences prefLogin = await SharedPreferences.getInstance();
-    setState(() {
-      id = prefLogin.getString("id")!;
-      fullname = prefLogin.getString("fullname")!;
-      jobtitle = prefLogin.getString("jobtitle")!;
-      payrollid = prefLogin.getString("payrollid")!;
-      areaoffice = prefLogin.getString("areaoffice")!;
-      feeder = prefLogin.getString("feeder")!;
-    });
   }
 
   @override
@@ -79,14 +67,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         image: AssetImage('S.jpg'), fit: BoxFit.cover),
                     color: Colors.white),
                 accountName: Text(
-                  fullname,
+                  "${widget.fullname}\n${widget.emaill}",
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 accountEmail: Text(
-                  jobtitle,
+                  widget.jobtitle,
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -112,7 +100,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               _padding(10.0),
               listTile(
-                  'Profile', Icons.account_circle_outlined, const Profile()),
+                  'Profile',
+                  Icons.account_circle_outlined,
+                  ProfileScreen(
+                      fullname: widget.fullname,
+                      id: widget.id,
+                      phonenumber: widget.phonenumber,
+                      emaill: widget.emaill,
+                      payrollid: widget.payrollid)),
               _padding(10.0),
               listTile(
                   'Generate Report', Icons.feedback_outlined, const Report()),
@@ -176,9 +171,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(children: [
-                  texts("$fullname $payrollid"),
-                  texts(feeder),
-                  texts(areaoffice),
+                  texts("${widget.fullname} ${widget.payrollid}"),
+                  texts(widget.feeder),
+                  texts(widget.areaoffice),
                 ]),
               )
             ],

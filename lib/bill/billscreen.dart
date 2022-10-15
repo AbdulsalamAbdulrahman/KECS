@@ -93,7 +93,6 @@ class _BillScreenState extends State<BillScreen> {
     setState(() {
       geolong = long;
       geolat = lat;
-      geolat = lat;
     });
   }
 
@@ -222,6 +221,8 @@ class _BillScreenState extends State<BillScreen> {
                                         builder: (context) =>
                                             NotDeliveredScreen(
                                               dropdownValue: dropdownValue,
+                                              geolat: geolat,
+                                              geolong: geolong,
                                             )));
                               }
                             },

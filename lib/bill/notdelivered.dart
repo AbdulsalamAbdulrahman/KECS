@@ -19,7 +19,13 @@ class NotDelivered extends StatelessWidget {
 
 class NotDeliveredScreen extends StatefulWidget {
   final String dropdownValue;
-  const NotDeliveredScreen({Key? key, required this.dropdownValue})
+  final String geolat;
+  final String geolong;
+  const NotDeliveredScreen(
+      {Key? key,
+      required this.dropdownValue,
+      required this.geolat,
+      required this.geolong})
       : super(key: key);
 
   @override
@@ -39,16 +45,20 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
   String name = '';
   String address = "";
   String accnumber = '';
+  String id = '';
 
   @override
   void initState() {
     super.initState();
-    getCred();
+    _getCred();
   }
 
-  void getCred() async {
+  void _getCred() async {
     SharedPreferences prefBill = await SharedPreferences.getInstance();
+    SharedPreferences prefLogin = await SharedPreferences.getInstance();
+
     setState(() {
+      id = prefLogin.getString("id")!;
       name = prefBill.getString("name")!;
       address = prefBill.getString("address")!;
       accnumber = prefBill.getString("accnumber")!;
@@ -66,6 +76,9 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
       "accnumber": accnumber,
       "status": widget.dropdownValue,
       "reason": dropdownValue,
+      "lat": widget.geolat,
+      "long": widget.geolong,
+      "id": id,
     }); //sending post request with header data
 
     if (res.statusCode == 200) {
@@ -153,9 +166,7 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
                                 if (key.currentState!.validate()) {
                                   debugPrint(
                                       name + address + widget.dropdownValue);
-                                  SharedPreferences prefNotDelivered =
-                                      await SharedPreferences.getInstance();
-                                  await prefNotDelivered.clear();
+
                                   _isLoading ? null : sendData();
                                 }
                               }),

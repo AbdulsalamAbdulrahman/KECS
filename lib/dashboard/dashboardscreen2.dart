@@ -5,19 +5,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import '../login.dart';
 
-class Dashboard2 extends StatelessWidget {
-  const Dashboard2({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: DashboardScreen2(),
-    );
-  }
-}
-
 class DashboardScreen2 extends StatefulWidget {
-  const DashboardScreen2({Key? key}) : super(key: key);
+  final String fullname;
+  final String jobtitle;
+  final String payrollid;
+  final String areaoffice;
+  final String id;
+  final String feeder;
+  final String phonenumber;
+  final dynamic emaill;
+
+  const DashboardScreen2(
+      {Key? key,
+      required this.fullname,
+      required this.jobtitle,
+      required this.payrollid,
+      required this.areaoffice,
+      required this.id,
+      required this.feeder,
+      required this.phonenumber,
+      this.emaill})
+      : super(key: key);
 
   @override
   State<DashboardScreen2> createState() => _DashboardScreen2State();
@@ -26,12 +34,6 @@ class DashboardScreen2 extends StatefulWidget {
 class _DashboardScreen2State extends State<DashboardScreen2> {
   final key = GlobalKey<FormState>();
 
-  String fullname = '';
-  String jobtitle = "";
-  String payrollid = "";
-  String areaoffice = "";
-  String id = '';
-
   late String _timestring;
 
   @override
@@ -39,18 +41,6 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
     _timestring =
         "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     super.initState();
-    getCred();
-  }
-
-  void getCred() async {
-    SharedPreferences prefLogin = await SharedPreferences.getInstance();
-    setState(() {
-      id = prefLogin.getString("id")!;
-      fullname = prefLogin.getString("fullname")!;
-      jobtitle = prefLogin.getString("jobtitle")!;
-      payrollid = prefLogin.getString("payrollid")!;
-      areaoffice = prefLogin.getString("areaoffice")!;
-    });
   }
 
   @override
@@ -75,14 +65,14 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
                         image: AssetImage('S.jpg'), fit: BoxFit.cover),
                     color: Colors.white),
                 accountName: Text(
-                  fullname,
+                  "${widget.fullname}\n${widget.emaill}",
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 accountEmail: Text(
-                  jobtitle,
+                  widget.jobtitle,
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -108,7 +98,14 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
               ),
               const Padding(padding: EdgeInsets.only(top: 10.0)),
               listTile(
-                  'Profile', Icons.account_circle_outlined, const Profile()),
+                  'Profile',
+                  Icons.account_circle_outlined,
+                  ProfileScreen(
+                      fullname: widget.fullname,
+                      id: widget.id,
+                      phonenumber: widget.phonenumber,
+                      emaill: widget.emaill,
+                      payrollid: widget.payrollid)),
               const Padding(padding: EdgeInsets.only(top: 10.0)),
               listTile(
                   'Generate Report', Icons.feedback_outlined, const Report()),
@@ -172,8 +169,9 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(children: [
-                  texts("$fullname $payrollid"),
-                  texts(areaoffice),
+                  texts("${widget.fullname} ${widget.payrollid}"),
+                  texts(widget.feeder),
+                  texts(widget.areaoffice),
                 ]),
               )
             ],

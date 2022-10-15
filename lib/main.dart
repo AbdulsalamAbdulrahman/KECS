@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kecs/bill/billscreen.dart';
 import 'package:kecs/connection/connection.dart';
-import 'package:kecs/dashboard/dashboardscreen.dart';
 import 'package:kecs/meter/meterreading.dart';
 import 'package:kecs/modal_fit.dart';
 import 'package:kecs/mycustomers/mycustomers.dart';
@@ -36,7 +35,6 @@ class MyApp extends StatelessWidget {
       ),
       home: const SplashPage(),
       routes: <String, WidgetBuilder>{
-        '/Dashboard': (BuildContext context) => const Dashboard(),
         '/Bill': (BuildContext context) => const BillScreen(),
         '/MyCustomers': (BuildContext context) => const MyCustomers(),
         '/Tracking': (BuildContext context) => const Tracking(),
