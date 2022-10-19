@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kecs/bill/billscreen.dart';
 import 'package:kecs/floating_modal.dart';
 import 'package:kecs/login.dart';
 import 'package:kecs/modal_fit.dart';
@@ -89,8 +90,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 onTap: () {
                   Navigator.of(context).pop();
                 },
-                leading: const Icon(Icons.home_outlined,
-                    size: 25.0, color: Colors.white),
+                leading: const Icon(
+                  Icons.home_outlined,
+                  size: 25.0,
+                  color: Colors.white,
+                ),
                 title: const Text(
                   'Home',
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
@@ -200,7 +204,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             card3(Icons.electrical_services, 'Meter Reading', '/Meter'),
-            card2(Icons.receipt_long, 'Bill \n Distribution', '/Bill'),
+            card2(Icons.receipt_long, 'Bill \n Distribution'),
           ],
         ),
         const Padding(padding: EdgeInsets.only(top: 10)),
@@ -261,15 +265,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget card2(
     icon,
     String text,
-    String text2,
   ) {
     return SizedBox(
       height: 120,
       width: 120,
       child: GestureDetector(
         onTap: () {
-          // Navigator.of(context).pop();
-          Navigator.of(context).pushNamed(text2);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BillScreen(
+                        id: widget.id,
+                      )));
         },
         child: Card(
           child: Column(
@@ -306,7 +313,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           // Navigator.of(context).pop();
           // Navigator.of(context).pushNamed(text2);
           showFloatingModalBottomSheet(
-              context: context, builder: (context) => const ModalFit());
+              context: context, builder: (context) => ModalFit(id: widget.id));
         },
         child: Card(
           child: Column(

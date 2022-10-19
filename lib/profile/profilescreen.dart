@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:kecs/profile/chpwrd.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String fullname;
@@ -119,50 +120,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         name.text = updatedName;
         phone.text = updatedPhone;
       });
+
+      // setState(() {});
     }
   }
-
-  // Future updatePassword() async {
-  //   setState(() {
-  //     _isLoading = true;
-  //   });
-  //   var res = await http.post(Uri.parse(phpurl), body: {
-  //     "id": widget.id,
-  //     "password": password.text,
-  //   }); //sending post request with header data
-
-  //   if (res.statusCode == 200) {
-  //     debugPrint(res.body); //print raw response on console
-  //     var data = json.decode(res.body); //decoding json to array
-  //     if (data["error"]) {
-  //       setState(() {
-  //         //refresh the UI when error is recieved from server
-  //         sending = false;
-  //         error = true;
-  //         msg = data["message"]; //error message from server
-  //       });
-  //     } else {
-  //       showMessage('Data Submitted Succesfully');
-  //       //after write success, make fields empty
-
-  //       setState(() {
-  //         sending = false;
-  //         success = true; //mark success and refresh UI with setState
-  //       });
-  //     }
-  //   } else {
-  //     //there is error
-  //     setState(() {
-  //       error = true;
-  //       msg = "Error during sending data.";
-  //       sending = false;
-  //       //mark error and refresh UI with setState
-  //     });
-  //   }
-  //   setState(() {
-  //     _isLoading = false;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -311,7 +272,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _isLoadingP ? '' : 'Change Password',
           style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
         ),
-        onPressed: () async {});
+        onPressed: () async {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChangeP(
+                        id: widget.id,
+                        phonenumber: widget.phonenumber,
+                        payrollid: widget.payrollid,
+                      )));
+        });
   }
 
   Future<dynamic> showMessage(String msg) async {

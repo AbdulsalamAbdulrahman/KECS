@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 
-class Reconnect extends StatelessWidget {
-  const Reconnect({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bill Reconnect'),
-      ),
-      body: const ReconnectScreen(),
-    );
-  }
-}
-
 class ReconnectScreen extends StatefulWidget {
+  final String accnumber;
+  final String name;
+  final String address;
+  final String meterno;
+  final String lastpay;
+  final double closingb;
+  final int lastpayamt;
+  final String dropdownValue;
+  final String geolat;
+  final String geolong;
+  final String id;
   const ReconnectScreen({
     Key? key,
+    required this.accnumber,
+    required this.name,
+    required this.address,
+    required this.meterno,
+    required this.lastpay,
+    required this.closingb,
+    required this.lastpayamt,
+    required this.dropdownValue,
+    required this.geolat,
+    required this.geolong,
+    required this.id,
   }) : super(key: key);
 
   @override

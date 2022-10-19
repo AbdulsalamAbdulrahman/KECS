@@ -5,10 +5,13 @@ import 'package:http/http.dart' as http;
 import 'package:kecs/bill/delivered.dart';
 import 'package:kecs/bill/notdelivered.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class BillScreen extends StatefulWidget {
-  const BillScreen({Key? key}) : super(key: key);
+  final String id;
+  const BillScreen({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
 
   @override
   State<BillScreen> createState() => _BillScreenState();
@@ -88,7 +91,7 @@ class _BillScreenState extends State<BillScreen> {
     long = position.longitude.toString();
     lat = position.latitude.toString();
 
-    debugPrint("$long, $lat");
+    // debugPrint("$long, $lat");
 
     setState(() {
       geolong = long;
@@ -115,32 +118,24 @@ class _BillScreenState extends State<BillScreen> {
 
     final jsondata = json.decode(response.body);
 
-    // final List<dynamic> dataList = jsonDecode(response.body);
-    // print(dataList[0]);
-    // print(dataList[1]);
-
-    // final item = dataList[0];
-    // print(item['monthYear']); // foo
-
     if (jsondata != "Invalid Account Number") {
-      String name = jsondata[0]['customerName'];
-      String address = jsondata[0]['customerAddress'];
-      String accnumber = jsondata[0]['customerAccountNo'];
-      String meterno = jsondata[0]['meterNumber'];
-      String lastpay = jsondata[0]['lastPaymentDate'];
-      double closingb = jsondata[0]['closingBalance'];
-      int lastpayamt = jsondata[0]['lastPaymentAmount'];
+      String namejson = jsondata[0]['customerName'];
+      String addressjson = jsondata[0]['customerAddress'];
+      String accnumberjson = jsondata[0]['customerAccountNo'];
+      String meternojson = jsondata[0]['meterNumber'];
+      String lastpayjson = jsondata[0]['lastPaymentDate'];
+      double closingbjson = jsondata[0]['closingBalance'];
+      int lastpayamtjson = jsondata[0]['lastPaymentAmount'];
 
-      SharedPreferences prefBill = await SharedPreferences.getInstance();
-      await prefBill.setString('name', name);
-      await prefBill.setString('address', address);
-      await prefBill.setString('accnumber', accnumber);
-      await prefBill.setString('meterno', meterno);
-      await prefBill.setString('lastpay', lastpay);
-      await prefBill.setDouble('closingb', closingb);
-      await prefBill.setInt('lastpayamt', lastpayamt);
-
-      getCred();
+      setState(() {
+        accnumber = accnumberjson;
+        name = namejson;
+        address = addressjson;
+        meterno = meternojson;
+        lastpay = lastpayjson;
+        closingb = closingbjson;
+        lastpayamt = lastpayamtjson;
+      });
     } else {
       showDialog(
         context: context,
@@ -163,19 +158,6 @@ class _BillScreenState extends State<BillScreen> {
 
     setState(() {
       _isLoading = false;
-    });
-  }
-
-  void getCred() async {
-    SharedPreferences prefBill = await SharedPreferences.getInstance();
-    setState(() {
-      name = prefBill.getString("name")!;
-      address = prefBill.getString("address")!;
-      accnumber = prefBill.getString("accnumber")!;
-      meterno = prefBill.getString("meterno")!;
-      lastpay = prefBill.getString("lastpay")!;
-      closingb = prefBill.getDouble("closingb")!;
-      lastpayamt = prefBill.getInt("lastpayamt")!;
     });
   }
 
@@ -202,7 +184,7 @@ class _BillScreenState extends State<BillScreen> {
                         minimumSize: const Size(500, 50),
                         maximumSize: const Size(500, 50),
                       ),
-                      onPressed: name == ""
+                      onPressed: name == "" && geolat.isEmpty && geolong.isEmpty
                           ? null
                           : () {
                               if (dropdownValue == 'Delivered') {
@@ -210,9 +192,17 @@ class _BillScreenState extends State<BillScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => DeliveredScreen(
+                                              accnumber: accnumber,
+                                              name: name,
+                                              address: address,
+                                              meterno: meterno,
+                                              lastpay: lastpay,
+                                              closingb: closingb,
+                                              lastpayamt: lastpayamt,
                                               dropdownValue: dropdownValue,
                                               geolat: geolat,
                                               geolong: geolong,
+                                              id: widget.id,
                                             )));
                               } else if (dropdownValue == 'Not Delivered') {
                                 Navigator.push(
@@ -220,9 +210,17 @@ class _BillScreenState extends State<BillScreen> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             NotDeliveredScreen(
+                                              accnumber: accnumber,
+                                              name: name,
+                                              address: address,
+                                              meterno: meterno,
+                                              lastpay: lastpay,
+                                              closingb: closingb,
+                                              lastpayamt: lastpayamt,
                                               dropdownValue: dropdownValue,
                                               geolat: geolat,
                                               geolong: geolong,
+                                              id: widget.id,
                                             )));
                               }
                             },
@@ -295,11 +293,6 @@ class _BillScreenState extends State<BillScreen> {
                     minimumSize: const Size(500, 50),
                     maximumSize: const Size(500, 50),
                   ),
-                  // child: const Text(
-                  //   'Search',
-                  //   style:
-                  //       TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
-                  // ),
                 )
               ]),
         ),
@@ -347,7 +340,7 @@ class _BillScreenState extends State<BillScreen> {
     );
   }
 
-  Widget container(text, String text1) {
+  Widget container(text, text1) {
     return Container(
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),

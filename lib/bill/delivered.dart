@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
@@ -19,15 +18,31 @@ class Delivered extends StatelessWidget {
 }
 
 class DeliveredScreen extends StatefulWidget {
+  final String accnumber;
+  final String name;
+  final String address;
+  final String meterno;
+  final String lastpay;
+  final double closingb;
+  final int lastpayamt;
   final String dropdownValue;
   final String geolat;
   final String geolong;
+  final String id;
 
   const DeliveredScreen(
       {Key? key,
+      required this.accnumber,
+      required this.name,
       required this.dropdownValue,
       required this.geolat,
-      required this.geolong})
+      required this.geolong,
+      required this.address,
+      required this.meterno,
+      required this.lastpay,
+      required this.closingb,
+      required this.lastpayamt,
+      required this.id})
       : super(key: key);
 
   @override
@@ -49,35 +64,9 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
   late bool error, sending, success;
   late String msg;
 
-  String name = '';
-  String address = "";
-  String accnumber = '';
-  String meterno = "";
-  String lastpay = "";
-  double closingb = 0;
-  int lastpayamt = 0;
-  String id = '';
-
   @override
   void initState() {
     super.initState();
-    getCred();
-  }
-
-  void getCred() async {
-    SharedPreferences prefBill = await SharedPreferences.getInstance();
-    SharedPreferences prefLogin = await SharedPreferences.getInstance();
-
-    setState(() {
-      id = prefLogin.getString("id")!;
-      name = prefBill.getString("name")!;
-      address = prefBill.getString("address")!;
-      accnumber = prefBill.getString("accnumber")!;
-      meterno = prefBill.getString("meterno")!;
-      lastpay = prefBill.getString("lastpay")!;
-      closingb = prefBill.getDouble("closingb")!;
-      lastpayamt = prefBill.getInt("lastpayamt")!;
-    });
   }
 
   Future sendData() async {
@@ -85,47 +74,43 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
       _isLoading = true;
     });
     var res = await http.post(Uri.parse(phpurl), body: {
-      "fullname": name,
-      "address": address,
-      "accnumber": accnumber,
-      "meterno": meterno,
-      "lastpay": lastpay,
+      "fullname": widget.name,
+      "address": widget.address,
+      "accnumber": widget.accnumber,
+      "meterno": widget.meterno,
+      "lastpay": widget.lastpay,
       "status": widget.dropdownValue,
       "recipient": dropdownValue2,
       "recipientname": recipientN.text,
       "recipientphone": recipientP.text,
       "comment": commentC.text,
-      "id": id,
+      "id": widget.id,
       "lat": widget.geolat,
-      "long": widget.geolong,
-    }); //sending post request with header data
+      "long": widget.geolong
+    });
 
     if (res.statusCode == 200) {
-      debugPrint(res.body); //print raw response on console
-      var data = json.decode(res.body); //decoding json to array
+      debugPrint(res.body);
+      var data = json.decode(res.body);
       if (data["error"]) {
         setState(() {
-          //refresh the UI when error is recieved from server
           sending = false;
           error = true;
-          msg = data["message"]; //error message from server
+          msg = data["message"];
         });
       } else {
         showMessage('Data Submitted Succesfully');
-        //after write success, make fields empty
 
         setState(() {
           sending = false;
-          success = true; //mark success and refresh UI with setState
+          success = true;
         });
       }
     } else {
-      //there is error
       setState(() {
         error = true;
         msg = "Error during sending data.";
         sending = false;
-        //mark error and refresh UI with setState
       });
     }
     setState(() {
@@ -143,7 +128,6 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
             child: Column(
               children: <Widget>[
                 AppBar(
-                  // automaticallyImplyLeading: false,
                   title: const Text('Bill Delivered'),
                 ),
                 Form(
@@ -188,7 +172,6 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                                   fontSize: 15.0, fontWeight: FontWeight.bold),
                             ),
                             onPressed: () async {
-                              // print(widget.geolong + widget.geolat);
                               if (key.currentState!.validate()) {
                                 _isLoading ? null : sendData();
                               }
@@ -281,9 +264,6 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
-                // Navigator.of(context).pushAndRemoveUntil(
-                //     MaterialPageRoute(builder: (context) => const BillScreen()),
-                //     (route) => false);
               },
             ),
           ],

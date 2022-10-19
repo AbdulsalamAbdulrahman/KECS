@@ -3,24 +3,10 @@ import 'package:kecs/meter/status.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-
-class Meter extends StatelessWidget {
-  const Meter({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meter Reading'),
-      ),
-      body: const MeterScreen(),
-    );
-  }
-}
 
 class MeterScreen extends StatefulWidget {
-  const MeterScreen({Key? key}) : super(key: key);
+  final String id;
+  const MeterScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   State<MeterScreen> createState() => _MeterScreenState();
@@ -64,34 +50,28 @@ class _MeterScreenState extends State<MeterScreen> {
 
     if (jsondata != "Invalid Meter Number") {
       final jsondata = json.decode(response.body);
-      debugPrint(response.body);
 
-      String name = jsondata['customerName'];
-      String address = jsondata['customerAddress'];
+      String namejson = jsondata['customerName'];
+      String addressjson = jsondata['customerAddress'];
       String accno = jsondata['customerAccountNo'];
-      String meternumber = jsondata['meterNumber'];
-      String feeder33 = jsondata['feeder33kV'];
-      String feeder11 = jsondata['feeder11KV'];
-      String regional = jsondata['regionalOffice'];
-      bool isMD = jsondata['isMD'];
+      String meternumberjson = jsondata['meterNumber'];
+      String feeder33json = jsondata['feeder33kV'];
+      String feeder11json = jsondata['feeder11KV'];
+      String regionaljson = jsondata['regionalOffice'];
+      bool isMDjson = jsondata['isMD'];
 
       int myInt = int.parse(accno);
 
       setState(() {
         accnum = myInt;
+        meternumber = meternumberjson;
+        name = namejson;
+        address = addressjson;
+        feeder33 = feeder33json;
+        feeder11 = feeder11json;
+        regional = regionaljson;
+        isMD = isMDjson;
       });
-
-      SharedPreferences prefMeter = await SharedPreferences.getInstance();
-      await prefMeter.setString('name', name);
-      await prefMeter.setString('address', address);
-      await prefMeter.setInt('accnum', accnum);
-      await prefMeter.setString('meterno', meternumber);
-      await prefMeter.setString('feeder33', feeder33);
-      await prefMeter.setString('feeder11', feeder11);
-      await prefMeter.setString('regional', regional);
-      await prefMeter.setBool('isMD', isMD);
-
-      getCredppm();
     } else {
       showDialog(
         context: context,
@@ -131,48 +111,15 @@ class _MeterScreenState extends State<MeterScreen> {
 
     if (jsondata != "Invalid Meter Number") {
       final jsondata = json.decode(response.body);
-      debugPrint(response.body);
       String lastdate = jsondata['lastdate'];
       String lastamount = jsondata['lastamount'];
 
-      // debugPrint(lastdate + lastamount);
       setState(() {
         llastdate = lastdate;
         llastamount = lastamount;
       });
-
-      // print(llastdate + llastamount);
-      SharedPreferences prefMeter = await SharedPreferences.getInstance();
-      await prefMeter.setString('lastdate', llastdate);
-      await prefMeter.setString('lastamount', llastamount);
-
-      // getCredppm();
     }
   }
-
-  void getCredppm() async {
-    SharedPreferences prefMeter = await SharedPreferences.getInstance();
-    setState(() {
-      name = prefMeter.getString("name")!;
-      address = prefMeter.getString("address")!;
-      accnum = prefMeter.getInt("accnum")!;
-      meternumber = prefMeter.getString("meterno")!;
-      feeder33 = prefMeter.getString("feeder33")!;
-      feeder11 = prefMeter.getString("feeder11")!;
-      regional = prefMeter.getString("regional")!;
-      isMD = prefMeter.getBool("isMD")!;
-      llastdate = prefMeter.getString("lastdate")!;
-      llastamount = prefMeter.getString("lastamount")!;
-    });
-  }
-
-  // void getCredppmm() async {
-  //   SharedPreferences prefMeter = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     lastdate = pref.getString("lastdate")!;
-  //     lastamount = pref.getString("lastamount")!;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -181,6 +128,7 @@ class _MeterScreenState extends State<MeterScreen> {
           color: Colors.white,
           child: Column(
             children: <Widget>[
+              AppBar(title: const Text('Meter Reading')),
               Wrap(
                 children: [
                   // const Padding(padding: EdgeInsets.all(20.0)),
@@ -199,8 +147,18 @@ class _MeterScreenState extends State<MeterScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const StatusScreen()));
+                                        builder: (context) => StatusScreen(
+                                              accnum: accnum,
+                                              meternumber: meternumber,
+                                              name: name,
+                                              address: address,
+                                              feeder33: feeder33,
+                                              feeder11: feeder11,
+                                              regional: regional,
+                                              isMD: isMD,
+                                              llastdate: llastdate,
+                                              llastamount: llastamount,
+                                            )));
                               },
                         child: const Text('Continue')),
                   ),
@@ -261,24 +219,12 @@ class _MeterScreenState extends State<MeterScreen> {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
                       _isLoading ? null : getMeterInfo();
-                      // if (_isLoading == true) {
-                      //   getMeterInfo();
-                      //   getLastPayment();
-                      // }
-
-                      // getCred();
-
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(500, 50),
                     maximumSize: const Size(500, 50),
                   ),
-                  // child: const Text(
-                  //   'Search',
-                  //   style:
-                  //       TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
-                  // ),
                 )
               ]),
         ),

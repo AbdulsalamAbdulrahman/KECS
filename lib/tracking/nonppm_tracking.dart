@@ -4,22 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kecs/tracking/paid.dart';
 import 'package:kecs/tracking/unpaid.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-class NonPPM extends StatelessWidget {
-  const NonPPM({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: NonPPMScreen(),
-      // appBar: AppBar(),
-    );
-  }
-}
+import 'package:geolocator/geolocator.dart';
 
 class NonPPMScreen extends StatefulWidget {
-  const NonPPMScreen({Key? key}) : super(key: key);
+  final String id;
+  const NonPPMScreen({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
 
   @override
   State<NonPPMScreen> createState() => _NonPPMScreenState();
@@ -38,10 +30,76 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
   String lastpay = "";
   double closingb = 0;
   int lastpayamt = 0;
+  String geolat = '';
+  String geolong = '';
 
   List dataList1 = [];
 
   String dropdownValue = 'Select Status';
+
+  // geo
+  bool servicestatus = false;
+  bool haspermission = false;
+  late LocationPermission permission;
+  late Position position;
+  String long = "", lat = "";
+  late StreamSubscription<Position> positionStream;
+
+  @override
+  void initState() {
+    checkGps();
+    super.initState();
+  }
+
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          debugPrint('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          debugPrint("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
+
+      if (haspermission) {
+        setState(() {
+          //refresh the UI
+        });
+      }
+    } else {
+      debugPrint("GPS Service is not enabled, turn on GPS location");
+    }
+
+    setState(() {
+      //refresh the UI
+    });
+  }
+
+  getLocation() async {
+    position = await Geolocator.getCurrentPosition(
+        forceAndroidLocationManager: true,
+        desiredAccuracy: LocationAccuracy.high);
+    // print(position.longitude); //Output: 80.24599079
+    // print(position.latitude); //Output: 29.6593457
+
+    long = position.longitude.toString();
+    lat = position.latitude.toString();
+
+    // debugPrint("$long, $lat");
+
+    setState(() {
+      geolong = long;
+      geolat = lat;
+    });
+  }
 
   Future getAccNo() async {
     setState(() {
@@ -70,29 +128,23 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
     });
 
     if (jsondata != "Invalid Account Number") {
-      String name = jsondata[0]['customerName'];
-      String address = jsondata[0]['customerAddress'];
-      String accnumber = jsondata[0]['customerAccountNo'];
-      String meterno = jsondata[0]['meterNumber'];
-      String lastpay = jsondata[0]['lastPaymentDate'];
-      double closingb = jsondata[0]['closingBalance'];
-      int lastpayamt = jsondata[0]['lastPaymentAmount'];
+      String namejson = jsondata[0]['customerName'];
+      String addressjson = jsondata[0]['customerAddress'];
+      String accnumberjson = jsondata[0]['customerAccountNo'];
+      String meternojson = jsondata[0]['meterNumber'];
+      String lastpayjson = jsondata[0]['lastPaymentDate'];
+      double closingbjson = jsondata[0]['closingBalance'];
+      int lastpayamtjson = jsondata[0]['lastPaymentAmount'];
 
-      // for (var i = 0; i < jsondata.length; i++) {
-      //   List<String> _history = jsondata[i]['monthYear'];
-      //   debugPrint('$_history');
-      // }
-
-      SharedPreferences prefNonPPM = await SharedPreferences.getInstance();
-      await prefNonPPM.setString('name', name);
-      await prefNonPPM.setString('address', address);
-      await prefNonPPM.setString('accnumber', accnumber);
-      await prefNonPPM.setString('meterno', meterno);
-      await prefNonPPM.setString('lastpay', lastpay);
-      await prefNonPPM.setDouble('closingb', closingb);
-      await prefNonPPM.setInt('lastpayamt', lastpayamt);
-
-      getCred();
+      setState(() {
+        accnumber = accnumberjson;
+        name = namejson;
+        address = addressjson;
+        meterno = meternojson;
+        lastpay = lastpayjson;
+        closingb = closingbjson;
+        lastpayamt = lastpayamtjson;
+      });
     } else {
       showDialog(
         context: context,
@@ -115,19 +167,6 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
 
     setState(() {
       _isLoading = false;
-    });
-  }
-
-  void getCred() async {
-    SharedPreferences prefNonPPM = await SharedPreferences.getInstance();
-    setState(() {
-      name = prefNonPPM.getString("name")!;
-      address = prefNonPPM.getString("address")!;
-      accnumber = prefNonPPM.getString("accnumber")!;
-      meterno = prefNonPPM.getString("meterno")!;
-      lastpay = prefNonPPM.getString("lastpay")!;
-      closingb = prefNonPPM.getDouble("closingb")!;
-      lastpayamt = prefNonPPM.getInt("lastpayamt")!;
     });
   }
 
@@ -163,14 +202,36 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Paid()));
+                                            builder: (context) => PaidScreen(
+                                                  accnumber: accnumber,
+                                                  name: name,
+                                                  address: address,
+                                                  meterno: meterno,
+                                                  lastpay: lastpay,
+                                                  closingb: closingb,
+                                                  lastpayamt: lastpayamt,
+                                                  dropdownValue: dropdownValue,
+                                                  geolat: geolat,
+                                                  geolong: geolong,
+                                                  id: widget.id,
+                                                )));
                                   } else if (dropdownValue == 'Unpaid') {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Unpaid()));
+                                            builder: (context) => UnpaidScreen(
+                                                  accnumber: accnumber,
+                                                  name: name,
+                                                  address: address,
+                                                  meterno: meterno,
+                                                  lastpay: lastpay,
+                                                  closingb: closingb,
+                                                  lastpayamt: lastpayamt,
+                                                  dropdownValue: dropdownValue,
+                                                  geolat: geolat,
+                                                  geolong: geolong,
+                                                  id: widget.id,
+                                                )));
                                   }
                                 },
                           child: const Text('Continue')),
@@ -233,7 +294,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
                       _isLoading ? null : getAccNo();
-                      // getCred();
+                      getLocation();
                     }
                   },
                   style: ElevatedButton.styleFrom(

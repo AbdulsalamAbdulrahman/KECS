@@ -3,24 +3,32 @@ import 'package:group_radio_button/group_radio_button.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-
-class Status extends StatelessWidget {
-  const Status({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meter Reading'),
-      ),
-      body: const Status(),
-    );
-  }
-}
 
 class StatusScreen extends StatefulWidget {
-  const StatusScreen({Key? key}) : super(key: key);
+  final String meternumber;
+  final int accnum;
+  final String name;
+  final String address;
+  final String feeder33;
+  final String feeder11;
+  final String regional;
+  final bool isMD;
+  final String llastdate;
+  final String llastamount;
+
+  const StatusScreen(
+      {Key? key,
+      required this.meternumber,
+      required this.accnum,
+      required this.name,
+      required this.address,
+      required this.feeder33,
+      required this.feeder11,
+      required this.regional,
+      required this.isMD,
+      required this.llastdate,
+      required this.llastamount})
+      : super(key: key);
 
   @override
   State<StatusScreen> createState() => _StatusScreenState();
@@ -48,38 +56,9 @@ class _StatusScreenState extends State<StatusScreen> {
   String _seal = "Yes";
   final List<String> _status = ["Yes", "No"];
 
-  String meterno = '';
-  String meternumber = "";
-  int accnum = 0;
-  String name = '';
-  String address = "";
-  String feeder33 = "";
-  String feeder11 = "";
-  String regional = '';
-  bool isMD = false;
-  String llastdate = '';
-  String llastamount = '';
-
   @override
   void initState() {
     super.initState();
-    getCred();
-  }
-
-  void getCred() async {
-    SharedPreferences prefMeter = await SharedPreferences.getInstance();
-    setState(() {
-      name = prefMeter.getString("name")!;
-      address = prefMeter.getString("address")!;
-      accnum = prefMeter.getInt("accnum")!;
-      meternumber = prefMeter.getString("meterno")!;
-      feeder33 = prefMeter.getString("feeder33")!;
-      feeder11 = prefMeter.getString("feeder11")!;
-      regional = prefMeter.getString("regional")!;
-      isMD = prefMeter.getBool("isMD")!;
-      llastdate = prefMeter.getString("lastdate")!;
-      llastamount = prefMeter.getString("lastamount")!;
-    });
   }
 
   Future sendData() async {
@@ -88,20 +67,19 @@ class _StatusScreenState extends State<StatusScreen> {
     });
 
     var res = await http.post(Uri.parse(phpurl), body: {
-      "fullname": name,
-      "isMD": isMD.toString(),
+      "fullname": widget.name,
+      "isMD": widget.isMD.toString(),
       "kwh": kwh.text,
       "mdi": mdi.text,
       "phone": phone.text,
-      "meternumber": meternumber,
-      "accnum": accnum.toString(),
+      "meternumber": widget.meternumber,
+      "accnum": widget.accnum.toString(),
       "readStatus": dropdownValue,
       "readerRemark": commentM.text,
       "sealStatus": dropdownValueSeal,
     }); //sending post request with header data
 
     if (res.statusCode == 200) {
-      debugPrint(res.body); //print raw response on console
       var data = json.decode(res.body); //decoding json to array
       if (data["error"]) {
         setState(() {
@@ -143,7 +121,6 @@ class _StatusScreenState extends State<StatusScreen> {
               Wrap(
                 children: [
                   AppBar(
-                    // automaticallyImplyLeading: false,
                     title: const Text('Meter Reading'),
                   ),
                   card(),
@@ -324,9 +301,6 @@ class _StatusScreenState extends State<StatusScreen> {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
-                // Navigator.of(context).pushAndRemoveUntil(
-                //     MaterialPageRoute(builder: (context) => const BillScreen()),
-                //     (route) => false);
               },
             ),
           ],

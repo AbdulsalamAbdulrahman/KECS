@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kecs/meter/meterreading.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:intl/intl.dart';
@@ -34,6 +35,7 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
   final key = GlobalKey<FormState>();
 
   late String _timestring;
+  String id = '';
 
   @override
   void initState() {
@@ -194,7 +196,10 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            card2(Icons.electrical_services, 'Meter Reading', '/Meter'),
+            card2(
+              Icons.electrical_services,
+              'Meter Reading',
+            ),
             // card2(Icons.receipt_long, 'Bill \n Distribution', '/Bill'),
             card3(Icons.receipt_long, 'Bill \n Distribution', '/Bill'),
           ],
@@ -257,7 +262,6 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
   Widget card2(
     icon,
     String text,
-    String text2,
   ) {
     return SizedBox(
       height: 120,
@@ -265,7 +269,12 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
       child: GestureDetector(
         onTap: () {
           // Navigator.of(context).pop();
-          Navigator.of(context).pushNamed(text2);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MeterScreen(
+                        id: id,
+                      )));
         },
         child: Card(
           child: Column(

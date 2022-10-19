@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
@@ -18,14 +17,31 @@ class NotDelivered extends StatelessWidget {
 }
 
 class NotDeliveredScreen extends StatefulWidget {
+  final String accnumber;
+  final String name;
+  final String address;
+  final String meterno;
+  final String lastpay;
+  final double closingb;
+  final int lastpayamt;
   final String dropdownValue;
   final String geolat;
   final String geolong;
+  final String id;
+
   const NotDeliveredScreen(
       {Key? key,
       required this.dropdownValue,
       required this.geolat,
-      required this.geolong})
+      required this.geolong,
+      required this.accnumber,
+      required this.name,
+      required this.address,
+      required this.meterno,
+      required this.lastpay,
+      required this.closingb,
+      required this.lastpayamt,
+      required this.id})
       : super(key: key);
 
   @override
@@ -42,43 +58,20 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
   late bool error, sending, success;
   late String msg;
 
-  String name = '';
-  String address = "";
-  String accnumber = '';
-  String id = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _getCred();
-  }
-
-  void _getCred() async {
-    SharedPreferences prefBill = await SharedPreferences.getInstance();
-    SharedPreferences prefLogin = await SharedPreferences.getInstance();
-
-    setState(() {
-      id = prefLogin.getString("id")!;
-      name = prefBill.getString("name")!;
-      address = prefBill.getString("address")!;
-      accnumber = prefBill.getString("accnumber")!;
-    });
-  }
-
   Future sendData() async {
     setState(() {
       _isLoading = true;
     });
 
     var res = await http.post(Uri.parse(phpurl), body: {
-      "fullname": name,
-      "address": address,
-      "accnumber": accnumber,
+      "fullname": widget.name,
+      "address": widget.address,
+      "accnumber": widget.accnumber,
       "status": widget.dropdownValue,
       "reason": dropdownValue,
       "lat": widget.geolat,
       "long": widget.geolong,
-      "id": id,
+      "id": widget.id,
     }); //sending post request with header data
 
     if (res.statusCode == 200) {
@@ -164,9 +157,6 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
                               ),
                               onPressed: () async {
                                 if (key.currentState!.validate()) {
-                                  debugPrint(
-                                      name + address + widget.dropdownValue);
-
                                   _isLoading ? null : sendData();
                                 }
                               }),
@@ -219,9 +209,6 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
-                // Navigator.of(context).pushAndRemoveUntil(
-                //     MaterialPageRoute(builder: (context) => const BillScreen()),
-                //     (route) => false);
               },
             ),
           ],

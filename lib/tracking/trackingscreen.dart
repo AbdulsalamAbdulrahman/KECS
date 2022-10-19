@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:kecs/tracking/paid.dart';
-import 'package:kecs/tracking/unpaid.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TrackingScreen extends StatefulWidget {
-  const TrackingScreen({Key? key}) : super(key: key);
+  final String id;
+  const TrackingScreen({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
 
   @override
   State<TrackingScreen> createState() => _TrackingScreenState();
@@ -30,6 +31,12 @@ class _TrackingScreenState extends State<TrackingScreen> {
   String llastdate = '';
   String llastamount = '';
   String dropdownValue = 'Select Status';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Future getMeterInfo() async {
     setState(() {
       _isLoading = true;
@@ -53,32 +60,28 @@ class _TrackingScreenState extends State<TrackingScreen> {
       final jsondata = json.decode(response.body);
       debugPrint(response.body);
 
-      String name = jsondata['customerName'];
-      String address = jsondata['customerAddress'];
+      String namejson = jsondata['customerName'];
+      String addressjson = jsondata['customerAddress'];
       String accno = jsondata['customerAccountNo'];
-      String meternumber = jsondata['meterNumber'];
-      String feeder33 = jsondata['feeder33kV'];
-      String feeder11 = jsondata['feeder11KV'];
-      String regional = jsondata['regionalOffice'];
-      bool isMD = jsondata['isMD'];
+      String meternumberjson = jsondata['meterNumber'];
+      String feeder33json = jsondata['feeder33kV'];
+      String feeder11json = jsondata['feeder11KV'];
+      String regionaljson = jsondata['regionalOffice'];
+      bool isMDjson = jsondata['isMD'];
 
       dynamic myInt = int.parse(accno);
 
       setState(() {
         accnum = myInt;
+        accnum = myInt;
+        meternumber = meternumberjson;
+        name = namejson;
+        address = addressjson;
+        feeder33 = feeder33json;
+        feeder11 = feeder11json;
+        regional = regionaljson;
+        isMD = isMDjson;
       });
-
-      SharedPreferences prefPPM = await SharedPreferences.getInstance();
-      await prefPPM.setString('name', name);
-      await prefPPM.setString('address', address);
-      // await prefPPM.setString('accno', accno);
-      await prefPPM.setString('meterno', meternumber);
-      await prefPPM.setString('feeder33', feeder33);
-      await prefPPM.setString('feeder11', feeder11);
-      await prefPPM.setString('regional', regional);
-      await prefPPM.setBool('isMD', isMD);
-
-      getCredppm();
     } else {
       showDialog(
         context: context,
@@ -127,37 +130,8 @@ class _TrackingScreenState extends State<TrackingScreen> {
         llastdate = lastdate;
         llastamount = lastamount;
       });
-      // SharedPreferences prefPPM = await SharedPreferences.getInstance();
-      // await prefPPM.setString('lastdate', lastdate);
-      // await prefPPM.setString('lastamount', lastamount);
-
-      // getCredppm();
     }
   }
-
-  void getCredppm() async {
-    SharedPreferences prefPPM = await SharedPreferences.getInstance();
-    setState(() {
-      name = prefPPM.getString("name")!;
-      address = prefPPM.getString("address")!;
-      // accno = prefPPM.getString("accno")!;
-      meternumber = prefPPM.getString("meterno")!;
-      feeder33 = prefPPM.getString("feeder33")!;
-      feeder11 = prefPPM.getString("feeder11")!;
-      regional = prefPPM.getString("regional")!;
-      isMD = prefPPM.getBool("isMD")!;
-      // lastdate = prefPPM.getString("lastdate")!;
-      // lastamount = prefPPM.getString("lastamount")!;
-    });
-  }
-
-  // void getCredppmm() async {
-  //   SharedPreferences prefPPM = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     lastdate = pref.getString("lastdate")!;
-  //     lastamount = pref.getString("lastamount")!;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -174,31 +148,53 @@ class _TrackingScreenState extends State<TrackingScreen> {
                   // const Padding(padding: EdgeInsets.all(20.0)),
                   card(),
                   card1(),
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(500, 50),
-                          maximumSize: const Size(500, 50),
-                        ),
-                        onPressed: name == ""
-                            ? null
-                            : () {
-                                if (dropdownValue == 'Paid') {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const Paid()));
-                                } else if (dropdownValue == 'Unpaid') {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const Unpaid()));
-                                }
-                              },
-                        child: const Text('Continue')),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(5.0),
+                  //   child: ElevatedButton(
+                  //       style: ElevatedButton.styleFrom(
+                  //         minimumSize: const Size(500, 50),
+                  //         maximumSize: const Size(500, 50),
+                  //       ),
+                  //       onPressed: name == ""
+                  //           ? null
+                  //           : () {
+                  //               if (dropdownValue == 'Paid') {
+                  //                 Navigator.push(
+                  //                     context,
+                  //                     MaterialPageRoute(
+                  //                         builder: (context) =>  PaidScreen(
+                  //                           accnum: accnum,
+                  //                             meternumber: meternumber,
+                  //                             name: name,
+                  //                             address: address,
+                  //                             feeder33: feeder33,
+                  //                             feeder11: feeder11,
+                  //                             regional: regional,
+                  //                             isMD: isMD,
+                  //                             llastdate: llastdate,
+                  //                             llastamount: llastamount,
+                  //                         )));
+                  //               } else if (dropdownValue == 'Unpaid') {
+                  //                 Navigator.push(
+                  //                     context,
+                  //                     MaterialPageRoute(
+                  //                         builder: (context) =>
+                  //                              UnpaidScreen(
+                  //                               accnum: accnum,
+                  //                             meternumber: meternumber,
+                  //                             name: name,
+                  //                             address: address,
+                  //                             feeder33: feeder33,
+                  //                             feeder11: feeder11,
+                  //                             regional: regional,
+                  //                             isMD: isMD,
+                  //                             llastdate: llastdate,
+                  //                             llastamount: llastamount,
+                  //                             )));
+                  //               }
+                  //             },
+                  //       child: const Text('Continue')),
+                  // ),
                 ],
               )
             ],
@@ -256,23 +252,12 @@ class _TrackingScreenState extends State<TrackingScreen> {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
                       _isLoading ? null : getMeterInfo();
-                      // if (_isLoading == true) {
-                      //   getMeterInfo();
-                      //   getLastPayment();
-                      // }
-
-                      // getCred();
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(500, 50),
                     maximumSize: const Size(500, 50),
                   ),
-                  // child: const Text(
-                  //   'Search',
-                  //   style:
-                  //       TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
-                  // ),
                 )
               ]),
         ),
@@ -314,7 +299,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                     container2('isMD:', isMD),
                     container('Last Vending Date:', llastdate),
                     container('Last Amount Vended:', llastamount),
-                    dropDown(),
+                    // dropDown(),
                   ],
                 ),
                 const Padding(padding: EdgeInsets.all(5.0)),

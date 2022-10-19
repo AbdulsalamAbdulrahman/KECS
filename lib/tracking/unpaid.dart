@@ -1,24 +1,33 @@
 import 'package:flutter/material.dart';
-
-class Unpaid extends StatelessWidget {
-  const Unpaid({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bill Unpaid'),
-      ),
-      body: const UnpaidScreen(),
-    );
-  }
-}
+import 'dart:convert';
+import 'dart:async';
+import 'package:http/http.dart' as http;
 
 class UnpaidScreen extends StatefulWidget {
+  final String accnumber;
+  final String name;
+  final String address;
+  final String meterno;
+  final String lastpay;
+  final double closingb;
+  final int lastpayamt;
+  final String dropdownValue;
+  final String geolat;
+  final String geolong;
+  final String id;
   const UnpaidScreen({
     Key? key,
+    required this.accnumber,
+    required this.name,
+    required this.address,
+    required this.meterno,
+    required this.lastpay,
+    required this.closingb,
+    required this.lastpayamt,
+    required this.dropdownValue,
+    required this.geolat,
+    required this.geolong,
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -27,8 +36,73 @@ class UnpaidScreen extends StatefulWidget {
 
 class _UnpaidScreenState extends State<UnpaidScreen> {
   final key = GlobalKey<FormState>();
+
+  TextEditingController noticeno = TextEditingController();
+  TextEditingController commentB = TextEditingController();
+
   String dropdownValue = 'Select Reason';
   bool valuefirst = false;
+
+  String phpurl =
+      'https://kadunaelectric.com/meterreading/kecs/tracking_write.php';
+
+  bool _isLoading = false;
+  late bool error, sending, success;
+  late String msg;
+
+  Future sendData() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    var res = await http.post(Uri.parse(phpurl), body: {
+      "fullname": widget.name,
+      "address": widget.address,
+      "accnumber": widget.accnumber,
+      "meterno": widget.meterno,
+      "lastpay": widget.lastpay,
+      "status": widget.dropdownValue,
+      "reason": dropdownValue,
+      "noticeserved": valuefirst.toString(),
+      "id": widget.id,
+      "lat": widget.geolat,
+      "long": widget.geolong,
+      "comment": commentB.text,
+      "noticenumber": noticeno.text,
+    }); //sending post request with header data
+
+    if (res.statusCode == 200) {
+      debugPrint(res.body); //print raw response on console
+      var data = json.decode(res.body); //decoding json to array
+      if (data["error"]) {
+        setState(() {
+          //refresh the UI when error is recieved from server
+          sending = false;
+          error = true;
+          msg = data["message"]; //error message from server
+        });
+      } else {
+        showMessage('Data Submitted Succesfully');
+        //after write success, make fields empty
+
+        setState(() {
+          sending = false;
+          success = true; //mark success and refresh UI with setState
+        });
+      }
+    } else {
+      //there is error
+      setState(() {
+        error = true;
+        msg = "Error during sending data.";
+        sending = false;
+        //mark error and refresh UI with setState
+      });
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +110,7 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
         color: Colors.white,
         child: Column(
           children: <Widget>[
+            AppBar(title: const Text('Bill Paid')),
             Form(
               key: key,
               child: Padding(
@@ -57,23 +132,30 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
                     comment(),
                     const Padding(padding: EdgeInsets.all(5.0)),
                     checkbox(),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(500, 50),
-                        maximumSize: const Size(500, 50),
-                      ),
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: const Text(
-                          'Submit',
-                          style: TextStyle(
+                    ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(500, 50),
+                          maximumSize: const Size(500, 50),
+                        ),
+                        icon: _isLoading
+                            ? const SizedBox(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                                height: 15.0,
+                                width: 15.0,
+                              )
+                            : const Text(''),
+                        label: Text(
+                          _isLoading ? '' : 'Submit',
+                          style: const TextStyle(
                               fontSize: 15.0, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
+                        onPressed: () async {
+                          if (key.currentState!.validate()) {
+                            _isLoading ? null : sendData();
+                          }
+                        }),
                   ],
                 ),
               ),
@@ -87,6 +169,8 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
 
     return Material(
       child: TextFormField(
+        validator: validateField,
+        controller: noticeno,
         keyboardType: TextInputType.text,
         decoration: decorate("Notice Number"),
       ),
@@ -96,6 +180,7 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
   Widget comment() {
     return Material(
       child: TextFormField(
+        controller: commentB,
         keyboardType: TextInputType.multiline,
         decoration: decorate("Comment"),
         maxLines: 8,
@@ -105,6 +190,7 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
 
   Widget dropDown() {
     return DropdownButtonFormField<String>(
+      validator: validateD,
       decoration: decorate(''),
       value: dropdownValue,
       onChanged: (String? newValue) {
@@ -151,6 +237,41 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
         ),
       ])
     ]);
+  }
+
+  Future<dynamic> showMessage(String msg) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  String? validateField(value) {
+    if (value.isEmpty) {
+      return "field is required";
+    }
+    return null;
+  }
+
+  String? validateD(value) {
+    if (value == 'Select Reason') {
+      return "field is required";
+    }
+    return null;
   }
 
   InputDecoration decorate(String label) {

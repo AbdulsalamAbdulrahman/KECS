@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kecs/connection/connection.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,6 +36,7 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
   final key = GlobalKey<FormState>();
 
   late String _timestring;
+  String id = '';
 
   @override
   void initState() {
@@ -267,7 +269,13 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
       child: GestureDetector(
         onTap: () {
           // Navigator.of(context).pop();
-          Navigator.of(context).pushNamed(text2);
+          // Navigator.of(context).pushNamed(text2);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ConnectionScreen(
+                        id: id,
+                      )));
         },
         child: Card(
           child: Column(

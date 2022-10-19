@@ -19,7 +19,6 @@ class _LoginState extends State<Login> {
   String username = '';
   String password = '';
 
-  String fullnameD = '';
   String fullname = '';
   String jobtitle = '';
   String payrollid = '';
