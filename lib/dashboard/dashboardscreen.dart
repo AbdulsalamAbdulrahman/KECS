@@ -6,7 +6,6 @@ import 'package:kecs/login.dart';
 import 'package:kecs/modal_fit.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatefulWidget {
   final String fullname;
@@ -121,9 +120,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               // const Padding(padding: EdgeInsets.only(top: 10.0)),
               ListTile(
                 onTap: () async {
-                  SharedPreferences prefLogin =
-                      await SharedPreferences.getInstance();
-                  await prefLogin.clear();
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => const Login()),
                       (route) => false);
