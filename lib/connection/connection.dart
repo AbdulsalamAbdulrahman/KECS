@@ -170,6 +170,9 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
             color: Colors.white,
             child: Column(
               children: <Widget>[
+                AppBar(
+                  title: const Text('Disconnection/Reconnection'),
+                ),
                 Wrap(
                   children: [
                     // listView()
@@ -259,7 +262,6 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
                       }
                       return null;
                     },
-                    // controller: _inputController,
                     keyboardType: TextInputType.text,
                     decoration: decorate('Account Number'),
                   ),
@@ -284,18 +286,13 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
                       _isLoading ? null : getAccNo();
-                      // getCred();
+                      getLocation();
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(500, 50),
                     maximumSize: const Size(500, 50),
                   ),
-                  // child: const Text(
-                  //   'Search',
-                  //   style:
-                  //       TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
-                  // ),
                 )
               ]),
         ),
