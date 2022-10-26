@@ -232,7 +232,7 @@ class _ReconnectScreenState extends State<ReconnectScreen> {
 
     return Material(
       child: TextFormField(
-        validator: validateField,
+        // validator: validateField,
         controller: noticeno,
         keyboardType: TextInputType.text,
         decoration: decorate("Notice Number"),

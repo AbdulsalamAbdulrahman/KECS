@@ -230,7 +230,7 @@ class _DisconnectScreenState extends State<DisconnectScreen> {
     BorderRadius.circular(30.0);
     return Material(
       child: TextFormField(
-        validator: validateField,
+        // validator: validateField,
         controller: noticeno,
         keyboardType: TextInputType.text,
         decoration: decorate("Notice Number"),
