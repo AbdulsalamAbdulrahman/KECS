@@ -1,6 +1,8 @@
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
+// import 'package:kecs/dashboard/dashboardscreen.dart';
 import 'package:kecs/login.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -10,9 +12,16 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  // Future<Widget> futureCall() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   var user = prefs.getString('user');
+  //   return user == null ? const Login() : const DashboardScreen();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return EasySplashScreen(
+      // futureNavigator: futureCall(),
       logo: Image.asset(
         'kecs.png',
         alignment: Alignment.center,
@@ -24,11 +33,11 @@ class _SplashPageState extends State<SplashPage> {
       loadingText: const Text(
         "Loading...",
         style: TextStyle(
-          color: Color.fromARGB(255, 73, 95, 74),
+          color: Color.fromARGB(255, 97, 202, 102),
         ),
       ),
-      navigator: const Login(),
       durationInSeconds: 3,
+      navigator: const Login(),
     );
   }
 }

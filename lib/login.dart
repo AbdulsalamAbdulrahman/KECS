@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:kecs/dashboard/dashboardscreen1.dart';
 import 'package:kecs/dashboard/dashboardscreen2.dart';
 import 'package:kecs/dashboard/dashboardscreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -179,6 +180,9 @@ class _LoginState extends State<Login> {
       String phonenumber = jsondata["phonenumber"];
       String id = jsondata["id"];
       dynamic emaill = jsondata['email'];
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('user', phonenumber);
 
       setState(() {
         fullname = fullname;

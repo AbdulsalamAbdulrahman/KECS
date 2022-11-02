@@ -165,15 +165,15 @@ class _BillScreenState extends State<BillScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Bill Distribution'),
+      ),
       body: ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
           Material(
               child: Column(
             children: <Widget>[
-              AppBar(
-                title: const Text('Bill Distribution'),
-              ),
               Form(
                   child: Column(
                 children: <Widget>[

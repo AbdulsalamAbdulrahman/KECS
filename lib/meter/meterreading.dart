@@ -218,7 +218,12 @@ class _MeterScreenState extends State<MeterScreen> {
                   onPressed: () async {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
-                      _isLoading ? null : getMeterInfo();
+                      // _isLoading ? null : getMeterInfo();
+                      if (_isLoading == true) {
+                        null;
+                      } else {
+                        getMeterInfo();
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(
