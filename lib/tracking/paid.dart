@@ -98,61 +98,63 @@ class _PaidScreenState extends State<PaidScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            AppBar(title: const Text('Bill Paid')),
-            const Padding(padding: EdgeInsets.only(top: 5.0)),
-            Form(
-              key: key,
-              child: Padding(
-                padding: const EdgeInsets.all(19.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 0.0),
-                      child: Center(
-                        child: SizedBox(
-                          width: 200,
-                          height: 100,
+    return Scaffold(
+      body: Material(
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              AppBar(title: const Text('Bill Paid')),
+              const Padding(padding: EdgeInsets.only(top: 5.0)),
+              Form(
+                key: key,
+                child: Padding(
+                  padding: const EdgeInsets.all(19.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 0.0),
+                        child: Center(
+                          child: SizedBox(
+                            width: 200,
+                            height: 100,
+                          ),
                         ),
                       ),
-                    ),
-                    // const Padding(padding: EdgeInsets.all(5.0)),
-                    container1('Customer Experience'),
-                    const Padding(padding: EdgeInsets.all(5.0)),
-                    ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(500, 50),
-                          maximumSize: const Size(500, 50),
-                        ),
-                        icon: _isLoading
-                            ? const SizedBox(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                                height: 15.0,
-                                width: 15.0,
-                              )
-                            : const Text(''),
-                        label: Text(
-                          _isLoading ? '' : 'Submit',
-                          style: const TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.bold),
-                        ),
-                        onPressed: () async {
-                          if (key.currentState!.validate()) {
-                            _isLoading ? null : sendData();
-                          }
-                        }),
-                  ],
+                      // const Padding(padding: EdgeInsets.all(5.0)),
+                      container1('Customer Experience'),
+                      const Padding(padding: EdgeInsets.all(5.0)),
+                      ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(500, 50),
+                            maximumSize: const Size(500, 50),
+                          ),
+                          icon: _isLoading
+                              ? const SizedBox(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                  height: 15.0,
+                                  width: 15.0,
+                                )
+                              : const Text(''),
+                          label: Text(
+                            _isLoading ? '' : 'Submit',
+                            style: const TextStyle(
+                                fontSize: 15.0, fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () async {
+                            if (key.currentState!.validate()) {
+                              _isLoading ? null : sendData();
+                            }
+                          }),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        ));
+            ],
+          )),
+    );
   }
 
   Widget container1(String text) {

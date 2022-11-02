@@ -172,75 +172,80 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: <Widget>[
-        Material(
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                AppBar(
-                  title: const Text('Tracking(Non PPM)'),
-                ),
-                Wrap(
-                  children: [
-                    // listView()
-                    // const Padding(padding: EdgeInsets.all(20.0)),
-                    card(),
-                    card1(),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(500, 50),
-                            maximumSize: const Size(500, 50),
-                          ),
-                          onPressed: name == ""
-                              ? null
-                              : () {
-                                  if (dropdownValue == 'Paid') {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => PaidScreen(
-                                                  accnumber: accnumber,
-                                                  name: name,
-                                                  address: address,
-                                                  meterno: meterno,
-                                                  lastpay: lastpay,
-                                                  closingb: closingb,
-                                                  lastpayamt: lastpayamt,
-                                                  dropdownValue: dropdownValue,
-                                                  geolat: geolat,
-                                                  geolong: geolong,
-                                                  id: widget.id,
-                                                )));
-                                  } else if (dropdownValue == 'Unpaid') {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => UnpaidScreen(
-                                                  accnumber: accnumber,
-                                                  name: name,
-                                                  address: address,
-                                                  meterno: meterno,
-                                                  lastpay: lastpay,
-                                                  closingb: closingb,
-                                                  lastpayamt: lastpayamt,
-                                                  dropdownValue: dropdownValue,
-                                                  geolat: geolat,
-                                                  geolong: geolong,
-                                                  id: widget.id,
-                                                )));
-                                  }
-                                },
-                          child: const Text('Continue')),
-                    ),
-                  ],
-                )
-              ],
-            ))
-      ],
+    return Scaffold(
+      body: ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          Material(
+              color: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  AppBar(
+                    title: const Text('Tracking(Non PPM)'),
+                  ),
+                  Wrap(
+                    children: [
+                      // listView()
+                      // const Padding(padding: EdgeInsets.all(20.0)),
+                      card(),
+                      card1(),
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(500, 50),
+                              maximumSize: const Size(500, 50),
+                            ),
+                            onPressed: name == ""
+                                ? null
+                                : () {
+                                    if (dropdownValue == 'Paid') {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => PaidScreen(
+                                                    accnumber: accnumber,
+                                                    name: name,
+                                                    address: address,
+                                                    meterno: meterno,
+                                                    lastpay: lastpay,
+                                                    closingb: closingb,
+                                                    lastpayamt: lastpayamt,
+                                                    dropdownValue:
+                                                        dropdownValue,
+                                                    geolat: geolat,
+                                                    geolong: geolong,
+                                                    id: widget.id,
+                                                  )));
+                                    } else if (dropdownValue == 'Unpaid') {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UnpaidScreen(
+                                                    accnumber: accnumber,
+                                                    name: name,
+                                                    address: address,
+                                                    meterno: meterno,
+                                                    lastpay: lastpay,
+                                                    closingb: closingb,
+                                                    lastpayamt: lastpayamt,
+                                                    dropdownValue:
+                                                        dropdownValue,
+                                                    geolat: geolat,
+                                                    geolong: geolong,
+                                                    id: widget.id,
+                                                  )));
+                                    }
+                                  },
+                            child: const Text('Continue')),
+                      ),
+                    ],
+                  )
+                ],
+              ))
+        ],
+      ),
     );
   }
 

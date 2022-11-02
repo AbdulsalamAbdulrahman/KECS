@@ -109,64 +109,67 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            AppBar(
-              // automaticallyImplyLeading: false,
-              title: const Text('Bill Not Delivered'),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(19.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 50.0),
-                  ),
-                  const Text(
-                    'Reason',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
-                  Form(
-                      key: key,
-                      child: Column(
-                        children: [
-                          dropDown(),
-                          const Padding(padding: EdgeInsets.all(5.0)),
-                          ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(500, 50),
-                                maximumSize: const Size(500, 50),
-                              ),
-                              icon: _isLoading
-                                  ? const SizedBox(
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                      ),
-                                      height: 15.0,
-                                      width: 15.0,
-                                    )
-                                  : const Text(''),
-                              label: Text(
-                                _isLoading ? '' : 'Submit',
-                                style: const TextStyle(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              onPressed: () async {
-                                if (key.currentState!.validate()) {
-                                  _isLoading ? null : sendData();
-                                }
-                              }),
-                        ],
-                      ))
-                ],
+    return Scaffold(
+      body: Material(
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              AppBar(
+                // automaticallyImplyLeading: false,
+                title: const Text('Bill Not Delivered'),
               ),
-            ),
-          ],
-        ));
+              Padding(
+                padding: const EdgeInsets.all(19.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 50.0),
+                    ),
+                    const Text(
+                      'Reason',
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    ),
+                    Form(
+                        key: key,
+                        child: Column(
+                          children: [
+                            dropDown(),
+                            const Padding(padding: EdgeInsets.all(5.0)),
+                            ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(500, 50),
+                                  maximumSize: const Size(500, 50),
+                                ),
+                                icon: _isLoading
+                                    ? const SizedBox(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                        height: 15.0,
+                                        width: 15.0,
+                                      )
+                                    : const Text(''),
+                                label: Text(
+                                  _isLoading ? '' : 'Submit',
+                                  style: const TextStyle(
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                onPressed: () async {
+                                  if (key.currentState!.validate()) {
+                                    _isLoading ? null : sendData();
+                                  }
+                                }),
+                          ],
+                        ))
+                  ],
+                ),
+              ),
+            ],
+          )),
+    );
   }
 
   Widget dropDown() {

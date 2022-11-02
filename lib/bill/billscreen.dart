@@ -106,7 +106,7 @@ class _BillScreenState extends State<BillScreen> {
     });
 
     Uri url = Uri.parse(
-        'https://kadunaelectric.com/meterreading/kecs/dotnet_billinghistory.php?id=$accno');
+        'https://meterreading.kadunaelectric.com/kecs/dotnet_billinghistory.php?id=$accno');
 
     var data = {
       'accno': accno,
@@ -164,74 +164,78 @@ class _BillScreenState extends State<BillScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: <Widget>[
-        Material(
-            child: Column(
-          children: <Widget>[
-            AppBar(
-              title: const Text('Bill Distribution'),
-            ),
-            Form(
-                child: Column(
-              children: <Widget>[
-                card(),
-                card1(),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(500, 50),
-                        maximumSize: const Size(500, 50),
-                      ),
-                      onPressed: name == "" && geolat.isEmpty && geolong.isEmpty
-                          ? null
-                          : () {
-                              if (dropdownValue == 'Delivered') {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DeliveredScreen(
-                                              accnumber: accnumber,
-                                              name: name,
-                                              address: address,
-                                              meterno: meterno,
-                                              lastpay: lastpay,
-                                              closingb: closingb,
-                                              lastpayamt: lastpayamt,
-                                              dropdownValue: dropdownValue,
-                                              geolat: geolat,
-                                              geolong: geolong,
-                                              id: widget.id,
-                                            )));
-                              } else if (dropdownValue == 'Not Delivered') {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            NotDeliveredScreen(
-                                              accnumber: accnumber,
-                                              name: name,
-                                              address: address,
-                                              meterno: meterno,
-                                              lastpay: lastpay,
-                                              closingb: closingb,
-                                              lastpayamt: lastpayamt,
-                                              dropdownValue: dropdownValue,
-                                              geolat: geolat,
-                                              geolong: geolong,
-                                              id: widget.id,
-                                            )));
-                              }
-                            },
-                      child: const Text('Continue')),
-                ),
-              ],
-            ))
-          ],
-        ))
-      ],
+    return Scaffold(
+      body: ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          Material(
+              child: Column(
+            children: <Widget>[
+              AppBar(
+                title: const Text('Bill Distribution'),
+              ),
+              Form(
+                  child: Column(
+                children: <Widget>[
+                  card(),
+                  card1(),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(500, 50),
+                          maximumSize: const Size(500, 50),
+                        ),
+                        onPressed: name == "" &&
+                                geolat.isEmpty &&
+                                geolong.isEmpty
+                            ? null
+                            : () {
+                                if (dropdownValue == 'Delivered') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DeliveredScreen(
+                                                accnumber: accnumber,
+                                                name: name,
+                                                address: address,
+                                                meterno: meterno,
+                                                lastpay: lastpay,
+                                                closingb: closingb,
+                                                lastpayamt: lastpayamt,
+                                                dropdownValue: dropdownValue,
+                                                geolat: geolat,
+                                                geolong: geolong,
+                                                id: widget.id,
+                                              )));
+                                } else if (dropdownValue == 'Not Delivered') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              NotDeliveredScreen(
+                                                accnumber: accnumber,
+                                                name: name,
+                                                address: address,
+                                                meterno: meterno,
+                                                lastpay: lastpay,
+                                                closingb: closingb,
+                                                lastpayamt: lastpayamt,
+                                                dropdownValue: dropdownValue,
+                                                geolat: geolat,
+                                                geolong: geolong,
+                                                id: widget.id,
+                                              )));
+                                }
+                              },
+                        child: const Text('Continue')),
+                  ),
+                ],
+              ))
+            ],
+          ))
+        ],
+      ),
     );
   }
 

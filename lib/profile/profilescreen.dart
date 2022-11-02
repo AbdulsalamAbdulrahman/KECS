@@ -122,48 +122,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: <Widget>[
-        Material(
-          child: Column(
-            children: <Widget>[
-              AppBar(
-                title: const Text('Profile Screen'),
-              ),
-              Form(
-                key: key,
-                child: Padding(
-                  padding: const EdgeInsets.all(19.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Padding(
-                          padding: EdgeInsets.only(top: 0.0),
-                          child: Center(
-                              child: SizedBox(
-                            width: 200,
-                            height: 70,
-                          ))),
-                      textFieldN('Name', true),
-                      const SizedBox(height: 10.0),
-                      textFieldP('Phone', true),
-                      const SizedBox(height: 10.0),
-                      textFieldE('Email', true),
-                      const SizedBox(height: 10.0),
-                      textField('Payroll ID', widget.payrollid, false),
-                      const SizedBox(height: 10.0),
-                      button(),
-                      const SizedBox(height: 10.0),
-                      buttonP()
-                    ],
+    return Scaffold(
+      body: ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          Material(
+            child: Column(
+              children: <Widget>[
+                AppBar(
+                  title: const Text('Profile Screen'),
+                ),
+                Form(
+                  key: key,
+                  child: Padding(
+                    padding: const EdgeInsets.all(19.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Padding(
+                            padding: EdgeInsets.only(top: 0.0),
+                            child: Center(
+                                child: SizedBox(
+                              width: 200,
+                              height: 70,
+                            ))),
+                        textFieldN('Name', true),
+                        const SizedBox(height: 10.0),
+                        textFieldP('Phone', true),
+                        const SizedBox(height: 10.0),
+                        textFieldE('Email', true),
+                        const SizedBox(height: 10.0),
+                        textField('Payroll ID', widget.payrollid, false),
+                        const SizedBox(height: 10.0),
+                        button(),
+                        const SizedBox(height: 10.0),
+                        buttonP()
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        )
-      ],
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 

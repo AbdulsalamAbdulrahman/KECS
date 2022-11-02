@@ -135,71 +135,73 @@ class _TrackingScreenState extends State<TrackingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: <Widget>[
-      Material(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              AppBar(
-                title: const Text('Tracking(PPM)'),
-              ),
-              Wrap(
-                children: [
-                  // const Padding(padding: EdgeInsets.all(20.0)),
-                  card(),
-                  card1(),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(5.0),
-                  //   child: ElevatedButton(
-                  //       style: ElevatedButton.styleFrom(
-                  //         minimumSize: const Size(500, 50),
-                  //         maximumSize: const Size(500, 50),
-                  //       ),
-                  //       onPressed: name == ""
-                  //           ? null
-                  //           : () {
-                  //               if (dropdownValue == 'Paid') {
-                  //                 Navigator.push(
-                  //                     context,
-                  //                     MaterialPageRoute(
-                  //                         builder: (context) =>  PaidScreen(
-                  //                           accnum: accnum,
-                  //                             meternumber: meternumber,
-                  //                             name: name,
-                  //                             address: address,
-                  //                             feeder33: feeder33,
-                  //                             feeder11: feeder11,
-                  //                             regional: regional,
-                  //                             isMD: isMD,
-                  //                             llastdate: llastdate,
-                  //                             llastamount: llastamount,
-                  //                         )));
-                  //               } else if (dropdownValue == 'Unpaid') {
-                  //                 Navigator.push(
-                  //                     context,
-                  //                     MaterialPageRoute(
-                  //                         builder: (context) =>
-                  //                              UnpaidScreen(
-                  //                               accnum: accnum,
-                  //                             meternumber: meternumber,
-                  //                             name: name,
-                  //                             address: address,
-                  //                             feeder33: feeder33,
-                  //                             feeder11: feeder11,
-                  //                             regional: regional,
-                  //                             isMD: isMD,
-                  //                             llastdate: llastdate,
-                  //                             llastamount: llastamount,
-                  //                             )));
-                  //               }
-                  //             },
-                  //       child: const Text('Continue')),
-                  // ),
-                ],
-              )
-            ],
-          ))
-    ]);
+    return Scaffold(
+      body: ListView(children: <Widget>[
+        Material(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                AppBar(
+                  title: const Text('Tracking(PPM)'),
+                ),
+                Wrap(
+                  children: [
+                    // const Padding(padding: EdgeInsets.all(20.0)),
+                    card(),
+                    card1(),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(5.0),
+                    //   child: ElevatedButton(
+                    //       style: ElevatedButton.styleFrom(
+                    //         minimumSize: const Size(500, 50),
+                    //         maximumSize: const Size(500, 50),
+                    //       ),
+                    //       onPressed: name == ""
+                    //           ? null
+                    //           : () {
+                    //               if (dropdownValue == 'Paid') {
+                    //                 Navigator.push(
+                    //                     context,
+                    //                     MaterialPageRoute(
+                    //                         builder: (context) =>  PaidScreen(
+                    //                           accnum: accnum,
+                    //                             meternumber: meternumber,
+                    //                             name: name,
+                    //                             address: address,
+                    //                             feeder33: feeder33,
+                    //                             feeder11: feeder11,
+                    //                             regional: regional,
+                    //                             isMD: isMD,
+                    //                             llastdate: llastdate,
+                    //                             llastamount: llastamount,
+                    //                         )));
+                    //               } else if (dropdownValue == 'Unpaid') {
+                    //                 Navigator.push(
+                    //                     context,
+                    //                     MaterialPageRoute(
+                    //                         builder: (context) =>
+                    //                              UnpaidScreen(
+                    //                               accnum: accnum,
+                    //                             meternumber: meternumber,
+                    //                             name: name,
+                    //                             address: address,
+                    //                             feeder33: feeder33,
+                    //                             feeder11: feeder11,
+                    //                             regional: regional,
+                    //                             isMD: isMD,
+                    //                             llastdate: llastdate,
+                    //                             llastamount: llastamount,
+                    //                             )));
+                    //               }
+                    //             },
+                    //       child: const Text('Continue')),
+                    // ),
+                  ],
+                )
+              ],
+            ))
+      ]),
+    );
   }
 
   Widget card() {
