@@ -54,7 +54,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future counter() async {
     Uri url =
-        Uri.parse('https://kadunaelectric.com/meterreading/kecs/counter.php');
+        Uri.parse('https://meterreading.kadunaelectric.com/kecs/counter.php');
 
     var data = {
       'ID': widget.id,
@@ -76,6 +76,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         notDelivered = notDeliveredJson.toString();
         total = totalJson.toString();
       });
+      print(delivered);
     }
   }
 
