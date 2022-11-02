@@ -42,11 +42,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      name.text = widget.fullname;
-      email.text = widget.emaill;
-      phone.text = widget.phonenumber;
-    });
     getCurrentProfile();
   }
 
@@ -295,7 +290,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: const Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pop();
+                // Navigator.of(context).pop();
+                getCurrentProfile();
               },
             ),
           ],

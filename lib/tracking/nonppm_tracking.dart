@@ -354,7 +354,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
                             ),
                           );
                         },
-                  child: const Text("View 6 month history"),
+                  child: const Text("View monthly payment history"),
                 ),
                 dropDown(),
                 const Padding(padding: EdgeInsets.all(5.0)),
@@ -481,7 +481,7 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
   @override
   Widget build(Object context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('6 month History')),
+        appBar: AppBar(title: const Text('Monthly Payment History')),
         body: ListView.builder(
             itemCount: widget.dataList1.length,
             itemBuilder: (_, index) {
@@ -505,9 +505,14 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
                   ),
                   // contents
                   children: [
-                    Text(
-                        "Amount: ${widget.dataList1[index]['lastPaymentAmount'].toString()}",
-                        style: const TextStyle(color: Colors.white))
+                    Column(children: [
+                      Text(
+                          "Last Paid Amount: ${widget.dataList1[index]['lastPaymentAmount'].toString()}",
+                          style: const TextStyle(color: Colors.white)),
+                      Text(
+                          "Last Payment Date: ${widget.dataList1[index]['lastPaymentDate'].toString()}",
+                          style: const TextStyle(color: Colors.white))
+                    ])
                   ],
                 ),
               );

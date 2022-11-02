@@ -15,17 +15,17 @@ class DashboardScreen2 extends StatefulWidget {
   final String phonenumber;
   final dynamic emaill;
 
-  const DashboardScreen2(
-      {Key? key,
-      required this.fullname,
-      required this.jobtitle,
-      required this.payrollid,
-      required this.areaoffice,
-      required this.id,
-      required this.feeder,
-      required this.phonenumber,
-      this.emaill})
-      : super(key: key);
+  const DashboardScreen2({
+    Key? key,
+    required this.fullname,
+    required this.jobtitle,
+    required this.payrollid,
+    required this.areaoffice,
+    required this.id,
+    required this.feeder,
+    required this.phonenumber,
+    this.emaill,
+  }) : super(key: key);
 
   @override
   State<DashboardScreen2> createState() => _DashboardScreen2State();

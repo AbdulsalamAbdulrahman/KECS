@@ -54,7 +54,7 @@ class _MeterScreenState extends State<MeterScreen> {
       String namejson = jsondata['customerName'];
       String addressjson = jsondata['customerAddress'];
       String accno = jsondata['customerAccountNo'];
-      String meternumberjson = jsondata['meterNumber'];
+      String meternumberjson = jsondata['meterNumber'] ?? "NA";
       String feeder33json = jsondata['feeder33kV'];
       String feeder11json = jsondata['feeder11KV'];
       String regionaljson = jsondata['regionalOffice'];

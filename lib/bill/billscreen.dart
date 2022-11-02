@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 
 class BillScreen extends StatefulWidget {
   final String id;
+
   const BillScreen({
     Key? key,
     required this.id,

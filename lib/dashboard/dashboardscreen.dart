@@ -6,26 +6,29 @@ import 'package:kecs/login.dart';
 import 'package:kecs/modal_fit.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'package:http/http.dart' as http;
 
 class DashboardScreen extends StatefulWidget {
-  final String fullname;
-  final String jobtitle;
-  final String payrollid;
-  final String areaoffice;
-  final String id;
-  final String feeder;
-  final String phonenumber;
+  final dynamic fullname;
+  final dynamic jobtitle;
+  final dynamic payrollid;
+  final dynamic areaoffice;
+  final dynamic id;
+  final dynamic feeder;
+  final dynamic phonenumber;
   final dynamic emaill;
 
   const DashboardScreen(
       {Key? key,
-      required this.fullname,
-      required this.jobtitle,
-      required this.payrollid,
-      required this.areaoffice,
-      required this.id,
-      required this.feeder,
-      required this.phonenumber,
+      this.fullname,
+      this.jobtitle,
+      this.payrollid,
+      this.areaoffice,
+      this.id,
+      this.feeder,
+      this.phonenumber,
       this.emaill})
       : super(key: key);
 
@@ -37,12 +40,43 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final key = GlobalKey<FormState>();
 
   late String _timestring;
+  String delivered = '';
+  String notDelivered = '';
+  String total = '';
 
   @override
   void initState() {
     _timestring =
         "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     super.initState();
+    counter();
+  }
+
+  Future counter() async {
+    Uri url =
+        Uri.parse('https://kadunaelectric.com/meterreading/kecs/counter.php');
+
+    var data = {
+      'ID': widget.id,
+    };
+
+    var response = await http.post(
+      url,
+      body: json.encode(data),
+    );
+    var jsondata = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      int deliveredJson = jsondata["Delivered"];
+      int notDeliveredJson = jsondata["NotDelivered"];
+      int totalJson = jsondata["Total"];
+
+      setState(() {
+        delivered = deliveredJson.toString();
+        notDelivered = notDeliveredJson.toString();
+        total = totalJson.toString();
+      });
+    }
   }
 
   @override
@@ -181,9 +215,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
             children: [
-              _card('Total\nBills Processed', '\n0'),
-              _card('Bills\nDelivered', '\n0'),
-              _card('Bills\nUndelivered', '\n0'),
+              _card('Total\nBills Processed', '\n$total'),
+              _card('Bills\nDelivered', '\n$delivered'),
+              _card('Bills\nUndelivered', '\n$notDelivered'),
             ],
           ),
         ],
@@ -272,7 +306,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               MaterialPageRoute(
                   builder: (context) => BillScreen(
                         id: widget.id,
-                      )));
+                      ))).then((_) => counter());
         },
         child: Card(
           child: Column(

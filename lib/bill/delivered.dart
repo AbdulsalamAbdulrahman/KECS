@@ -30,20 +30,20 @@ class DeliveredScreen extends StatefulWidget {
   final String geolong;
   final String id;
 
-  const DeliveredScreen(
-      {Key? key,
-      required this.accnumber,
-      required this.name,
-      required this.dropdownValue,
-      required this.geolat,
-      required this.geolong,
-      required this.address,
-      required this.meterno,
-      required this.lastpay,
-      required this.closingb,
-      required this.lastpayamt,
-      required this.id})
-      : super(key: key);
+  const DeliveredScreen({
+    Key? key,
+    required this.accnumber,
+    required this.name,
+    required this.dropdownValue,
+    required this.geolat,
+    required this.geolong,
+    required this.address,
+    required this.meterno,
+    required this.lastpay,
+    required this.closingb,
+    required this.lastpayamt,
+    required this.id,
+  }) : super(key: key);
 
   @override
   State<DeliveredScreen> createState() => _DeliveredScreenState();
