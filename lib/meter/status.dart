@@ -119,7 +119,7 @@ class _StatusScreenState extends State<StatusScreen> {
           child: Column(
             children: <Widget>[
               Wrap(
-                children: [
+                children: <Widget>[
                   AppBar(
                     title: const Text('Meter Reading'),
                   ),

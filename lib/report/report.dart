@@ -54,7 +54,7 @@ class _ReportScreenState extends State<ReportScreen> {
               padding: const EdgeInsets.all(30),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   // Start date
                   Text(
                     "Start date: ${_selectedDateRange?.start.toString().split(' ')[0]}",

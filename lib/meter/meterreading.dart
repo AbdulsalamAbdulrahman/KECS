@@ -130,7 +130,7 @@ class _MeterScreenState extends State<MeterScreen> {
             children: <Widget>[
               AppBar(title: const Text('Meter Reading')),
               Wrap(
-                children: [
+                children: <Widget>[
                   // const Padding(padding: EdgeInsets.all(20.0)),
                   card(),
                   card1(),
@@ -255,7 +255,7 @@ class _MeterScreenState extends State<MeterScreen> {
                   verticalDirection: VerticalDirection.down,
                   direction: Axis.vertical,
                   alignment: WrapAlignment.start,
-                  children: [
+                  children: <Widget>[
                     container('Name: ', name),
                     container('Address: ', address),
                     container('Meter Number:', meternumber),
@@ -288,7 +288,7 @@ class _MeterScreenState extends State<MeterScreen> {
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
       child: Row(
-        children: [
+        children: <Widget>[
           Text(
             text,
             style: const TextStyle(fontWeight: FontWeight.bold),
@@ -307,7 +307,7 @@ class _MeterScreenState extends State<MeterScreen> {
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
       child: Row(
-        children: [
+        children: <Widget>[
           Text(
             text,
             style: const TextStyle(fontWeight: FontWeight.bold),
@@ -326,7 +326,7 @@ class _MeterScreenState extends State<MeterScreen> {
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
       child: Row(
-        children: [
+        children: <Widget>[
           Text(
             text,
             style: const TextStyle(fontWeight: FontWeight.bold),

@@ -119,7 +119,7 @@ class _ReconnectScreenState extends State<ReconnectScreen> {
                 padding: const EdgeInsets.all(19.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     const Padding(
                         padding: EdgeInsets.only(top: 0.0),
                         child: Center(

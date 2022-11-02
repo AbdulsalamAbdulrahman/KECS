@@ -111,7 +111,7 @@ class _PaidScreenState extends State<PaidScreen> {
                   padding: const EdgeInsets.all(19.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       const Padding(
                         padding: EdgeInsets.only(top: 0.0),
                         child: Center(

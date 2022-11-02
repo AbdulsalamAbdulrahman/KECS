@@ -350,7 +350,7 @@ class _BillScreenState extends State<BillScreen> {
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
       child: Row(
-        children: [
+        children: <Widget>[
           Text(
             text,
             style: const TextStyle(fontWeight: FontWeight.bold),
@@ -369,7 +369,7 @@ class _BillScreenState extends State<BillScreen> {
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
       child: Row(
-        children: [
+        children: <Widget>[
           Text(
             text,
             style: const TextStyle(fontWeight: FontWeight.bold),
@@ -388,7 +388,7 @@ class _BillScreenState extends State<BillScreen> {
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
       child: Row(
-        children: [
+        children: <Widget>[
           Text(
             text,
             style: const TextStyle(fontWeight: FontWeight.bold),

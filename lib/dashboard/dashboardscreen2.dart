@@ -58,7 +58,7 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               UserAccountsDrawerHeader(
                 // <-- SEE HERE
                 decoration: const BoxDecoration(
@@ -163,10 +163,10 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
             ),
           ),
           Column(
-            children: [
+            children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Column(children: [
+                child: Column(children: <Widget>[
                   texts("${widget.fullname} ${widget.payrollid}"),
                   texts(widget.feeder),
                   texts(widget.areaoffice),
@@ -176,7 +176,7 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
           ),
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
-            children: [
+            children: <Widget>[
               _card('Diconnected', '\n0'),
               _card('Reconnected', '\n0'),
               _card('Defaulters', '\n0'),

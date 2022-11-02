@@ -93,7 +93,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               UserAccountsDrawerHeader(
                 // <-- SEE HERE
                 decoration: const BoxDecoration(
@@ -201,10 +201,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
           Column(
-            children: [
+            children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Column(children: [
+                child: Column(children: <Widget>[
                   texts("${widget.fullname} ${widget.payrollid}"),
                   texts(widget.feeder),
                   texts(widget.areaoffice),
@@ -214,7 +214,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
-            children: [
+            children: <Widget>[
               _card('Total\nBills Processed', '\n$total'),
               _card('Bills\nDelivered', '\n$delivered'),
               _card('Bills\nUndelivered', '\n$notDelivered'),

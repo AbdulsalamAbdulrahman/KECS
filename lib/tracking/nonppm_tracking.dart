@@ -184,7 +184,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
                     title: const Text('Tracking(Non PPM)'),
                   ),
                   Wrap(
-                    children: [
+                    children: <Widget>[
                       // listView()
                       // const Padding(padding: EdgeInsets.all(20.0)),
                       card(),
@@ -381,7 +381,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
       child: Row(
-        children: [
+        children: <Widget>[
           Text(
             text,
             style: const TextStyle(fontWeight: FontWeight.bold),
@@ -400,7 +400,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
       child: Row(
-        children: [
+        children: <Widget>[
           Text(
             text,
             style: const TextStyle(fontWeight: FontWeight.bold),
@@ -419,7 +419,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
       child: Row(
-        children: [
+        children: <Widget>[
           Text(
             text,
             style: const TextStyle(fontWeight: FontWeight.bold),
@@ -509,8 +509,8 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
                     style: const TextStyle(color: Colors.white),
                   ),
                   // contents
-                  children: [
-                    Column(children: [
+                  children: <Widget>[
+                    Column(children: <Widget>[
                       Text(
                           "Last Paid Amount: ${widget.dataList1[index]['lastPaymentAmount'].toString()}",
                           style: const TextStyle(color: Colors.white)),

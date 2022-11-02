@@ -122,7 +122,7 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
                 padding: const EdgeInsets.all(19.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     const Padding(
                       padding: EdgeInsets.only(top: 50.0),
                     ),
@@ -134,7 +134,7 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
                     Form(
                         key: key,
                         child: Column(
-                          children: [
+                          children: <Widget>[
                             dropDown(),
                             const Padding(padding: EdgeInsets.all(5.0)),
                             ElevatedButton.icon(

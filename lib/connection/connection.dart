@@ -174,7 +174,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
                   title: const Text('Disconnection/Reconnection'),
                 ),
                 Wrap(
-                  children: [
+                  children: <Widget>[
                     // listView()
                     // const Padding(padding: EdgeInsets.all(20.0)),
                     card(),
@@ -345,7 +345,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
       child: Row(
-        children: [
+        children: <Widget>[
           Text(
             text,
             style: const TextStyle(fontWeight: FontWeight.bold),
@@ -364,7 +364,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
       child: Row(
-        children: [
+        children: <Widget>[
           Text(
             text,
             style: const TextStyle(fontWeight: FontWeight.bold),
@@ -383,7 +383,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(border: Border.all(color: Colors.white)),
       child: Row(
-        children: [
+        children: <Widget>[
           Text(
             text,
             style: const TextStyle(fontWeight: FontWeight.bold),
