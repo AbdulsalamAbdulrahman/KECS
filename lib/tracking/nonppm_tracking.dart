@@ -107,7 +107,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
     });
 
     Uri url = Uri.parse(
-        'https://kadunaelectric.com/meterreading/kecs/dotnet_billinghistory.php?id=$accno');
+        'https://meterreading.kadunaelectric.com/kecs/dotnet_billinghistory.php?id=$accno');
 
     var data = {
       'accno': accno,

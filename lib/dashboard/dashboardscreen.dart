@@ -46,10 +46,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
+    counter();
     _timestring =
         "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     super.initState();
-    counter();
   }
 
   Future counter() async {
