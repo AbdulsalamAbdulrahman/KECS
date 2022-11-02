@@ -106,7 +106,7 @@ class _BillScreenState extends State<BillScreen> {
     });
 
     Uri url = Uri.parse(
-        'https://meterreading.kadunaelectric.com/kecs/dotnet_billinghistory.php?id=$accno');
+        'https://kadunaelectric.com/meterreading/kecs/dotnet_billinghistory.php?id=$accno');
 
     var data = {
       'accno': accno,
