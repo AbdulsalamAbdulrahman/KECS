@@ -113,22 +113,25 @@ class _StatusScreenState extends State<StatusScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(scrollDirection: Axis.vertical, children: <Widget>[
-      Material(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              Wrap(
-                children: <Widget>[
-                  AppBar(
-                    title: const Text('Meter Reading'),
-                  ),
-                  card(),
-                ],
-              )
-            ],
-          ))
-    ]);
+    return Scaffold(
+      appBar: AppBar(title: const Text('Meter Reading')),
+      body: ListView(scrollDirection: Axis.vertical, children: <Widget>[
+        Material(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                Wrap(
+                  children: <Widget>[
+                    AppBar(
+                      title: const Text('Meter Reading'),
+                    ),
+                    card(),
+                  ],
+                )
+              ],
+            ))
+      ]),
+    );
   }
 
   Widget card() {

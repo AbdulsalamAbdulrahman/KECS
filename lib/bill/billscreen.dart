@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kecs/bill/delivered.dart';
 import 'package:kecs/bill/notdelivered.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:geolocator/geolocator.dart';
 
 class BillScreen extends StatefulWidget {
   final String id;
@@ -37,12 +37,12 @@ class _BillScreenState extends State<BillScreen> {
   String dropdownValue = 'Select Status';
 
   //geo
-  bool servicestatus = false;
-  bool haspermission = false;
-  late LocationPermission permission;
-  late Position position;
-  String long = "", lat = "";
-  late StreamSubscription<Position> positionStream;
+  // bool servicestatus = false;
+  // bool haspermission = false;
+  // late LocationPermission permission;
+  // late Position position;
+  // String long = "", lat = "";
+  // late StreamSubscription<Position> positionStream;
 
   @override
   void initState() {
@@ -81,23 +81,23 @@ class _BillScreenState extends State<BillScreen> {
   //   });
   // }
 
-  getLocation() async {
-    position = await Geolocator.getCurrentPosition(
-        forceAndroidLocationManager: true,
-        desiredAccuracy: LocationAccuracy.high);
-    // print(position.longitude); //Output: 80.24599079
-    // print(position.latitude); //Output: 29.6593457
+  // getLocation() async {
+  //   position = await Geolocator.getCurrentPosition(
+  //       forceAndroidLocationManager: true,
+  //       desiredAccuracy: LocationAccuracy.high);
+  //   // print(position.longitude); //Output: 80.24599079
+  //   // print(position.latitude); //Output: 29.6593457
 
-    long = position.longitude.toString();
-    lat = position.latitude.toString();
+  //   long = position.longitude.toString();
+  //   lat = position.latitude.toString();
 
-    // debugPrint("$long, $lat");
+  //   // debugPrint("$long, $lat");
 
-    setState(() {
-      geolong = long;
-      geolat = lat;
-    });
-  }
+  //   setState(() {
+  //     geolong = long;
+  //     geolat = lat;
+  //   });
+  // }
 
   Future getAccNo() async {
     setState(() {
@@ -185,9 +185,7 @@ class _BillScreenState extends State<BillScreen> {
                           minimumSize: const Size(500, 50),
                           maximumSize: const Size(500, 50),
                         ),
-                        onPressed: name == "" &&
-                                geolat.isEmpty &&
-                                geolong.isEmpty
+                        onPressed: name == ""
                             ? null
                             : () {
                                 if (dropdownValue == 'Delivered') {
@@ -292,7 +290,7 @@ class _BillScreenState extends State<BillScreen> {
                         null;
                       } else {
                         getAccNo();
-                        getLocation();
+                        // getLocation();
                       }
                     }
                   },

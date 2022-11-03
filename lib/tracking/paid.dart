@@ -99,11 +99,11 @@ class _PaidScreenState extends State<PaidScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Bill Paid')),
       body: Material(
           color: Colors.white,
           child: Column(
             children: <Widget>[
-              AppBar(title: const Text('Bill Paid')),
               const Padding(padding: EdgeInsets.only(top: 5.0)),
               Form(
                 key: key,

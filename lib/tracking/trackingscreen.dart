@@ -134,14 +134,14 @@ class _TrackingScreenState extends State<TrackingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Tracking(PPM)'),
+      ),
       body: ListView(children: <Widget>[
         Material(
             color: Colors.white,
             child: Column(
               children: <Widget>[
-                AppBar(
-                  title: const Text('Tracking(PPM)'),
-                ),
                 Wrap(
                   children: <Widget>[
                     // const Padding(padding: EdgeInsets.all(20.0)),

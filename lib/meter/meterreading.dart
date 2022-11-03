@@ -123,50 +123,52 @@ class _MeterScreenState extends State<MeterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: <Widget>[
-      Material(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              AppBar(title: const Text('Meter Reading')),
-              Wrap(
-                children: <Widget>[
-                  // const Padding(padding: EdgeInsets.all(20.0)),
-                  card(),
-                  card1(),
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(500, 50),
-                          maximumSize: const Size(500, 50),
-                        ),
-                        onPressed: llastamount == ""
-                            ? null
-                            : () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => StatusScreen(
-                                              accnum: accnum,
-                                              meternumber: meternumber,
-                                              name: name,
-                                              address: address,
-                                              feeder33: feeder33,
-                                              feeder11: feeder11,
-                                              regional: regional,
-                                              isMD: isMD,
-                                              llastdate: llastdate,
-                                              llastamount: llastamount,
-                                            )));
-                              },
-                        child: const Text('Continue')),
-                  ),
-                ],
-              )
-            ],
-          ))
-    ]);
+    return Scaffold(
+      appBar: AppBar(title: const Text('Meter Reading')),
+      body: ListView(children: <Widget>[
+        Material(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                Wrap(
+                  children: <Widget>[
+                    // const Padding(padding: EdgeInsets.all(20.0)),
+                    card(),
+                    card1(),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(500, 50),
+                            maximumSize: const Size(500, 50),
+                          ),
+                          onPressed: llastamount == ""
+                              ? null
+                              : () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => StatusScreen(
+                                                accnum: accnum,
+                                                meternumber: meternumber,
+                                                name: name,
+                                                address: address,
+                                                feeder33: feeder33,
+                                                feeder11: feeder11,
+                                                regional: regional,
+                                                isMD: isMD,
+                                                llastdate: llastdate,
+                                                llastamount: llastamount,
+                                              )));
+                                },
+                          child: const Text('Continue')),
+                    ),
+                  ],
+                )
+              ],
+            ))
+      ]),
+    );
   }
 
   Widget card() {

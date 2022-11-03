@@ -121,6 +121,10 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        // automaticallyImplyLeading: false,
+        title: const Text('Bill Not Delivered'),
+      ),
       body: ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[

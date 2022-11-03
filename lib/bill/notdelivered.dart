@@ -110,14 +110,15 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+                // automaticallyImplyLeading: false,
+                title: const Text('Bill Not Delivered'),
+              ),
       body: Material(
           color: Colors.white,
           child: Column(
             children: <Widget>[
-              AppBar(
-                // automaticallyImplyLeading: false,
-                title: const Text('Bill Not Delivered'),
-              ),
+              
               Padding(
                 padding: const EdgeInsets.all(19.0),
                 child: Column(

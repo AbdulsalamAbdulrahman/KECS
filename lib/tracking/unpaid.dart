@@ -107,11 +107,11 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Bill UnPaid')),
       body: Material(
           color: Colors.white,
           child: Column(
             children: <Widget>[
-              AppBar(title: const Text('Bill Paid')),
               Form(
                 key: key,
                 child: Padding(

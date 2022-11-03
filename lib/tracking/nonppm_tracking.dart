@@ -173,6 +173,9 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Tracking(Non PPM)'),
+      ),
       body: ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
@@ -180,9 +183,6 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
               color: Colors.white,
               child: Column(
                 children: <Widget>[
-                  AppBar(
-                    title: const Text('Tracking(Non PPM)'),
-                  ),
                   Wrap(
                     children: <Widget>[
                       // listView()
