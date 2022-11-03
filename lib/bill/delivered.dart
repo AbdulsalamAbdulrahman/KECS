@@ -132,9 +132,6 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
               color: Colors.white,
               child: Column(
                 children: <Widget>[
-                  AppBar(
-                    title: const Text('Bill Delivered'),
-                  ),
                   Form(
                     key: key,
                     child: Padding(
