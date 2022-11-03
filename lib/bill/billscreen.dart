@@ -46,41 +46,40 @@ class _BillScreenState extends State<BillScreen> {
 
   @override
   void initState() {
-    checkGps();
     super.initState();
   }
 
-  checkGps() async {
-    servicestatus = await Geolocator.isLocationServiceEnabled();
-    if (servicestatus) {
-      permission = await Geolocator.checkPermission();
+  // checkGps() async {
+  //   servicestatus = await Geolocator.isLocationServiceEnabled();
+  //   if (servicestatus) {
+  //     permission = await Geolocator.checkPermission();
 
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          debugPrint('Location permissions are denied');
-        } else if (permission == LocationPermission.deniedForever) {
-          debugPrint("'Location permissions are permanently denied");
-        } else {
-          haspermission = true;
-        }
-      } else {
-        haspermission = true;
-      }
+  //     if (permission == LocationPermission.denied) {
+  //       permission = await Geolocator.requestPermission();
+  //       if (permission == LocationPermission.denied) {
+  //         debugPrint('Location permissions are denied');
+  //       } else if (permission == LocationPermission.deniedForever) {
+  //         debugPrint("'Location permissions are permanently denied");
+  //       } else {
+  //         haspermission = true;
+  //       }
+  //     } else {
+  //       haspermission = true;
+  //     }
 
-      if (haspermission) {
-        setState(() {
-          //refresh the UI
-        });
-      }
-    } else {
-      debugPrint("GPS Service is not enabled, turn on GPS location");
-    }
+  //     if (haspermission) {
+  //       setState(() {
+  //         //refresh the UI
+  //       });
+  //     }
+  //   } else {
+  //     debugPrint("GPS Service is not enabled, turn on GPS location");
+  //   }
 
-    setState(() {
-      //refresh the UI
-    });
-  }
+  //   setState(() {
+  //     //refresh the UI
+  //   });
+  // }
 
   getLocation() async {
     position = await Geolocator.getCurrentPosition(
@@ -289,9 +288,11 @@ class _BillScreenState extends State<BillScreen> {
                   onPressed: () async {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
-                      _isLoading ? null : getAccNo();
-                      getLocation();
-                      // print(geolong + geolat);
+                      if (_isLoading == true) {
+                        null;
+                      } else {
+                        getLocation();
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(

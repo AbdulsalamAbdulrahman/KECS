@@ -58,7 +58,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
 
     if (jsondata != "Invalid Meter Number") {
       final jsondata = json.decode(response.body);
-      debugPrint(response.body);
 
       String namejson = jsondata['customerName'];
       String addressjson = jsondata['customerAddress'];
@@ -121,11 +120,10 @@ class _TrackingScreenState extends State<TrackingScreen> {
 
     if (jsondata != "Invalid Meter Number") {
       final jsondata = json.decode(response.body);
-      debugPrint(response.body);
+
       String lastdate = jsondata['lastdate'];
       String lastamount = jsondata['lastamount'];
 
-      debugPrint(lastdate + lastamount);
       setState(() {
         llastdate = lastdate;
         llastamount = lastamount;

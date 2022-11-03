@@ -9,6 +9,8 @@ import 'package:kecs/report/report.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:geolocator/geolocator.dart';
+import 'package:app_settings/app_settings.dart';
 
 class DashboardScreen extends StatefulWidget {
   final dynamic fullname;
@@ -44,12 +46,55 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String notDelivered = '';
   String total = '';
 
+  bool servicestatus = false;
+  bool haspermission = false;
+  late LocationPermission permission;
+
   @override
   void initState() {
+    checkGps();
     counter();
     _timestring =
         "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     super.initState();
+  }
+
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (!servicestatus) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return AppSettings.openLocationSettings();
+    }
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          debugPrint('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          debugPrint("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
+
+      if (haspermission) {
+        setState(() {
+          //refresh the UI
+        });
+      }
+    } else {
+      debugPrint("GPS Service is not enabled, turn on GPS location");
+    }
+
+    setState(() {
+      //refresh the UI
+    });
   }
 
   Future counter() async {
@@ -76,7 +121,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         notDelivered = notDeliveredJson.toString();
         total = totalJson.toString();
       });
-      print(delivered);
     }
   }
 

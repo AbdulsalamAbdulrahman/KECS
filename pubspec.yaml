@@ -46,6 +46,7 @@ dependencies:
   shared_preferences: ^2.0.15
   modal_bottom_sheet: ^2.1.0
   geolocator: ^9.0.1
+  app_settings: ^4.1.8
 
   
 

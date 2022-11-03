@@ -121,7 +121,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
     final jsondata = json.decode(response.body);
 
     final List<dynamic> dataList = jsonDecode(response.body);
-    // List.generate(3, (index) => {print(dataList[index])});
+    // List.generate(0, (index) => {print(dataList[index])});
 
     setState(() {
       dataList1 = dataList;
@@ -341,7 +341,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
                 container('Account Number:', accnumber),
                 container('Meter Number:', meterno),
                 container('Last Payment Date:', lastpay),
-                container3('Last Payment Amount:', lastpayamt),
+                // container3('Last Payment Amount:', lastpayamt),
                 container2('Closing Balance:', closingb),
                 const Padding(padding: EdgeInsets.all(5.0)),
                 OutlinedButton(
@@ -414,24 +414,24 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
     );
   }
 
-  Widget container3(text, int text1) {
-    return Container(
-      padding: const EdgeInsets.only(top: 10),
-      decoration: BoxDecoration(border: Border.all(color: Colors.white)),
-      child: Row(
-        children: <Widget>[
-          Text(
-            text,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            text1.toString(),
-            style: const TextStyle(fontWeight: FontWeight.normal),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget container3(text, int text1) {
+  //   return Container(
+  //     padding: const EdgeInsets.only(top: 10),
+  //     decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+  //     child: Row(
+  //       children: <Widget>[
+  //         Text(
+  //           text,
+  //           style: const TextStyle(fontWeight: FontWeight.bold),
+  //         ),
+  //         Text(
+  //           text1,
+  //           style: const TextStyle(fontWeight: FontWeight.normal),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget dropDown() {
     return DropdownButton<String>(
