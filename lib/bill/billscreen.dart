@@ -291,6 +291,7 @@ class _BillScreenState extends State<BillScreen> {
                       if (_isLoading == true) {
                         null;
                       } else {
+                        getAccNo();
                         getLocation();
                       }
                     }
