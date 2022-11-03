@@ -156,7 +156,7 @@ class _LoginState extends State<Login> {
     });
 
     Uri url = Uri.parse(
-        'https://kadunaelectric.com/meterreading/kecs/mobile_login.php');
+        'https://meterreading.kadunaelectric.com/kecs/mobile_login.php');
 
     var data = {
       'username': username,
