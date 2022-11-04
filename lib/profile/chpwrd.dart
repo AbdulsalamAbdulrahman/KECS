@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
+// import 'dart:convert';
 import 'dart:async';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 class ChangeP extends StatefulWidget {
   final String id;
@@ -25,7 +25,7 @@ class _ChangePState extends State<ChangeP> {
   String phpurl = 'https://kadunaelectric.com/meterreading/kecs/profile.php';
 
   // bool _isLoading = false;
-  final bool _isLoadingP = false;
+  // final bool _isLoadingP = false;
 
   late bool error, sending, success;
   late String msg;
@@ -34,79 +34,28 @@ class _ChangePState extends State<ChangeP> {
   TextEditingController newP = TextEditingController();
   TextEditingController confirmnew = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    // setState(() {});
-  }
+  // Future getOldPassword() async {
+  //   Uri url =
+  //       Uri.parse('https://kadunaelectric.com/meterreading/kecs/cpwrd.php');
 
-  // Future updateProfile() async {
-  //   setState(() {
-  //     _isLoading = true;
-  //   });
-  //   var res = await http.post(Uri.parse(phpurl), body: {
+  //   var data = {
   //     "id": widget.id,
-  //     "email": '',
-  //     "name": '',
-  //     "phone": '',
-  //   }); //sending post request with header data
+  //     'password': confirmold.text,
+  //   };
 
-  //   if (res.statusCode == 200) {
-  //     debugPrint(res.body); //print raw response on console
-  //     var data = json.decode(res.body); //decoding json to array
-  //     if (data["error"]) {
-  //       setState(() {
-  //         //refresh the UI when error is recieved from server
-  //         sending = false;
-  //         error = true;
-  //         msg = data["message"]; //error message from server
-  //       });
-  //     } else {
-  //       showMessage('Data Submitted Succesfully');
-  //       //after write success, make fields empty
+  //   var response = await http.post(
+  //     url,
+  //     body: json.encode(data),
+  //   );
 
-  //       setState(() {
-  //         sending = false;
-  //         success = true; //mark success and refresh UI with setState
-  //       });
-  //     }
-  //   } else {
-  //     //there is error
-  //     setState(() {
-  //       error = true;
-  //       msg = "Error during sending data.";
-  //       sending = false;
-  //       //mark error and refresh UI with setState
-  //     });
+  //   if (response.statusCode == 200) {
+  //     // var jsondata = json.decode(response.body);
+  //     // print(response.body);
+  //     // setState(() {});
+
+  //     // setState(() {});
   //   }
-
-  //   setState(() {
-  //     _isLoading = false;
-  //   });
   // }
-
-  Future getOldPassword() async {
-    Uri url =
-        Uri.parse('https://kadunaelectric.com/meterreading/kecs/cpwrd.php');
-
-    var data = {
-      "id": widget.id,
-      'password': confirmold.text,
-    };
-
-    var response = await http.post(
-      url,
-      body: json.encode(data),
-    );
-
-    if (response.statusCode == 200) {
-      // var jsondata = json.decode(response.body);
-      // print(response.body);
-      // setState(() {});
-
-      // setState(() {});
-    }
-  }
 
   // Future updatePassword() async {
   //   setState(() {
@@ -175,12 +124,12 @@ class _ChangePState extends State<ChangeP> {
                             width: 200,
                             height: 70,
                           ))),
-                      textFieldConfirmOld('Current Password', true),
-                      const SizedBox(height: 10.0),
-                      textFieldNew('New Password', true),
-                      const SizedBox(height: 10.0),
-                      textFieldConfirmNew('Confirm New Password', true),
-                      const SizedBox(height: 10.0),
+                      // textFieldConfirmOld('Current Password', true),
+                      // const SizedBox(height: 10.0),
+                      // textFieldNew('New Password', true),
+                      // const SizedBox(height: 10.0),
+                      // textFieldConfirmNew('Confirm New Password', true),
+                      // const SizedBox(height: 10.0),
                       buttonP()
                     ],
                   ),
@@ -236,32 +185,13 @@ class _ChangePState extends State<ChangeP> {
   }
 
   Widget buttonP() {
-    return ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size(500, 50),
-          maximumSize: const Size(500, 50),
-        ),
-        icon: _isLoadingP
-            ? const SizedBox(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-                height: 15.0,
-                width: 15.0,
-              )
-            : const Text(''),
-        label: Text(
-          _isLoadingP ? '' : 'Change Password',
-          style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
-        ),
-        onPressed: () async {
-          getOldPassword();
-
-          // if (key.currentState!.validate()) {
-          //   // _isLoading ? null : updateProfile();
-
-          // }
-        });
+    return const Center(
+      child: Text('Coming Soon',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          )),
+    );
   }
 
   Future<dynamic> showMessage(String msg) async {

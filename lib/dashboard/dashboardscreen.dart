@@ -9,8 +9,8 @@ import 'package:kecs/report/report.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-// import 'package:geolocator/geolocator.dart';
-// import 'package:app_settings/app_settings.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:app_settings/app_settings.dart';
 
 class DashboardScreen extends StatefulWidget {
   final dynamic fullname;
@@ -46,60 +46,60 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String notDelivered = '';
   String total = '';
 
-  // bool servicestatus = false;
-  // bool haspermission = false;
-  // late LocationPermission permission;
+  bool servicestatus = false;
+  bool haspermission = false;
+  late LocationPermission permission;
 
   @override
   void initState() {
-    // checkGps();
+    checkGps();
     counter();
     _timestring =
         "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     super.initState();
   }
 
-  // checkGps() async {
-  //   servicestatus = await Geolocator.isLocationServiceEnabled();
-  //   // if (!servicestatus) {
-  //   //   // Location services are not enabled don't continue
-  //   //   // accessing the position and request users of the
-  //   //   // App to enable the location services.
-  //   //   return AppSettings.openLocationSettings();
-  //   // }
-  //   if (servicestatus) {
-  //     permission = await Geolocator.checkPermission();
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (!servicestatus) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return locPop('Switch on Location Service');
+    }
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
 
-  //     if (permission == LocationPermission.denied) {
-  //       permission = await Geolocator.requestPermission();
-  //       if (permission == LocationPermission.denied) {
-  //         debugPrint('Location permissions are denied');
-  //       } else if (permission == LocationPermission.deniedForever) {
-  //         debugPrint("'Location permissions are permanently denied");
-  //       } else {
-  //         haspermission = true;
-  //       }
-  //     } else {
-  //       haspermission = true;
-  //     }
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          debugPrint('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          debugPrint("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
 
-  //     if (haspermission) {
-  //       setState(() {
-  //         //refresh the UI
-  //       });
-  //     }
-  //   } else {
-  //     debugPrint("GPS Service is not enabled, turn on GPS location");
-  //   }
+      if (haspermission) {
+        setState(() {
+          //refresh the UI
+        });
+      }
+    } else {
+      debugPrint("GPS Service is not enabled, turn on GPS location");
+    }
 
-  //   setState(() {
-  //     //refresh the UI
-  //   });
-  // }
+    setState(() {
+      //refresh the UI
+    });
+  }
 
   Future counter() async {
     Uri url =
-        Uri.parse('https://meterreading.kadunaelectric.com/kecs/counter.php');
+        Uri.parse('https://kadunaelectric.com/meterreading/kecs/counter.php');
 
     var data = {
       'ID': widget.id,
@@ -477,5 +477,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Padding _padding(value) {
     return Padding(padding: EdgeInsets.all(value));
+  }
+
+  Future<dynamic> locPop(String msg) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                AppSettings.openLocationSettings();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

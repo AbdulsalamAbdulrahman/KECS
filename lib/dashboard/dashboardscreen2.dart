@@ -4,6 +4,8 @@ import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:intl/intl.dart';
 import '../login.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:app_settings/app_settings.dart';
 
 class DashboardScreen2 extends StatefulWidget {
   final String fullname;
@@ -37,11 +39,55 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
   late String _timestring;
   String id = '';
 
+  bool servicestatus = false;
+  bool haspermission = false;
+  late LocationPermission permission;
+
   @override
   void initState() {
+    checkGps();
+
     _timestring =
         "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     super.initState();
+  }
+
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (!servicestatus) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return locPop('Switch on Location Service');
+    }
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          debugPrint('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          debugPrint("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
+
+      if (haspermission) {
+        setState(() {
+          //refresh the UI
+        });
+      }
+    } else {
+      debugPrint("GPS Service is not enabled, turn on GPS location");
+    }
+
+    setState(() {
+      //refresh the UI
+    });
   }
 
   @override
@@ -355,6 +401,25 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
       dense: true,
 
       // padding: EdgeInsets.zero,
+    );
+  }
+
+  Future<dynamic> locPop(String msg) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                AppSettings.openLocationSettings();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

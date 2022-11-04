@@ -10,7 +10,7 @@ class ReconnectScreen extends StatefulWidget {
   final String meterno;
   final String lastpay;
   final double closingb;
-  final int lastpayamt;
+  final double lastpayamt;
   final String dropdownValue;
   final String geolat;
   final String geolong;
@@ -106,64 +106,66 @@ class _ReconnectScreenState extends State<ReconnectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            AppBar(
-              title: const Text('Bill Distribution'),
-            ),
-            Form(
-              key: key,
-              child: Padding(
-                padding: const EdgeInsets.all(19.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Padding(
-                        padding: EdgeInsets.only(top: 0.0),
-                        child: Center(
-                            child: SizedBox(
-                          width: 200,
-                          height: 70,
-                        ))),
-                    // dropDown(),
-                    // const SizedBox(height: 10.0),
-                    noticenumber(),
-                    const SizedBox(height: 10.0),
-                    comment(),
-                    const Padding(padding: EdgeInsets.all(5.0)),
-                    checkbox(),
-                    ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(500, 50),
-                          maximumSize: const Size(500, 50),
-                        ),
-                        icon: _isLoading
-                            ? const SizedBox(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                                height: 15.0,
-                                width: 15.0,
-                              )
-                            : const Text(''),
-                        label: Text(
-                          _isLoading ? '' : 'Submit',
-                          style: const TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.bold),
-                        ),
-                        onPressed: () async {
-                          if (key.currentState!.validate()) {
-                            _isLoading ? null : sendData();
-                          }
-                        }),
-                  ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Reconnection'),
+      ),
+      body: Material(
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              Form(
+                key: key,
+                child: Padding(
+                  padding: const EdgeInsets.all(19.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Padding(
+                          padding: EdgeInsets.only(top: 0.0),
+                          child: Center(
+                              child: SizedBox(
+                            width: 200,
+                            height: 70,
+                          ))),
+                      // dropDown(),
+                      // const SizedBox(height: 10.0),
+                      noticenumber(),
+                      const SizedBox(height: 10.0),
+                      comment(),
+                      const Padding(padding: EdgeInsets.all(5.0)),
+                      checkbox(),
+                      ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(500, 50),
+                            maximumSize: const Size(500, 50),
+                          ),
+                          icon: _isLoading
+                              ? const SizedBox(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                  height: 15.0,
+                                  width: 15.0,
+                                )
+                              : const Text(''),
+                          label: Text(
+                            _isLoading ? '' : 'Submit',
+                            style: const TextStyle(
+                                fontSize: 15.0, fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () async {
+                            if (key.currentState!.validate()) {
+                              _isLoading ? null : sendData();
+                            }
+                          }),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        ));
+            ],
+          )),
+    );
   }
 
   Widget comment() {

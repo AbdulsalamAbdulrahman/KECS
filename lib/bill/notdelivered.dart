@@ -23,7 +23,7 @@ class NotDeliveredScreen extends StatefulWidget {
   final String meterno;
   final String lastpay;
   final double closingb;
-  final int lastpayamt;
+  final double lastpayamt;
   final String dropdownValue;
   final String geolat;
   final String geolong;
@@ -111,14 +111,13 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-                // automaticallyImplyLeading: false,
-                title: const Text('Bill Not Delivered'),
-              ),
+        // automaticallyImplyLeading: false,
+        title: const Text('Bill Not Delivered'),
+      ),
       body: Material(
           color: Colors.white,
           child: Column(
             children: <Widget>[
-              
               Padding(
                 padding: const EdgeInsets.all(19.0),
                 child: Column(

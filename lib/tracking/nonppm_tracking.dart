@@ -29,7 +29,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
   String meterno = "";
   String lastpay = "";
   double closingb = 0;
-  int lastpayamt = 0;
+  double lastpayamt = 0;
   String geolat = '';
   String geolong = '';
 
@@ -134,7 +134,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
       String meternojson = jsondata[0]['meterNumber'];
       String lastpayjson = jsondata[0]['lastPaymentDate'];
       double closingbjson = jsondata[0]['closingBalance'];
-      int lastpayamtjson = jsondata[0]['lastPaymentAmount'];
+      double lastpayamtjson = jsondata[0]['lastPaymentAmount'];
 
       setState(() {
         accnumber = accnumberjson;

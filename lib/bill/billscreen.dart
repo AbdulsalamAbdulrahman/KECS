@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kecs/bill/delivered.dart';
 import 'package:kecs/bill/notdelivered.dart';
-// import 'package:geolocator/geolocator.dart';
+import 'package:geolocator/geolocator.dart';
 
 class BillScreen extends StatefulWidget {
   final String id;
@@ -30,74 +30,69 @@ class _BillScreenState extends State<BillScreen> {
   String meterno = "";
   String lastpay = "";
   double closingb = 0;
-  int lastpayamt = 0;
+  double lastpayamt = 0;
   String geolat = '';
   String geolong = '';
 
   String dropdownValue = 'Select Status';
 
-  //geo
-  // bool servicestatus = false;
-  // bool haspermission = false;
-  // late LocationPermission permission;
-  // late Position position;
-  // String long = "", lat = "";
-  // late StreamSubscription<Position> positionStream;
+  // geo
+  bool servicestatus = false;
+  bool haspermission = false;
+  late LocationPermission permission;
+  late Position position;
+  String long = "", lat = "";
+  late StreamSubscription<Position> positionStream;
 
-  @override
-  void initState() {
-    super.initState();
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          debugPrint('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          debugPrint("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
+
+      if (haspermission) {
+        setState(() {
+          //refresh the UI
+        });
+      }
+    } else {
+      debugPrint("GPS Service is not enabled, turn on GPS location");
+    }
+
+    setState(() {
+      //refresh the UI
+    });
   }
 
-  // checkGps() async {
-  //   servicestatus = await Geolocator.isLocationServiceEnabled();
-  //   if (servicestatus) {
-  //     permission = await Geolocator.checkPermission();
+  getLocation() async {
+    position = await Geolocator.getCurrentPosition(
+        forceAndroidLocationManager: true,
+        desiredAccuracy: LocationAccuracy.high);
+    // print(position.longitude); //Output: 80.24599079
+    // print(position.latitude); //Output: 29.6593457
 
-  //     if (permission == LocationPermission.denied) {
-  //       permission = await Geolocator.requestPermission();
-  //       if (permission == LocationPermission.denied) {
-  //         debugPrint('Location permissions are denied');
-  //       } else if (permission == LocationPermission.deniedForever) {
-  //         debugPrint("'Location permissions are permanently denied");
-  //       } else {
-  //         haspermission = true;
-  //       }
-  //     } else {
-  //       haspermission = true;
-  //     }
+    long = position.longitude.toString();
+    lat = position.latitude.toString();
 
-  //     if (haspermission) {
-  //       setState(() {
-  //         //refresh the UI
-  //       });
-  //     }
-  //   } else {
-  //     debugPrint("GPS Service is not enabled, turn on GPS location");
-  //   }
+    // debugPrint("$long, $lat");
 
-  //   setState(() {
-  //     //refresh the UI
-  //   });
-  // }
-
-  // getLocation() async {
-  //   position = await Geolocator.getCurrentPosition(
-  //       forceAndroidLocationManager: true,
-  //       desiredAccuracy: LocationAccuracy.high);
-  //   // print(position.longitude); //Output: 80.24599079
-  //   // print(position.latitude); //Output: 29.6593457
-
-  //   long = position.longitude.toString();
-  //   lat = position.latitude.toString();
-
-  //   // debugPrint("$long, $lat");
-
-  //   setState(() {
-  //     geolong = long;
-  //     geolat = lat;
-  //   });
-  // }
+    setState(() {
+      geolong = long;
+      geolat = lat;
+    });
+  }
 
   Future getAccNo() async {
     setState(() {
@@ -107,25 +102,22 @@ class _BillScreenState extends State<BillScreen> {
     Uri url = Uri.parse(
         'https://meterreading.kadunaelectric.com/kecs/dotnet_billinghistory.php?id=$accno');
 
-    var data = {
-      'accno': accno,
-    };
-
     var response = await http.post(
       url,
-      body: json.encode(data),
+      body: json.encode(accno),
     );
 
     final jsondata = json.decode(response.body);
 
     if (jsondata != "Invalid Account Number") {
+      // return Accounts.fromJson(jsonDecode(response.body));
       String namejson = jsondata[0]['customerName'];
       String addressjson = jsondata[0]['customerAddress'];
       String accnumberjson = jsondata[0]['customerAccountNo'];
       String meternojson = jsondata[0]['meterNumber'];
       String lastpayjson = jsondata[0]['lastPaymentDate'];
       double closingbjson = jsondata[0]['closingBalance'];
-      int lastpayamtjson = jsondata[0]['lastPaymentAmount'];
+      double lastpayamtjson = jsondata[0]['lastPaymentAmount'];
 
       setState(() {
         accnumber = accnumberjson;
@@ -328,7 +320,7 @@ class _BillScreenState extends State<BillScreen> {
                 container('Account Number:', accnumber),
                 container('Meter Number:', meterno),
                 container('Last Payment Date:', lastpay),
-                container3('Last Payment Amount:', lastpayamt),
+                container2('Last Payment Amount:', lastpayamt),
                 container2('Closing Balance:', closingb),
                 dropDown(),
                 const Padding(padding: EdgeInsets.all(5.0)),

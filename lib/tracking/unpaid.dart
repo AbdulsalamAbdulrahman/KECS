@@ -10,7 +10,7 @@ class UnpaidScreen extends StatefulWidget {
   final String meterno;
   final String lastpay;
   final double closingb;
-  final int lastpayamt;
+  final double lastpayamt;
   final String dropdownValue;
   final String geolat;
   final String geolong;
@@ -107,7 +107,7 @@ class _UnpaidScreenState extends State<UnpaidScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Bill UnPaid')),
+      appBar: AppBar(title: const Text('Tracking UnPaid')),
       body: Material(
           color: Colors.white,
           child: Column(

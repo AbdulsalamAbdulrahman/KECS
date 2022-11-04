@@ -48,7 +48,11 @@ class _ReportScreenState extends State<ReportScreen> {
     return Scaffold(
       body: _selectedDateRange == null
           ? const Center(
-              child: Text('Press the button to show the picker'),
+              child: Text('Coming Soon',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  )),
             )
           : Padding(
               padding: const EdgeInsets.all(30),

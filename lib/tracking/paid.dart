@@ -11,7 +11,7 @@ class PaidScreen extends StatefulWidget {
   final String meterno;
   final String lastpay;
   final double closingb;
-  final int lastpayamt;
+  final double lastpayamt;
   final String dropdownValue;
   final String geolat;
   final String geolong;
@@ -99,7 +99,7 @@ class _PaidScreenState extends State<PaidScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Bill Paid')),
+      appBar: AppBar(title: const Text('Tracking Paid')),
       body: Material(
           color: Colors.white,
           child: Column(

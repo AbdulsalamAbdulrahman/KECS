@@ -29,7 +29,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
   String meterno = "";
   String lastpay = "";
   double closingb = 0;
-  int lastpayamt = 0;
+  double lastpayamt = 0;
   String geolat = '';
   String geolong = '';
 
@@ -125,7 +125,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
       String meternojson = jsondata[0]['meterNumber'];
       String lastpayjson = jsondata[0]['lastPaymentDate'];
       double closingbjson = jsondata[0]['closingBalance'];
-      int lastpayamtjson = jsondata[0]['lastPaymentAmount'];
+      double lastpayamtjson = jsondata[0]['lastPaymentAmount'];
 
       setState(() {
         accnumber = accnumberjson;
@@ -163,77 +163,81 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: <Widget>[
-        Material(
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                AppBar(
-                  title: const Text('Disconnection/Reconnection'),
-                ),
-                Wrap(
-                  children: <Widget>[
-                    // listView()
-                    // const Padding(padding: EdgeInsets.all(20.0)),
-                    card(),
-                    card1(),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(500, 50),
-                            maximumSize: const Size(500, 50),
-                          ),
-                          onPressed: name == ""
-                              ? null
-                              : () {
-                                  if (dropdownValue == 'Disconnected') {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                DisconnectScreen(
-                                                  accnumber: accnumber,
-                                                  name: name,
-                                                  address: address,
-                                                  meterno: meterno,
-                                                  lastpay: lastpay,
-                                                  closingb: closingb,
-                                                  lastpayamt: lastpayamt,
-                                                  dropdownValue: dropdownValue,
-                                                  geolat: geolat,
-                                                  geolong: geolong,
-                                                  id: widget.id,
-                                                )));
-                                  } else if (dropdownValue == 'Reconnected') {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ReconnectScreen(
-                                                  accnumber: accnumber,
-                                                  name: name,
-                                                  address: address,
-                                                  meterno: meterno,
-                                                  lastpay: lastpay,
-                                                  closingb: closingb,
-                                                  lastpayamt: lastpayamt,
-                                                  dropdownValue: dropdownValue,
-                                                  geolat: geolat,
-                                                  geolong: geolong,
-                                                  id: widget.id,
-                                                )));
-                                  }
-                                },
-                          child: const Text('Continue')),
-                    ),
-                  ],
-                )
-              ],
-            ))
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Disconnection/Reconnection'),
+      ),
+      body: ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          Material(
+              color: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  Wrap(
+                    children: <Widget>[
+                      // listView()
+                      // const Padding(padding: EdgeInsets.all(20.0)),
+                      card(),
+                      card1(),
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(500, 50),
+                              maximumSize: const Size(500, 50),
+                            ),
+                            onPressed: name == ""
+                                ? null
+                                : () {
+                                    if (dropdownValue == 'Disconnected') {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DisconnectScreen(
+                                                    accnumber: accnumber,
+                                                    name: name,
+                                                    address: address,
+                                                    meterno: meterno,
+                                                    lastpay: lastpay,
+                                                    closingb: closingb,
+                                                    lastpayamt: lastpayamt,
+                                                    dropdownValue:
+                                                        dropdownValue,
+                                                    geolat: geolat,
+                                                    geolong: geolong,
+                                                    id: widget.id,
+                                                  )));
+                                    } else if (dropdownValue == 'Reconnected') {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ReconnectScreen(
+                                                    accnumber: accnumber,
+                                                    name: name,
+                                                    address: address,
+                                                    meterno: meterno,
+                                                    lastpay: lastpay,
+                                                    closingb: closingb,
+                                                    lastpayamt: lastpayamt,
+                                                    dropdownValue:
+                                                        dropdownValue,
+                                                    geolat: geolat,
+                                                    geolong: geolong,
+                                                    id: widget.id,
+                                                  )));
+                                    }
+                                  },
+                            child: const Text('Continue')),
+                      ),
+                    ],
+                  )
+                ],
+              ))
+        ],
+      ),
     );
   }
 
@@ -323,7 +327,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
                 container('Account Number:', accnumber),
                 container('Meter Number:', meterno),
                 container('Last Payment Date:', lastpay),
-                container3('Last Payment Amount:', lastpayamt),
+                container2('Last Payment Amount:', lastpayamt),
                 container2('Closing Balance:', closingb),
                 dropDown(),
                 const Padding(padding: EdgeInsets.all(5.0)),
