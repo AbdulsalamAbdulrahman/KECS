@@ -66,32 +66,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
       // accessing the position and request users of the
       // App to enable the location services.
       return locPop('Switch on Location Service');
-    }
-    if (servicestatus) {
-      permission = await Geolocator.checkPermission();
+    } else {
+      if (servicestatus) {
+        permission = await Geolocator.checkPermission();
 
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          debugPrint('Location permissions are denied');
-        } else if (permission == LocationPermission.deniedForever) {
-          debugPrint("'Location permissions are permanently denied");
+          permission = await Geolocator.requestPermission();
+          if (permission == LocationPermission.denied) {
+            debugPrint('Location permissions are denied');
+          } else if (permission == LocationPermission.deniedForever) {
+            debugPrint("'Location permissions are permanently denied");
+          } else {
+            haspermission = true;
+          }
         } else {
           haspermission = true;
         }
+
+        if (haspermission) {
+          setState(() {
+            //refresh the UI
+          });
+        }
       } else {
-        haspermission = true;
+        debugPrint("GPS Service is not enabled, turn on GPS location");
       }
-
-      if (haspermission) {
-        setState(() {
-          //refresh the UI
-        });
-      }
-    } else {
-      debugPrint("GPS Service is not enabled, turn on GPS location");
     }
-
     setState(() {
       //refresh the UI
     });
@@ -99,7 +99,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future counter() async {
     Uri url =
-        Uri.parse('https://kadunaelectric.com/meterreading/kecs/counter.php');
+        Uri.parse('https://meterreading.kadunaelectric.com/kecs/counter.php');
 
     var data = {
       'ID': widget.id,
