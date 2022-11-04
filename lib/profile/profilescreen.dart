@@ -115,23 +115,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
         name.text = updatedName;
         phone.text = updatedPhone;
       });
-
-      // setState(() {});
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile Screen'),
+      ),
       body: ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
           Material(
             child: Column(
               children: <Widget>[
-                AppBar(
-                  title: const Text('Profile Screen'),
-                ),
                 Form(
                   key: key,
                   child: Padding(

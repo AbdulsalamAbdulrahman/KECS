@@ -101,44 +101,53 @@ class _ChangePState extends State<ChangeP> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: <Widget>[
-        Material(
-          child: Column(
-            children: <Widget>[
-              AppBar(
-                title: const Text('Profile Screen'),
-              ),
-              Form(
-                key: key,
-                child: Padding(
-                  padding: const EdgeInsets.all(19.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Padding(
-                          padding: EdgeInsets.only(top: 0.0),
-                          child: Center(
-                              child: SizedBox(
-                            width: 200,
-                            height: 70,
-                          ))),
-                      // textFieldConfirmOld('Current Password', true),
-                      // const SizedBox(height: 10.0),
-                      // textFieldNew('New Password', true),
-                      // const SizedBox(height: 10.0),
-                      // textFieldConfirmNew('Confirm New Password', true),
-                      // const SizedBox(height: 10.0),
-                      buttonP()
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Change Password'),
+      ),
+      body: const Center(
+        child: Text('Coming Soon',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            )),
+      ),
+      // body: ListView(
+      //   scrollDirection: Axis.vertical,
+      //   children: <Widget>[
+      //     Material(
+      //       child: Column(
+      //         children: <Widget>[
+      //           Form(
+      //             key: key,
+      //             child: Padding(
+      //               padding: const EdgeInsets.all(19.0),
+      //               child: Column(
+      //                 mainAxisAlignment: MainAxisAlignment.center,
+      //                 children: <Widget>[
+      //                   const Padding(
+      //                       padding: EdgeInsets.only(top: 0.0),
+      //                       child: Center(
+      //                           child: SizedBox(
+      //                         width: 200,
+      //                         height: 70,
+      //                       ))),
+      //                   // textFieldConfirmOld('Current Password', true),
+      //                   // const SizedBox(height: 10.0),
+      //                   // textFieldNew('New Password', true),
+      //                   // const SizedBox(height: 10.0),
+      //                   // textFieldConfirmNew('Confirm New Password', true),
+      //                   // const SizedBox(height: 10.0),
+      //                   buttonP()
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //     )
+      //   ],
+      // ),
     );
   }
 
