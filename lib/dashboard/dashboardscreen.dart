@@ -125,11 +125,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  static Future<void> pop1({bool? animated}) async {
-    await SystemChannels.platform
-        .invokeMethod<void>('SystemNavigator.pop', animated);
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
