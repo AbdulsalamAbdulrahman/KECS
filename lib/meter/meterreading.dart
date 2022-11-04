@@ -111,6 +111,7 @@ class _MeterScreenState extends State<MeterScreen> {
 
     if (jsondata != "Invalid Meter Number") {
       final jsondata = json.decode(response.body);
+
       String lastdate = jsondata['lastdate'];
       String lastamount = jsondata['lastamount'];
 
@@ -220,7 +221,6 @@ class _MeterScreenState extends State<MeterScreen> {
                   onPressed: () async {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
-                      // _isLoading ? null : getMeterInfo();
                       _isLoading ? null : getMeterInfo();
                     }
                   },
