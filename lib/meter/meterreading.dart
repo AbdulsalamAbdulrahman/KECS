@@ -221,11 +221,7 @@ class _MeterScreenState extends State<MeterScreen> {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
                       // _isLoading ? null : getMeterInfo();
-                      if (_isLoading == true) {
-                        null;
-                      } else {
-                        getMeterInfo();
-                      }
+                      _isLoading ? null : getMeterInfo();
                     }
                   },
                   style: ElevatedButton.styleFrom(

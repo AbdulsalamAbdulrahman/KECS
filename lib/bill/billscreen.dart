@@ -44,6 +44,12 @@ class _BillScreenState extends State<BillScreen> {
   String long = "", lat = "";
   late StreamSubscription<Position> positionStream;
 
+  @override
+  void initState() {
+    checkGps();
+    super.initState();
+  }
+
   checkGps() async {
     servicestatus = await Geolocator.isLocationServiceEnabled();
     if (servicestatus) {
@@ -100,17 +106,20 @@ class _BillScreenState extends State<BillScreen> {
     });
 
     Uri url = Uri.parse(
-        'https://meterreading.kadunaelectric.com/kecs/dotnet_billinghistory.php?id=$accno');
+        'https://kadunaelectric.com/meterreading/kecs/dotnet_billinghistory.php?id=$accno');
+
+    var data = {
+      'accno': accno,
+    };
 
     var response = await http.post(
       url,
-      body: json.encode(accno),
+      body: json.encode(data),
     );
 
     final jsondata = json.decode(response.body);
 
     if (jsondata != "Invalid Account Number") {
-      // return Accounts.fromJson(jsonDecode(response.body));
       String namejson = jsondata[0]['customerName'];
       String addressjson = jsondata[0]['customerAddress'];
       String accnumberjson = jsondata[0]['customerAccountNo'];
@@ -278,12 +287,8 @@ class _BillScreenState extends State<BillScreen> {
                   onPressed: () async {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
-                      if (_isLoading == true) {
-                        null;
-                      } else {
-                        getAccNo();
-                        // getLocation();
-                      }
+                      _isLoading ? null : getAccNo();
+                      getLocation();
                     }
                   },
                   style: ElevatedButton.styleFrom(
