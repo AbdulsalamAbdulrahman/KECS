@@ -43,7 +43,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
     });
 
     Uri url = Uri.parse(
-        'https://meterreading.kadunaelectric.com/kecs/search.php?uid=$meterno');
+        'https://kadunaelectric.com/meterreading/kecs/search.php?uid=$meterno');
 
     var data = {
       'meterno': meterno,

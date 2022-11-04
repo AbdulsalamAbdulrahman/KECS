@@ -252,7 +252,7 @@ class _BillScreenState extends State<BillScreen> {
                 Form(
                   key: key,
                   child: TextFormField(
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     onSaved: (value) => accno = value.toString(),
                     onChanged: (value) {
                       if (value.isNotEmpty) {}

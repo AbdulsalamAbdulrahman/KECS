@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:kecs/bill/billscreen.dart';
 import 'package:kecs/floating_modal.dart';
@@ -124,104 +125,137 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  static Future<void> pop1({bool? animated}) async {
+    await SystemChannels.platform
+        .invokeMethod<void>('SystemNavigator.pop', animated);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-      ),
-      drawer: Drawer(
-        backgroundColor: Colors.green,
-        child: SingleChildScrollView(
-          // padding: const EdgeInsets.symmetric(vertical: 50.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              UserAccountsDrawerHeader(
-                // <-- SEE HERE
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('S.jpg'), fit: BoxFit.cover),
-                    color: Colors.white),
-                accountName: Text(
-                  "${widget.fullname}\n${widget.emaill}",
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Do you want to exit the app?'),
+              actionsAlignment: MainAxisAlignment.spaceBetween,
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    SystemNavigator.pop();
+                  },
+                  child: const Text('Yes'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: const Text('No'),
+                ),
+              ],
+            );
+          },
+        );
+        return shouldPop!;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: const Text('Dashboard'),
+        ),
+        drawer: Drawer(
+          backgroundColor: Colors.green,
+          child: SingleChildScrollView(
+            // padding: const EdgeInsets.symmetric(vertical: 50.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                UserAccountsDrawerHeader(
+                  // <-- SEE HERE
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('S.jpg'), fit: BoxFit.cover),
+                      color: Colors.white),
+                  accountName: Text(
+                    "${widget.fullname}\n${widget.emaill}",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  accountEmail: Text(
+                    widget.jobtitle,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  currentAccountPicture: const Image(
+                    image: AssetImage('KK.png'),
                   ),
                 ),
-                accountEmail: Text(
-                  widget.jobtitle,
-                  style: const TextStyle(
+                const Padding(padding: EdgeInsets.only(top: 10.0)),
+                ListTile(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  leading: const Icon(
+                    Icons.home_outlined,
+                    size: 25.0,
                     color: Colors.white,
-                    fontWeight: FontWeight.bold,
                   ),
+                  title: const Text(
+                    'Home',
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  ),
+                  textColor: Colors.white,
+                  dense: true,
                 ),
-                currentAccountPicture: const Image(
-                  image: AssetImage('KK.png'),
-                ),
-              ),
-              const Padding(padding: EdgeInsets.only(top: 10.0)),
-              ListTile(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                leading: const Icon(
-                  Icons.home_outlined,
-                  size: 25.0,
-                  color: Colors.white,
-                ),
-                title: const Text(
-                  'Home',
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                ),
-                textColor: Colors.white,
-                dense: true,
-              ),
-              _padding(10.0),
-              listTile(
-                  'Profile',
-                  Icons.account_circle_outlined,
-                  ProfileScreen(
-                      fullname: widget.fullname,
-                      id: widget.id,
-                      phonenumber: widget.phonenumber,
-                      emaill: widget.emaill,
-                      payrollid: widget.payrollid)),
-              _padding(10.0),
-              listTile(
-                  'Generate Report', Icons.feedback_outlined, const Report()),
-              const Padding(padding: EdgeInsets.only(top: 10.0)),
-              // listTile('My Customers', Icons.people_outline_rounded,
-              //     const MyCustomers()),
-              // const Padding(padding: EdgeInsets.only(top: 10.0)),
-              ListTile(
-                onTap: () async {
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => const Login()),
-                      (route) => false);
-                },
-                leading: const Icon(Icons.power_settings_new_outlined,
-                    size: 25.0, color: Colors.white),
-                title: const Text(
-                  'Sign Out',
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                ),
-                textColor: Colors.white,
-                dense: true,
-              )
-            ],
+                _padding(10.0),
+                listTile(
+                    'Profile',
+                    Icons.account_circle_outlined,
+                    ProfileScreen(
+                        fullname: widget.fullname,
+                        id: widget.id,
+                        phonenumber: widget.phonenumber,
+                        emaill: widget.emaill,
+                        payrollid: widget.payrollid)),
+                _padding(10.0),
+                listTile(
+                    'Generate Report', Icons.feedback_outlined, const Report()),
+                const Padding(padding: EdgeInsets.only(top: 10.0)),
+                // listTile('My Customers', Icons.people_outline_rounded,
+                //     const MyCustomers()),
+                // const Padding(padding: EdgeInsets.only(top: 10.0)),
+                ListTile(
+                  onTap: () async {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => const Login()),
+                        (route) => false);
+                  },
+                  leading: const Icon(Icons.power_settings_new_outlined,
+                      size: 25.0, color: Colors.white),
+                  title: const Text(
+                    'Sign Out',
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  ),
+                  textColor: Colors.white,
+                  dense: true,
+                )
+              ],
+            ),
           ),
         ),
-      ),
-      body: ListView(
-        scrollDirection: Axis.vertical,
-        children: <Widget>[
-          up(),
-          down(),
-        ],
+        body: ListView(
+          scrollDirection: Axis.vertical,
+          children: <Widget>[
+            up(),
+            down(),
+          ],
+        ),
       ),
     );
   }
@@ -489,6 +523,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             TextButton(
               child: const Text("OK"),
               onPressed: () {
+                Navigator.of(context).pop();
                 AppSettings.openLocationSettings();
               },
             ),
