@@ -102,7 +102,6 @@ class _ReconnectScreenState extends State<ReconnectScreen> {
     setState(() {
       _isLoading = false;
     });
-    print(widget.dropdownValue);
   }
 
   @override

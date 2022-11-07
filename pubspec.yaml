@@ -47,6 +47,8 @@ dependencies:
   modal_bottom_sheet: ^2.1.0
   geolocator: ^9.0.1
   app_settings: ^4.1.8
+  image_picker: ^0.8.6
+  flutter_native_image: ^0.0.6
 
   
 

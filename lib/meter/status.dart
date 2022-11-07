@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 
 class StatusScreen extends StatefulWidget {
   final String meternumber;
@@ -19,22 +22,22 @@ class StatusScreen extends StatefulWidget {
   final String geolong;
   final String id;
 
-  const StatusScreen({
-    Key? key,
-    required this.meternumber,
-    required this.accnum,
-    required this.name,
-    required this.address,
-    required this.feeder33,
-    required this.feeder11,
-    required this.regional,
-    required this.isMD,
-    required this.llastdate,
-    required this.llastamount,
-    required this.geolat,
-    required this.geolong,
-    required this.id,
-  }) : super(key: key);
+  const StatusScreen(
+      {Key? key,
+      required this.meternumber,
+      required this.accnum,
+      required this.name,
+      required this.address,
+      required this.feeder33,
+      required this.feeder11,
+      required this.regional,
+      required this.isMD,
+      required this.llastdate,
+      required this.llastamount,
+      required this.geolat,
+      required this.geolong,
+      required this.id})
+      : super(key: key);
 
   @override
   State<StatusScreen> createState() => _StatusScreenState();
@@ -61,6 +64,11 @@ class _StatusScreenState extends State<StatusScreen> {
 
   String _seal = "Yes";
   final List<String> _status = ["Yes", "No"];
+
+  final ImagePicker _picker = ImagePicker();
+  late XFile? uploadimage;
+
+  get child => null;
 
   @override
   void initState() {
@@ -131,6 +139,9 @@ class _StatusScreenState extends State<StatusScreen> {
               children: <Widget>[
                 Wrap(
                   children: <Widget>[
+                    AppBar(
+                      title: const Text('Meter Reading'),
+                    ),
                     card(),
                   ],
                 )
@@ -138,6 +149,64 @@ class _StatusScreenState extends State<StatusScreen> {
             ))
       ]),
     );
+  }
+
+  Future<void> _openCamera() async {
+    final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      uploadimage = photo;
+    });
+
+    photo == null ? Container() : showMessageImg('Image Upload Successfully');
+  }
+
+  Future _openGallery() async {
+    final XFile? photo = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      uploadimage = photo;
+    });
+
+    photo == null ? Container() : showMessageImg('Image Upload Successfully');
+  }
+
+  Future<void> uploadImage() async {
+    //show your own loading or progressing code here
+
+    String uploadurl =
+        "https://kadunaelectric.com/meterreading/kecs/img_upload.php";
+    //dont use http://localhost , because emulator don't get that address
+    //insted use your local IP address or use live URL
+    //hit "ipconfig" in windows or "ip a" in linux to get you local IP
+
+    try {
+      File imageR = await FlutterNativeImage.compressImage(uploadimage!.path,
+          quality: 40, percentage: 100);
+      List<int> imageBytes = imageR.readAsBytesSync();
+      String baseimage = base64Encode(imageBytes);
+      //convert file image to Base64 encoding
+      var response = await http.post(Uri.parse(uploadurl), body: {
+        'image': baseimage,
+      });
+      if (response.statusCode == 200) {
+        var jsondata = json.decode(response.body); //decode json data
+        if (jsondata["error"]) {
+          //check error sent from server
+          debugPrint(jsondata["msg"]);
+          //if error return from server, show message from server
+        } else {
+          debugPrint("Upload successful");
+        }
+      } else {
+        debugPrint("Error during connection to server");
+        //there is error during connecting to server,
+        //status code might be 404 = url not found
+      }
+    } catch (e) {
+      debugPrint("Error during converting to Base64");
+      //there is error during converting file image to base64 encoding.
+    }
   }
 
   Widget card() {
@@ -149,8 +218,38 @@ class _StatusScreenState extends State<StatusScreen> {
             children: <Widget>[
               const Padding(padding: EdgeInsets.all(8)),
               OutlinedButton(
-                onPressed: () {},
+                // ignore: unnecessary_null_comparison
                 child: const Text("Upload Image"),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Wrap(
+                        children: [
+                          const ListTile(
+                            title: Text('From'),
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.camera),
+                            title: const Text('Camera'),
+                            onTap: () {
+                              _openCamera();
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.file_download),
+                            title: const Text('Gallery'),
+                            onTap: () {
+                              _openGallery();
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
               const Padding(padding: EdgeInsets.all(8)),
               Form(
@@ -320,6 +419,25 @@ class _StatusScreenState extends State<StatusScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<dynamic> showMessageImg(String msg) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
