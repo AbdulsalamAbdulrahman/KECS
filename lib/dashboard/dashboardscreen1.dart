@@ -7,6 +7,9 @@ import 'package:intl/intl.dart';
 import '../login.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:app_settings/app_settings.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'package:http/http.dart' as http;
 
 class DashboardScreen1 extends StatefulWidget {
   final String fullname;
@@ -44,10 +47,12 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
   bool haspermission = false;
   late LocationPermission permission;
 
+  String meterread = '';
+
   @override
   void initState() {
     checkGps();
-
+    counter();
     _timestring =
         "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     super.initState();
@@ -89,6 +94,29 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
     setState(() {
       //refresh the UI
     });
+  }
+
+  Future counter() async {
+    Uri url = Uri.parse(
+        'https://meterreading.kadunaelectric.com/kecs/counter_meter.php');
+
+    var data = {
+      'ID': widget.id,
+    };
+
+    var response = await http.post(
+      url,
+      body: json.encode(data),
+    );
+    var jsondata = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      int meterreadJson = jsondata["MetersRead"];
+
+      setState(() {
+        meterread = meterreadJson.toString();
+      });
+    }
   }
 
   @override
@@ -253,7 +281,7 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
             children: <Widget>[
-              _card('Meters\nRead', '\n0'),
+              _card('Meters\nRead', '\n$meterread'),
             ],
           ),
         ],
@@ -347,7 +375,7 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
               MaterialPageRoute(
                   builder: (context) => MeterScreen(
                         id: widget.id,
-                      )));
+                      ))).then((_) => counter());
         },
         child: Card(
           child: Column(
