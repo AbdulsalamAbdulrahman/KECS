@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'KECS',
+      title: 'KE_Toolkit',
       theme: ThemeData(
         primarySwatch: Colors.green,
         textTheme: GoogleFonts.latoTextTheme(
