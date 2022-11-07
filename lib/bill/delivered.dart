@@ -8,11 +8,8 @@ class Delivered extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bill Delivered'),
-      ),
-      body: const Delivered(),
+    return const Scaffold(
+      body: Delivered(),
     );
   }
 }
@@ -123,7 +120,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
     return Scaffold(
       appBar: AppBar(
         // automaticallyImplyLeading: false,
-        title: const Text('Bill Not Delivered'),
+        title: const Text('Bill Delivered'),
       ),
       body: ListView(
         scrollDirection: Axis.vertical,
