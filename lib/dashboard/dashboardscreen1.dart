@@ -253,7 +253,6 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
             children: <Widget>[
-              _card('Total\nProcessed', '\n0'),
               _card('Meters\nRead', '\n0'),
             ],
           ),
@@ -347,7 +346,7 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
               context,
               MaterialPageRoute(
                   builder: (context) => MeterScreen(
-                        id: id,
+                        id: widget.id,
                       )));
         },
         child: Card(
