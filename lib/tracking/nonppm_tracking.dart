@@ -189,57 +189,57 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
                       // const Padding(padding: EdgeInsets.all(20.0)),
                       card(),
                       card1(),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(500, 50),
-                              maximumSize: const Size(500, 50),
-                            ),
-                            onPressed: name == ""
-                                ? null
-                                : () {
-                                    if (dropdownValue == 'Paid') {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => PaidScreen(
-                                                    accnumber: accnumber,
-                                                    name: name,
-                                                    address: address,
-                                                    meterno: meterno,
-                                                    lastpay: lastpay,
-                                                    closingb: closingb,
-                                                    lastpayamt: lastpayamt,
-                                                    dropdownValue:
-                                                        dropdownValue,
-                                                    geolat: geolat,
-                                                    geolong: geolong,
-                                                    id: widget.id,
-                                                  )));
-                                    } else if (dropdownValue == 'Unpaid') {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UnpaidScreen(
-                                                    accnumber: accnumber,
-                                                    name: name,
-                                                    address: address,
-                                                    meterno: meterno,
-                                                    lastpay: lastpay,
-                                                    closingb: closingb,
-                                                    lastpayamt: lastpayamt,
-                                                    dropdownValue:
-                                                        dropdownValue,
-                                                    geolat: geolat,
-                                                    geolong: geolong,
-                                                    id: widget.id,
-                                                  )));
-                                    }
-                                  },
-                            child: const Text('Continue')),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(5.0),
+                      //   child: ElevatedButton(
+                      //       style: ElevatedButton.styleFrom(
+                      //         minimumSize: const Size(500, 50),
+                      //         maximumSize: const Size(500, 50),
+                      //       ),
+                      //       onPressed: name == ""
+                      //           ? null
+                      //           : () {
+                      //               if (dropdownValue == 'Paid') {
+                      //                 Navigator.push(
+                      //                     context,
+                      //                     MaterialPageRoute(
+                      //                         builder: (context) => PaidScreen(
+                      //                               accnumber: accnumber,
+                      //                               name: name,
+                      //                               address: address,
+                      //                               meterno: meterno,
+                      //                               lastpay: lastpay,
+                      //                               closingb: closingb,
+                      //                               lastpayamt: lastpayamt,
+                      //                               dropdownValue:
+                      //                                   dropdownValue,
+                      //                               geolat: geolat,
+                      //                               geolong: geolong,
+                      //                               id: widget.id,
+                      //                             )));
+                      //               } else if (dropdownValue == 'Unpaid') {
+                      //                 Navigator.push(
+                      //                     context,
+                      //                     MaterialPageRoute(
+                      //                         builder: (context) =>
+                      //                             UnpaidScreen(
+                      //                               accnumber: accnumber,
+                      //                               name: name,
+                      //                               address: address,
+                      //                               meterno: meterno,
+                      //                               lastpay: lastpay,
+                      //                               closingb: closingb,
+                      //                               lastpayamt: lastpayamt,
+                      //                               dropdownValue:
+                      //                                   dropdownValue,
+                      //                               geolat: geolat,
+                      //                               geolong: geolong,
+                      //                               id: widget.id,
+                      //                             )));
+                      //               }
+                      //             },
+                      //       child: const Text('Continue')),
+                      // ),
                     ],
                   )
                 ],
@@ -361,7 +361,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
                         },
                   child: const Text("View monthly payment history"),
                 ),
-                dropDown(),
+                // dropDown(),
                 const Padding(padding: EdgeInsets.all(5.0)),
                 const Padding(padding: EdgeInsets.all(5.0)),
               ]),
