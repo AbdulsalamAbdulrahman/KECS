@@ -255,7 +255,6 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
             children: <Widget>[
               _card('Total\nProcessed', '\n0'),
               _card('Meters\nRead', '\n0'),
-              _card('Meters\nUnRead', '\n0'),
             ],
           ),
         ],
