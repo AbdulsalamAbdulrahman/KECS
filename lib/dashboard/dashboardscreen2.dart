@@ -443,6 +443,7 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
             TextButton(
               child: const Text("OK"),
               onPressed: () {
+                Navigator.of(context).pop();
                 AppSettings.openLocationSettings();
               },
             ),

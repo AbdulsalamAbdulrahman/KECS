@@ -3,6 +3,8 @@ import 'package:kecs/meter/status.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:geolocator/geolocator.dart';
+
 
 class MeterScreen extends StatefulWidget {
   final String id;
@@ -28,6 +30,72 @@ class _MeterScreenState extends State<MeterScreen> {
   String llastdate = '';
   String llastamount = '';
   String dropdownValue = 'Select Status';
+  String geolat = '';
+  String geolong = '';
+
+    // geo
+  bool servicestatus = false;
+  bool haspermission = false;
+  late LocationPermission permission;
+  late Position position;
+  String long = "", lat = "";
+  late StreamSubscription<Position> positionStream;
+
+  @override
+  void initState() {
+    checkGps();
+    super.initState();
+  }
+
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          debugPrint('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          debugPrint("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
+
+      if (haspermission) {
+        setState(() {
+          //refresh the UI
+        });
+      }
+    } else {
+      debugPrint("GPS Service is not enabled, turn on GPS location");
+    }
+
+    setState(() {
+      //refresh the UI
+    });
+  }
+
+  getLocation() async {
+    position = await Geolocator.getCurrentPosition(
+        forceAndroidLocationManager: true,
+        desiredAccuracy: LocationAccuracy.high);
+    // print(position.longitude); //Output: 80.24599079
+    // print(position.latitude); //Output: 29.6593457
+
+    long = position.longitude.toString();
+    lat = position.latitude.toString();
+
+    // debugPrint("$long, $lat");
+
+    setState(() {
+      geolong = long;
+      geolat = lat;
+    });
+  }
 
   Future getMeterInfo() async {
     setState(() {
@@ -160,6 +228,9 @@ class _MeterScreenState extends State<MeterScreen> {
                                                 isMD: isMD,
                                                 llastdate: llastdate,
                                                 llastamount: llastamount,
+                                                geolat: geolat,
+                                                geolong: geolong,
+                                                id: widget.id,
                                               )));
                                 },
                           child: const Text('Continue')),

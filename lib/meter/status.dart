@@ -15,20 +15,26 @@ class StatusScreen extends StatefulWidget {
   final bool isMD;
   final String llastdate;
   final String llastamount;
+  final String geolat;
+  final String geolong;
+  final String id;
 
-  const StatusScreen(
-      {Key? key,
-      required this.meternumber,
-      required this.accnum,
-      required this.name,
-      required this.address,
-      required this.feeder33,
-      required this.feeder11,
-      required this.regional,
-      required this.isMD,
-      required this.llastdate,
-      required this.llastamount})
-      : super(key: key);
+  const StatusScreen({
+    Key? key,
+    required this.meternumber,
+    required this.accnum,
+    required this.name,
+    required this.address,
+    required this.feeder33,
+    required this.feeder11,
+    required this.regional,
+    required this.isMD,
+    required this.llastdate,
+    required this.llastamount,
+    required this.geolat,
+    required this.geolong,
+    required this.id,
+  }) : super(key: key);
 
   @override
   State<StatusScreen> createState() => _StatusScreenState();
@@ -77,6 +83,9 @@ class _StatusScreenState extends State<StatusScreen> {
       "readStatus": dropdownValue,
       "readerRemark": commentM.text,
       "sealStatus": dropdownValueSeal,
+      "id": widget.id,
+      "lat": widget.geolat,
+      "long": widget.geolong
     }); //sending post request with header data
 
     if (res.statusCode == 200) {

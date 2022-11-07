@@ -446,6 +446,7 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
             TextButton(
               child: const Text("OK"),
               onPressed: () {
+                Navigator.of(context).pop();
                 AppSettings.openLocationSettings();
               },
             ),
