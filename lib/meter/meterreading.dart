@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 
-
 class MeterScreen extends StatefulWidget {
   final String id;
   const MeterScreen({Key? key, required this.id}) : super(key: key);
@@ -33,7 +32,7 @@ class _MeterScreenState extends State<MeterScreen> {
   String geolat = '';
   String geolong = '';
 
-    // geo
+  // geo
   bool servicestatus = false;
   bool haspermission = false;
   late LocationPermission permission;
@@ -293,6 +292,7 @@ class _MeterScreenState extends State<MeterScreen> {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
                       _isLoading ? null : getMeterInfo();
+                      getLocation();
                     }
                   },
                   style: ElevatedButton.styleFrom(
