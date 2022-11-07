@@ -98,7 +98,7 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
 
   Future counter() async {
     Uri url = Uri.parse(
-        'https://meterreading.kadunaelectric.com/kecs/counter_meter.php');
+        'https://meterreading.kadunaelectric.com/kecs/counter_conn.php');
 
     var data = {
       'ID': widget.id,
