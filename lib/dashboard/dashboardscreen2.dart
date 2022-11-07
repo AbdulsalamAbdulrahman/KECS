@@ -7,6 +7,9 @@ import 'package:intl/intl.dart';
 import '../login.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:app_settings/app_settings.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'package:http/http.dart' as http;
 
 class DashboardScreen2 extends StatefulWidget {
   final String fullname;
@@ -39,6 +42,8 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
 
   late String _timestring;
   String id = '';
+  String disconn = '';
+  String reconn = '';
 
   bool servicestatus = false;
   bool haspermission = false;
@@ -47,7 +52,7 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
   @override
   void initState() {
     checkGps();
-
+    counter();
     _timestring =
         "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     super.initState();
@@ -89,6 +94,31 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
     setState(() {
       //refresh the UI
     });
+  }
+
+  Future counter() async {
+    Uri url = Uri.parse(
+        'https://meterreading.kadunaelectric.com/kecs/counter_meter.php');
+
+    var data = {
+      'ID': widget.id,
+    };
+
+    var response = await http.post(
+      url,
+      body: json.encode(data),
+    );
+    var jsondata = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      int disconnJson = jsondata["Disconnected"];
+      int reconnJson = jsondata["Reconnected"];
+
+      setState(() {
+        disconn = disconnJson.toString();
+        reconn = reconnJson.toString();
+      });
+    }
   }
 
   @override
@@ -252,8 +282,8 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
             children: <Widget>[
-              _card('Diconnected', '\n0'),
-              _card('Reconnected', '\n0'),
+              _card('Diconnected', '\n$disconn'),
+              _card('Reconnected', '\n$reconn'),
               _card('Defaulters', '\n0'),
             ],
           ),
@@ -346,7 +376,7 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
               MaterialPageRoute(
                   builder: (context) => ConnectionScreen(
                         id: widget.id,
-                      )));
+                      ))).then((_) => counter());
         },
         child: Card(
           child: Column(
