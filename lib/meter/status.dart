@@ -168,7 +168,7 @@ class _StatusScreenState extends State<StatusScreen> {
                       const Padding(padding: EdgeInsets.all(8)),
                       dropDownSeal(),
                       const Padding(padding: EdgeInsets.all(8)),
-                      textField('Comment', 8, commentM),
+                      textFieldC('Comment', 8, commentM),
                       const Padding(padding: EdgeInsets.all(8)),
                       ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
@@ -205,6 +205,17 @@ class _StatusScreenState extends State<StatusScreen> {
     return TextFormField(
       controller: controllerV,
       validator: validateField,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        labelText: text,
+      ),
+      maxLines: n,
+    );
+  }
+
+  Widget textFieldC(String text, int n, controllerV) {
+    return TextFormField(
+      controller: controllerV,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         labelText: text,

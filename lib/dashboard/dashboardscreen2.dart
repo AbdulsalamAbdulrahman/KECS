@@ -345,7 +345,7 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
               context,
               MaterialPageRoute(
                   builder: (context) => ConnectionScreen(
-                        id: id,
+                        id: widget.id,
                       )));
         },
         child: Card(
