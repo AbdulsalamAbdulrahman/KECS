@@ -237,6 +237,9 @@ class _LoginState extends State<Login> {
                       id: id,
                       emaill: emaill,
                     )));
+        setState(() {
+          _isLoading = false;
+        });
       }
     } else {
       showDialog(
