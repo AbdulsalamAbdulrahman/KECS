@@ -158,106 +158,110 @@ class _LoginState extends State<Login> {
     Uri url = Uri.parse(
         'https://kadunaelectric.com/meterreading/kecs/mobile_login.php');
 
-    var data = {
-      'username': username,
-      'password': password,
-    };
+    try {
+      var data = {
+        'username': username,
+        'password': password,
+      };
 
-    var response = await http.post(
-      url,
-      body: json.encode(data),
-    );
-    var jsondata = json.decode(response.body);
-
-    if (response.statusCode == 200) {
+      var response = await http.post(
+        url,
+        body: json.encode(data),
+      );
       var jsondata = json.decode(response.body);
 
-      String fullname = jsondata["fullname"];
-      String jobtitle = jsondata["jobtitle"];
-      String payrollid = jsondata["payrollid"];
-      String areaoffice = jsondata["areaoffice"];
-      String feeder = jsondata["feeder"];
-      String phonenumber = jsondata["phonenumber"];
-      String id = jsondata["id"];
-      dynamic emaill = jsondata['email'];
+      if (response.statusCode == 200) {
+        var jsondata = json.decode(response.body);
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('user', phonenumber);
+        String fullname = jsondata["fullname"];
+        String jobtitle = jsondata["jobtitle"];
+        String payrollid = jsondata["payrollid"];
+        String areaoffice = jsondata["areaoffice"];
+        String feeder = jsondata["feeder"];
+        String phonenumber = jsondata["phonenumber"];
+        String id = jsondata["id"];
+        dynamic emaill = jsondata['email'];
 
-      setState(() {
-        fullname = fullname;
-        jobtitle = jobtitle;
-        payrollid = payrollid;
-        areaoffice = areaoffice;
-        feeder = feeder;
-        phonenumber = phonenumber;
-        id = id;
-        emaill = emaill;
-      });
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('user', phonenumber);
 
-      if (jobtitle == "SalesRep") {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DashboardScreen(
-                      fullname: fullname,
-                      jobtitle: jobtitle,
-                      payrollid: payrollid,
-                      areaoffice: areaoffice,
-                      feeder: feeder,
-                      phonenumber: phonenumber,
-                      id: id,
-                      emaill: emaill,
-                    )));
-      } else if (jobtitle == "Reader") {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DashboardScreen1(
-                      fullname: fullname,
-                      jobtitle: jobtitle,
-                      payrollid: payrollid,
-                      areaoffice: areaoffice,
-                      feeder: feeder,
-                      phonenumber: phonenumber,
-                      id: id,
-                      emaill: emaill,
-                    )));
-      } else if (jobtitle == "Disconnection") {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DashboardScreen2(
-                      fullname: fullname,
-                      jobtitle: jobtitle,
-                      payrollid: payrollid,
-                      areaoffice: areaoffice,
-                      feeder: feeder,
-                      phonenumber: phonenumber,
-                      id: id,
-                      emaill: emaill,
-                    )));
         setState(() {
-          _isLoading = false;
+          fullname = fullname;
+          jobtitle = jobtitle;
+          payrollid = payrollid;
+          areaoffice = areaoffice;
+          feeder = feeder;
+          phonenumber = phonenumber;
+          id = id;
+          emaill = emaill;
         });
+
+        if (jobtitle == "SalesRep") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DashboardScreen(
+                        fullname: fullname,
+                        jobtitle: jobtitle,
+                        payrollid: payrollid,
+                        areaoffice: areaoffice,
+                        feeder: feeder,
+                        phonenumber: phonenumber,
+                        id: id,
+                        emaill: emaill,
+                      )));
+        } else if (jobtitle == "Reader") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DashboardScreen1(
+                        fullname: fullname,
+                        jobtitle: jobtitle,
+                        payrollid: payrollid,
+                        areaoffice: areaoffice,
+                        feeder: feeder,
+                        phonenumber: phonenumber,
+                        id: id,
+                        emaill: emaill,
+                      )));
+        } else if (jobtitle == "Disconnection") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DashboardScreen2(
+                        fullname: fullname,
+                        jobtitle: jobtitle,
+                        payrollid: payrollid,
+                        areaoffice: areaoffice,
+                        feeder: feeder,
+                        phonenumber: phonenumber,
+                        id: id,
+                        emaill: emaill,
+                      )));
+        }
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(jsondata, style: const TextStyle(color: Colors.red)),
+              actions: <Widget>[
+                ElevatedButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
       }
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(jsondata, style: const TextStyle(color: Colors.red)),
-            actions: <Widget>[
-              ElevatedButton(
-                child: const Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+    } catch (e) {
+      debugPrint('error');
+      setState(() {
+        _isLoading = false;
+      });
     }
 
     setState(() {
