@@ -54,13 +54,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     checkGps();
-    counter();
     _timestring =
         "${DateFormat('EEEE').format(DateTime.now())}, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     super.initState();
   }
 
   checkGps() async {
+    counter();
+
     servicestatus = await Geolocator.isLocationServiceEnabled();
     if (!servicestatus) {
       // Location services are not enabled don't continue
