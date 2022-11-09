@@ -159,10 +159,6 @@ class _MeterScreenState extends State<MeterScreen> {
       );
     }
     getLastPayment();
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   Future getLastPayment() async {
@@ -187,6 +183,9 @@ class _MeterScreenState extends State<MeterScreen> {
         llastamount = lastamount;
       });
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override

@@ -106,61 +106,66 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
 
     Uri url = Uri.parse(
         'https://meterreading.kadunaelectric.com/kecs/dotnet_billinghistory.php?id=$accno');
+    try {
+      var data = {
+        'accno': accno,
+      };
 
-    var data = {
-      'accno': accno,
-    };
+      var response = await http.post(
+        url,
+        body: json.encode(data),
+      );
 
-    var response = await http.post(
-      url,
-      body: json.encode(data),
-    );
+      final jsondata = json.decode(response.body);
 
-    final jsondata = json.decode(response.body);
-
-    final List<dynamic> dataList = jsonDecode(response.body);
-    // List.generate(0, (index) => {print(dataList[index])});
-
-    setState(() {
-      dataList1 = dataList;
-    });
-
-    if (jsondata != "Invalid Account Number") {
-      String namejson = jsondata[0]['customerName'];
-      String addressjson = jsondata[0]['customerAddress'];
-      String accnumberjson = jsondata[0]['customerAccountNo'];
-      String meternojson = jsondata[0]['meterNumber'];
-      String lastpayjson = jsondata[0]['lastPaymentDate'];
-      double closingbjson = jsondata[0]['closingBalance'];
-      double lastpayamtjson = jsondata[0]['lastPaymentAmount'];
+      final List<dynamic> dataList = jsonDecode(response.body);
+      // List.generate(0, (index) => {print(dataList[index])});
 
       setState(() {
-        accnumber = accnumberjson;
-        name = namejson;
-        address = addressjson;
-        meterno = meternojson;
-        lastpay = lastpayjson;
-        closingb = closingbjson;
-        lastpayamt = lastpayamtjson;
+        dataList1 = dataList;
       });
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title:
-                Text(jsondata, style: const TextStyle(color: Colors.black54)),
-            actions: <Widget>[
-              ElevatedButton(
-                child: const Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+
+      if (jsondata != "Invalid Account Number") {
+        String namejson = jsondata[0]['customerName'];
+        String addressjson = jsondata[0]['customerAddress'];
+        String accnumberjson = jsondata[0]['customerAccountNo'];
+        String meternojson = jsondata[0]['meterNumber'];
+        String lastpayjson = jsondata[0]['lastPaymentDate'];
+        double closingbjson = jsondata[0]['closingBalance'];
+        double lastpayamtjson = jsondata[0]['lastPaymentAmount'];
+
+        setState(() {
+          accnumber = accnumberjson;
+          name = namejson;
+          address = addressjson;
+          meterno = meternojson;
+          lastpay = lastpayjson;
+          closingb = closingbjson;
+          lastpayamt = lastpayamtjson;
+        });
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title:
+                  Text(jsondata, style: const TextStyle(color: Colors.black54)),
+              actions: <Widget>[
+                ElevatedButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
     }
 
     setState(() {

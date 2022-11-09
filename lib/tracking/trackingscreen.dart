@@ -101,10 +101,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
       );
     }
     getLastPayment();
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   Future getLastPayment() async {
@@ -129,6 +125,9 @@ class _TrackingScreenState extends State<TrackingScreen> {
         llastamount = lastamount;
       });
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
