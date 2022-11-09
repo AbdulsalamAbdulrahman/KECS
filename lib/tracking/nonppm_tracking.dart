@@ -130,7 +130,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
         String addressjson = jsondata[0]['customerAddress'];
         String accnumberjson = jsondata[0]['customerAccountNo'];
         String meternojson = jsondata[0]['meterNumber'];
-        String lastpayjson = jsondata[0]['lastPaymentDate'];
+        String lastpayjson = jsondata[0]['lastPaymentDate'] ?? "Unavailable";
         double closingbjson = jsondata[0]['closingBalance'];
         double lastpayamtjson = jsondata[0]['lastPaymentAmount'];
 

@@ -95,7 +95,7 @@ class _LoginState extends State<Login> {
 
     return Material(
       child: TextFormField(
-        keyboardType: TextInputType.text,
+        keyboardType: TextInputType.number,
         onSaved: (value) => username = value.toString(),
         onChanged: (value) {
           if (value.isNotEmpty) {}
