@@ -81,8 +81,8 @@ class _LoginState extends State<Login> {
                   }
                 },
               ),
-              TextButton(
-                  onPressed: () {}, child: const Text('Forgot Password?'))
+              // TextButton(
+              //     onPressed: () {}, child: const Text('Forgot Password?'))
             ],
           ),
         ),
