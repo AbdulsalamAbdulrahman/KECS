@@ -72,7 +72,7 @@ class _ReconnectScreenState extends State<ReconnectScreen> {
     }); //sending post request with header data
 
     if (res.statusCode == 200) {
-      debugPrint(res.body); //print raw response on console
+      //debugPrint(res.body); //print raw response on console
       var data = json.decode(res.body); //decoding json to array
       if (data["error"]) {
         setState(() {

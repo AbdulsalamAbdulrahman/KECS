@@ -190,18 +190,18 @@ class _StatusScreenState extends State<StatusScreen> {
         var jsondata = json.decode(response.body); //decode json data
         if (jsondata["error"]) {
           //check error sent from server
-          debugPrint(jsondata["msg"]);
+          //debugPrint(jsondata["msg"]);
           //if error return from server, show message from server
         } else {
-          debugPrint("Upload successful");
+          //debugPrint("Upload successful");
         }
       } else {
-        debugPrint("Error during connection to server");
+        //debugPrint("Error during connection to server");
         //there is error during connecting to server,
         //status code might be 404 = url not found
       }
     } catch (e) {
-      debugPrint("Error during converting to Base64");
+      //debugPrint("Error during converting to Base64");
       //there is error during converting file image to base64 encoding.
     }
   }

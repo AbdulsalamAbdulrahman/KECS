@@ -68,7 +68,7 @@ class _PaidScreenState extends State<PaidScreen> {
     });
 
     if (res.statusCode == 200) {
-      debugPrint(res.body);
+      //debugPrint(res.body);
       var data = json.decode(res.body);
       if (data["error"]) {
         setState(() {
