@@ -201,7 +201,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         // initialValue: initial,
         enabled: _bool,
         controller: phone,
-        keyboardType: TextInputType.text,
+        keyboardType: TextInputType.number,
         decoration: decorate(text),
         validator: validateField,
       ),

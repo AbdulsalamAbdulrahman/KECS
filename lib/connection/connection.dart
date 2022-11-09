@@ -271,7 +271,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
                       }
                       return null;
                     },
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.number,
                     decoration: decorate('Account Number'),
                   ),
                 ),
@@ -293,6 +293,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
                   ),
                   onPressed: () async {
                     if (key.currentState!.validate()) {
+                      FocusScope.of(context).unfocus();
                       key.currentState!.save();
                       _isLoading ? null : getAccNo();
                       getLocation();

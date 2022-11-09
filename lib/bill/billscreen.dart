@@ -258,7 +258,7 @@ class _BillScreenState extends State<BillScreen> {
                 Form(
                   key: key,
                   child: TextFormField(
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.number,
                     onSaved: (value) => accno = value.toString(),
                     onChanged: (value) {
                       if (value.isNotEmpty) {}
@@ -293,6 +293,7 @@ class _BillScreenState extends State<BillScreen> {
                   onPressed: () async {
                     if (key.currentState!.validate()) {
                       key.currentState!.save();
+                      FocusScope.of(context).unfocus();
                       _isLoading ? null : getAccNo();
                       getLocation();
                     }

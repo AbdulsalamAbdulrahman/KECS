@@ -104,61 +104,67 @@ class _MeterScreenState extends State<MeterScreen> {
     Uri url = Uri.parse(
         'https://kadunaelectric.com/meterreading/kecs/search.php?uid=$meterno');
 
-    var data = {
-      'meterno': meterno,
-    };
+    try {
+      var data = {
+        'meterno': meterno,
+      };
 
-    var response = await http.post(
-      url,
-      body: json.encode(data),
-    );
+      var response = await http.post(
+        url,
+        body: json.encode(data),
+      );
 
-    final jsondata = json.decode(response.body);
-
-    if (jsondata != "Invalid Meter Number") {
       final jsondata = json.decode(response.body);
 
-      String namejson = jsondata['customerName'];
-      String addressjson = jsondata['customerAddress'];
-      String accno = jsondata['customerAccountNo'];
-      String meternumberjson = jsondata['meterNumber'] ?? "No Meter";
-      String feeder33json = jsondata['feeder33kV'];
-      String feeder11json = jsondata['feeder11KV'];
-      String regionaljson = jsondata['regionalOffice'];
-      bool isMDjson = jsondata['isMD'];
+      if (jsondata != "Invalid Meter Number") {
+        final jsondata = json.decode(response.body);
 
-      int myInt = int.parse(accno);
+        String namejson = jsondata['customerName'];
+        String addressjson = jsondata['customerAddress'];
+        String accno = jsondata['customerAccountNo'];
+        String meternumberjson = jsondata['meterNumber'] ?? "No Meter";
+        String feeder33json = jsondata['feeder33kV'];
+        String feeder11json = jsondata['feeder11KV'];
+        String regionaljson = jsondata['regionalOffice'];
+        bool isMDjson = jsondata['isMD'];
 
+        int myInt = int.parse(accno);
+
+        setState(() {
+          accnum = myInt;
+          meternumber = meternumberjson;
+          name = namejson;
+          address = addressjson;
+          feeder33 = feeder33json;
+          feeder11 = feeder11json;
+          regional = regionaljson;
+          isMD = isMDjson;
+        });
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title:
+                  Text(jsondata, style: const TextStyle(color: Colors.black54)),
+              actions: <Widget>[
+                ElevatedButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      getLastPayment();
+    } catch (e) {
       setState(() {
-        accnum = myInt;
-        meternumber = meternumberjson;
-        name = namejson;
-        address = addressjson;
-        feeder33 = feeder33json;
-        feeder11 = feeder11json;
-        regional = regionaljson;
-        isMD = isMDjson;
+        _isLoading = false;
       });
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title:
-                Text(jsondata, style: const TextStyle(color: Colors.black54)),
-            actions: <Widget>[
-              ElevatedButton(
-                child: const Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
     }
-    getLastPayment();
   }
 
   Future getLastPayment() async {
@@ -289,6 +295,7 @@ class _MeterScreenState extends State<MeterScreen> {
                   ),
                   onPressed: () async {
                     if (key.currentState!.validate()) {
+                      FocusScope.of(context).unfocus();
                       key.currentState!.save();
                       _isLoading ? null : getMeterInfo();
                       getLocation();

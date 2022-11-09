@@ -278,7 +278,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
                       return null;
                     },
                     // controller: _inputController,
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.number,
                     decoration: decorate('Account Number'),
                   ),
                 ),
@@ -300,6 +300,7 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
                   ),
                   onPressed: () async {
                     if (key.currentState!.validate()) {
+                      FocusScope.of(context).unfocus();
                       key.currentState!.save();
                       _isLoading ? null : getAccNo();
                       getLocation();
