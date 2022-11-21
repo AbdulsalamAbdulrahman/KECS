@@ -75,9 +75,13 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
     }); //sending post request with header data
 
     if (res.statusCode == 200) {
-      //debugPrint(res.body); //print raw response on console
+      // debugPrint(res.body); //print raw response on console
       var data = json.decode(res.body); //decoding json to array
-      if (data["error"]) {
+      // print(data); //print raw response on console
+
+      if (data["message"] == 'Duplicate data') {
+        showMessageD('Duplicate Data!!!');
+
         setState(() {
           //refresh the UI when error is recieved from server
           sending = false;
@@ -200,6 +204,27 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
   }
 
   Future<dynamic> showMessage(String msg) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<dynamic> showMessageD(String msg) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {

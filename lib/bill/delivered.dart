@@ -89,7 +89,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
     if (res.statusCode == 200) {
       // debugPrint(res.body);
       var data = json.decode(res.body);
-      if (data["error"]) {
+      if (data["message"] == 'Duplicate data') {
         showMessageD('Duplicate Data!!!');
 
         setState(() {
