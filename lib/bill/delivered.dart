@@ -87,9 +87,11 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
     });
 
     if (res.statusCode == 200) {
-      debugPrint(res.body);
+      // debugPrint(res.body);
       var data = json.decode(res.body);
       if (data["error"]) {
+        showMessageD('Duplicate Data!!!');
+
         setState(() {
           sending = false;
           error = true;
@@ -253,6 +255,27 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
   }
 
   Future<dynamic> showMessage(String msg) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<dynamic> showMessageD(String msg) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
