@@ -24,7 +24,7 @@ class _SplashPageState extends State<SplashPage> {
       // futureNavigator: futureCall(),
       logo: Image.asset(
         'logo-kecs.png',
-        height: 400,
+        height: 500,
         alignment: Alignment.center,
       ),
       logoSize: 100,
