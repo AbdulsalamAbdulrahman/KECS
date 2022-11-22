@@ -127,13 +127,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.3"
-  double_back_to_close_app:
-    dependency: "direct main"
-    description:
-      name: double_back_to_close_app
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0"
   easy_splash_screen:
     dependency: "direct main"
     description:
@@ -506,13 +499,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
-  shrink_sidemenu:
-    dependency: "direct main"
-    description:
-      name: shrink_sidemenu
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0+2-null-safety"
   sky_engine:
     dependency: transitive
     description: flutter

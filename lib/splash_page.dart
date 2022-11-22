@@ -23,7 +23,7 @@ class _SplashPageState extends State<SplashPage> {
     return EasySplashScreen(
       // futureNavigator: futureCall(),
       logo: Image.asset(
-        'logo-kecs.jpg',
+        'logo-kecs.png',
         alignment: Alignment.center,
       ),
       logoSize: 200,
