@@ -139,13 +139,15 @@ class _BillScreenState extends State<BillScreen> {
           },
         );
       } else {
-        String namejson = jsondata[0]['customerName'];
-        String addressjson = jsondata[0]['customerAddress'];
-        String accnumberjson = jsondata[0]['customerAccountNo'];
-        String meternojson = jsondata[0]['meterNumber'];
+        String namejson = jsondata[0]['customerName'] ?? "Unavailable";
+        String addressjson = jsondata[0]['customerAddress'] ?? "Unavailable";
+        String accnumberjson =
+            jsondata[0]['customerAccountNo'] ?? "Unavailable";
+        String meternojson = jsondata[0]['meterNumber'] ?? "Unavailable";
         String lastpayjson = jsondata[0]['lastPaymentDate'] ?? "Unavailable";
-        double closingbjson = jsondata[0]['closingBalance'];
-        double lastpayamtjson = jsondata[0]['lastPaymentAmount'];
+        double closingbjson = jsondata[0]['closingBalance'] ?? "Unavailable";
+        double lastpayamtjson =
+            jsondata[0]['lastPaymentAmount'] ?? "Unavailable";
 
         setState(() {
           accnumber = accnumberjson;
@@ -161,6 +163,7 @@ class _BillScreenState extends State<BillScreen> {
       setState(() {
         _isLoading = false;
       });
+      return showMessage('Invalid Account Number');
     }
 
     setState(() {
@@ -424,6 +427,25 @@ class _BillScreenState extends State<BillScreen> {
           ),
         );
       }).toList(),
+    );
+  }
+
+  Future<dynamic> showMessage(String msg) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

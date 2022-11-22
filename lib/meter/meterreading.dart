@@ -119,14 +119,14 @@ class _MeterScreenState extends State<MeterScreen> {
       if (jsondata != "Invalid Meter Number") {
         final jsondata = json.decode(response.body);
 
-        String namejson = jsondata['customerName'];
-        String addressjson = jsondata['customerAddress'];
-        String accno = jsondata['customerAccountNo'];
+        String namejson = jsondata['customerName'] ?? "Unavailable";
+        String addressjson = jsondata['customerAddress'] ?? "Unavailable";
+        String accno = jsondata['customerAccountNo'] ?? "Unavailable";
         String meternumberjson = jsondata['meterNumber'] ?? "No Meter";
-        String feeder33json = jsondata['feeder33kV'];
-        String feeder11json = jsondata['feeder11KV'];
-        String regionaljson = jsondata['regionalOffice'];
-        bool isMDjson = jsondata['isMD'];
+        String feeder33json = jsondata['feeder33kV'] ?? "Unavailable";
+        String feeder11json = jsondata['feeder11KV'] ?? "Unavailable";
+        String regionaljson = jsondata['regionalOffice'] ?? "Unavailable";
+        bool isMDjson = jsondata['isMD'] ?? "Unavailable";
 
         int myInt = int.parse(accno);
 
@@ -164,6 +164,7 @@ class _MeterScreenState extends State<MeterScreen> {
       setState(() {
         _isLoading = false;
       });
+      return showMessage('Invalid Meter Number');
     }
   }
 
@@ -441,6 +442,25 @@ class _MeterScreenState extends State<MeterScreen> {
           ),
         );
       }).toList(),
+    );
+  }
+
+  Future<dynamic> showMessage(String msg) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

@@ -42,13 +42,9 @@ class _LoginState extends State<Login> {
         child: Padding(
           padding: const EdgeInsets.all(19.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Padding(
-                  padding: const EdgeInsets.only(top: 0.0),
-                  child: Center(
-                      child: SizedBox(
-                          height: 250, child: Image.asset('logo-kecs.png')))),
+              SizedBox(height: 390, child: Image.asset('logo-kecs.png')),
               user(),
               const SizedBox(height: 10.0),
               pass(),
