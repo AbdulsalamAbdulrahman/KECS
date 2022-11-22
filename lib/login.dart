@@ -46,11 +46,9 @@ class _LoginState extends State<Login> {
             children: <Widget>[
               Padding(
                   padding: const EdgeInsets.only(top: 0.0),
-                  child: Center(
-                      child: SizedBox(
-                          width: 200,
-                          height: 70,
-                          child: Image.asset('kecs.png')))),
+                  child: SizedBox(
+                      height: 200, child: Image.asset('logo-kecs.png'))),
+
               user(),
               const SizedBox(height: 10.0),
               pass(),
@@ -76,6 +74,7 @@ class _LoginState extends State<Login> {
                 ),
                 onPressed: () {
                   if (key.currentState!.validate()) {
+                    FocusScope.of(context).unfocus();
                     key.currentState!.save();
                     _isLoading ? null : userLogin();
                   }
