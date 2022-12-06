@@ -182,8 +182,8 @@ class _MeterScreenState extends State<MeterScreen> {
     if (jsondata != "Invalid Meter Number") {
       final jsondata = json.decode(response.body);
 
-      String lastdate = jsondata['lastdate'];
-      String lastamount = jsondata['lastamount'];
+      String lastdate = jsondata[0]['amountPaid'];
+      String lastamount = jsondata[0]['dateCreated'];
 
       setState(() {
         llastdate = lastdate;

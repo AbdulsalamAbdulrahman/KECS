@@ -106,65 +106,63 @@ class _BillScreenState extends State<BillScreen> {
     });
 
     Uri url = Uri.parse(
-        'https://kadunaelectric.com/meterreading/kecs/dotnet_billinghistory.php?id=$accno');
+        'https://meterreading.kadunaelectric.com/kecs/dotnet_billinghistory.php?id=$accno');
 
-    try {
-      var data = {
-        'accno': accno,
-      };
+    // try {
+    var data = {
+      'accno': accno,
+    };
 
-      var response = await http.post(
-        url,
-        body: json.encode(data),
+    var response = await http.post(
+      url,
+      body: json.encode(data),
+    );
+
+    final jsondata = json.decode(response.body);
+
+    if (jsondata == "Invalid Account Number") {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title:
+                Text(jsondata, style: const TextStyle(color: Colors.black54)),
+            actions: <Widget>[
+              ElevatedButton(
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
       );
+    } else {
+      String namejson = jsondata[0]['customerName'] ?? "Unavailable";
+      String addressjson = jsondata[0]['customerAddress'] ?? "Unavailable";
+      String accnumberjson = jsondata[0]['customerAccountNo'] ?? "Unavailable";
+      String meternojson = jsondata[0]['meterNumber'] ?? "Unavailable";
+      String lastpayjson = jsondata[0]['lastPaymentDate'] ?? "Unavailable";
+      double closingbjson = jsondata[0]['closingBalance'] ?? "Unavailable";
+      double lastpayamtjson = jsondata[0]['lastPaymentAmount'] ?? "Unavailable";
 
-      final jsondata = json.decode(response.body);
-
-      if (jsondata == "Invalid Account Number") {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title:
-                  Text(jsondata, style: const TextStyle(color: Colors.black54)),
-              actions: <Widget>[
-                ElevatedButton(
-                  child: const Text("OK"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      } else {
-        String namejson = jsondata[0]['customerName'] ?? "Unavailable";
-        String addressjson = jsondata[0]['customerAddress'] ?? "Unavailable";
-        String accnumberjson =
-            jsondata[0]['customerAccountNo'] ?? "Unavailable";
-        String meternojson = jsondata[0]['meterNumber'] ?? "Unavailable";
-        String lastpayjson = jsondata[0]['lastPaymentDate'] ?? "Unavailable";
-        double closingbjson = jsondata[0]['closingBalance'] ?? "Unavailable";
-        double lastpayamtjson =
-            jsondata[0]['lastPaymentAmount'] ?? "Unavailable";
-
-        setState(() {
-          accnumber = accnumberjson;
-          name = namejson;
-          address = addressjson;
-          meterno = meternojson;
-          lastpay = lastpayjson;
-          closingb = closingbjson;
-          lastpayamt = lastpayamtjson;
-        });
-      }
-    } catch (e) {
       setState(() {
-        _isLoading = false;
+        accnumber = accnumberjson;
+        name = namejson;
+        address = addressjson;
+        meterno = meternojson;
+        lastpay = lastpayjson;
+        closingb = closingbjson;
+        lastpayamt = lastpayamtjson;
       });
-      return showMessage('Invalid Account Number');
     }
+    // } catch (e) {
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    //   return showMessage('Invalid Account Number');
+    // }
 
     setState(() {
       _isLoading = false;
