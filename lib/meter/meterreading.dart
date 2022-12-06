@@ -170,7 +170,7 @@ class _MeterScreenState extends State<MeterScreen> {
 
   Future getLastPayment() async {
     Uri url = Uri.parse(
-        'https://meterreading.kadunaelectric.com/kecs/searchpaymentresult.php?AccountNumber=$accnum');
+        'https://kadunaelectric.com/meterreading/kecs/searchpaymentresult.php?uid=$accnum');
 
     var response = await http.post(
       url,
