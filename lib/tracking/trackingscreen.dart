@@ -124,8 +124,8 @@ class _TrackingScreenState extends State<TrackingScreen> {
     if (jsondata != "Invalid Meter Number") {
       final jsondata = json.decode(response.body);
 
-      String lastdate = jsondata[0]['amountPaid'];
-      String lastamount = jsondata[0]['dateCreated'];
+      String lastdate = jsondata[0]['dateCreated'];
+      String lastamount = jsondata[0]['amountPaid'].toString();
 
       setState(() {
         llastdate = lastdate;
