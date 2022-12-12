@@ -105,7 +105,8 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
     });
 
     Uri url = Uri.parse(
-        'https://kadunaelectric.com/meterreading/kecs/dotnet_billinghistory.php?id=$accno');
+        'https://meterreading.kadunaelectric.com/kecs/dotnet_billinghistory.php?id=$accno');
+
     // try {
     var data = {
       'accno': accno,
@@ -116,28 +117,9 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
       body: json.encode(data),
     );
 
-    final jsondata = await json.decode(json.encode(response.body));
-    print(response.body);
+    final jsondata = json.decode(response.body);
 
-    if (jsondata != "Invalid Account Number") {
-      // String namejson = jsondata[0]['customerName'] ?? "Unavailable";
-      // String addressjson = jsondata[0]['customerAddress'] ?? "Unavailable";
-      // String accnumberjson = jsondata[0]['customerAccountNo'] ?? "Unavailable";
-      // String meternojson = jsondata[0]['meterNumber'] ?? "Unavailable";
-      // String lastpayjson = jsondata[0]['lastPaymentDate'] ?? "Unavailable";
-      // double closingbjson = jsondata[0]['closingBalance'] ?? "Unavailable";
-      // double lastpayamtjson = jsondata[0]['lastPaymentAmount'] ?? "Unavailable";
-
-      // setState(() {
-      //   accnumber = accnumberjson;
-      //   name = namejson;
-      //   address = addressjson;
-      //   meterno = meternojson;
-      //   lastpay = lastpayjson;
-      //   closingb = closingbjson;
-      //   lastpayamt = lastpayamtjson;
-      // });
-    } else {
+    if (jsondata == "Invalid Account Number") {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -155,6 +137,24 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
           );
         },
       );
+    } else {
+      String namejson = jsondata[0]['customerName'] ?? "Unavailable";
+      String addressjson = jsondata[0]['customerAddress'] ?? "Unavailable";
+      String accnumberjson = jsondata[0]['customerAccountNo'] ?? "Unavailable";
+      String meternojson = jsondata[0]['meterNumber'] ?? "Unavailable";
+      String lastpayjson = jsondata[0]['lastPaymentDate'] ?? "Unavailable";
+      double closingbjson = jsondata[0]['closingBalance'] ?? "Unavailable";
+      double lastpayamtjson = jsondata[0]['lastPaymentAmount'] ?? "Unavailable";
+
+      setState(() {
+        accnumber = accnumberjson;
+        name = namejson;
+        address = addressjson;
+        meterno = meternojson;
+        lastpay = lastpayjson;
+        closingb = closingbjson;
+        lastpayamt = lastpayamtjson;
+      });
     }
     // } catch (e) {
     //   setState(() {

@@ -35,50 +35,52 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      child: Form(
-        key: key,
-        child: Padding(
-          padding: const EdgeInsets.all(19.0),
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 390, child: Image.asset('logo-kecs.png')),
-              user(),
-              const SizedBox(height: 10.0),
-              pass(),
-              const SizedBox(height: 10.0),
-              ElevatedButton.icon(
-                icon: _isLoading
-                    ? const SizedBox(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                        height: 15.0,
-                        width: 15.0,
-                      )
-                    : const Text(''),
-                label: Text(
-                  _isLoading ? '' : 'Sign in',
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.bold),
+    return Scaffold(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Form(
+          key: key,
+          child: Padding(
+            padding: const EdgeInsets.all(19.0),
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 390, child: Image.asset('logo-kecs.png')),
+                user(),
+                const SizedBox(height: 10.0),
+                pass(),
+                const SizedBox(height: 10.0),
+                ElevatedButton.icon(
+                  icon: _isLoading
+                      ? const SizedBox(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                          height: 15.0,
+                          width: 15.0,
+                        )
+                      : const Text(''),
+                  label: Text(
+                    _isLoading ? '' : 'Sign in',
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(500, 50),
+                    maximumSize: const Size(500, 50),
+                  ),
+                  onPressed: () {
+                    if (key.currentState!.validate()) {
+                      FocusScope.of(context).unfocus();
+                      key.currentState!.save();
+                      _isLoading ? null : userLogin();
+                    }
+                  },
                 ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(500, 50),
-                  maximumSize: const Size(500, 50),
-                ),
-                onPressed: () {
-                  if (key.currentState!.validate()) {
-                    FocusScope.of(context).unfocus();
-                    key.currentState!.save();
-                    _isLoading ? null : userLogin();
-                  }
-                },
-              ),
-              // TextButton(
-              //     onPressed: () {}, child: const Text('Forgot Password?'))
-            ],
+                // TextButton(
+                //     onPressed: () {}, child: const Text('Forgot Password?'))
+              ],
+            ),
           ),
         ),
       ),

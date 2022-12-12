@@ -193,10 +193,13 @@ class _BillScreenState extends State<BillScreen> {
                           minimumSize: const Size(500, 50),
                           maximumSize: const Size(500, 50),
                         ),
-                        onPressed: name == ""
-                            ? null
+                        onPressed: geolat.isEmpty && geolong.isEmpty
+                            ? () {
+                                showMessage('Geo Location is needed!');
+                              }
                             : () {
                                 if (dropdownValue == 'Delivered') {
+                                  print(geolat + geolong);
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -328,14 +331,21 @@ class _BillScreenState extends State<BillScreen> {
                 const Text('Customer Billing Information',
                     style:
                         TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                container('Name: ', name),
-                container('Address: ', address),
-                container('Account Number:', accnumber),
-                container('Meter Number:', meterno),
-                container('Last Payment Date:', lastpay),
-                container2('Last Payment Amount:', lastpayamt),
-                container2('Closing Balance:', closingb),
-                dropDown(),
+                Wrap(
+                    textDirection: TextDirection.ltr,
+                    verticalDirection: VerticalDirection.down,
+                    direction: Axis.vertical,
+                    alignment: WrapAlignment.start,
+                    children: <Widget>[
+                      container('Name: ', name),
+                      container('Address: ', address),
+                      container('Account Number:', accnumber),
+                      container('Meter Number:', meterno),
+                      container('Last Payment Date:', lastpay),
+                      container2('Last Payment Amount:', lastpayamt),
+                      container2('Closing Balance:', closingb),
+                      dropDown(),
+                    ]),
                 const Padding(padding: EdgeInsets.all(5.0)),
                 const Padding(padding: EdgeInsets.all(5.0)),
               ]),
