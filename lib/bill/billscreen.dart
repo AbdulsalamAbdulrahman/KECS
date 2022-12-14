@@ -193,13 +193,12 @@ class _BillScreenState extends State<BillScreen> {
                           minimumSize: const Size(500, 50),
                           maximumSize: const Size(500, 50),
                         ),
-                        onPressed: geolat.isEmpty && geolong.isEmpty
-                            ? () {
-                                showMessage('Geo Location is needed!');
-                              }
+                        onPressed: name ==
+                                "" //fix logic not working on app even if geo is not  disable counter to test app update
+                            ? null
                             : () {
-                                if (dropdownValue == 'Delivered') {
-                                  print(geolat + geolong);
+                                if (dropdownValue == 'Delivered' &&
+                                    geolat != '') {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -216,7 +215,8 @@ class _BillScreenState extends State<BillScreen> {
                                                 geolong: geolong,
                                                 id: widget.id,
                                               )));
-                                } else if (dropdownValue == 'Not Delivered') {
+                                } else if (dropdownValue == 'Not Delivered' &&
+                                    geolat != '') {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -234,6 +234,9 @@ class _BillScreenState extends State<BillScreen> {
                                                 geolong: geolong,
                                                 id: widget.id,
                                               )));
+                                } else if (geolat == '' && geolong == '') {
+                                  showMessageG(
+                                      'Your Geo Location is needed. Click on OK to get Geo Location');
                                 }
                               },
                         child: const Text('Continue')),
@@ -449,6 +452,27 @@ class _BillScreenState extends State<BillScreen> {
               child: const Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<dynamic> showMessageG(String msg) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                checkGps();
+                getLocation();
               },
             ),
           ],

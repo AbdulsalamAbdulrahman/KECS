@@ -213,7 +213,11 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
                         payrollid: widget.payrollid)),
                 const Padding(padding: EdgeInsets.only(top: 10.0)),
                 listTile(
-                    'Generate Report', Icons.feedback_outlined, const Report()),
+                    'Generate Report',
+                    Icons.feedback_outlined,
+                    ReportScreen(
+                      id: widget.id,
+                    )),
                 const Padding(padding: EdgeInsets.only(top: 10.0)),
                 // listTile('My Customers', Icons.people_outline_rounded,
                 //     const MyCustomers()),

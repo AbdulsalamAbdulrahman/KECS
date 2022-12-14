@@ -60,7 +60,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   checkGps() async {
-    counter();
+    // counter();
 
     servicestatus = await Geolocator.isLocationServiceEnabled();
     if (!servicestatus) {
@@ -221,7 +221,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         payrollid: widget.payrollid)),
                 _padding(10.0),
                 listTile(
-                    'Generate Report', Icons.feedback_outlined, const Report()),
+                    'Generate Report',
+                    Icons.feedback_outlined,
+                    ReportScreen(
+                      id: widget.id,
+                    )),
                 const Padding(padding: EdgeInsets.only(top: 10.0)),
                 // listTile('My Customers', Icons.people_outline_rounded,
                 //     const MyCustomers()),
@@ -377,11 +381,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: GestureDetector(
         onTap: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => BillScreen(
-                        id: widget.id,
-                      ))).then((_) => counter());
+            context,
+            MaterialPageRoute(
+                builder: (context) => BillScreen(
+                      id: widget.id,
+                    )),
+          ).then(
+            (_) => counter(),
+          );
         },
         child: Card(
           child: Column(
