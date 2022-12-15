@@ -43,7 +43,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
     });
 
     Uri url = Uri.parse(
-        'https://meterreading.kadunaelectric.com/kecs/search.php?uid=$meterno');
+        'https://kadunaelectric.com/meterreading/kecs/search.php?uid=$meterno');
 
     try {
       var data = {
@@ -112,7 +112,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
 
   Future getLastPayment() async {
     Uri url = Uri.parse(
-        'https://meterreading.kadunaelectric.com/kecs/searchpaymentresult.php?uid=$accnum');
+        'https://kadunaelectric.com/meterreading/kecs/searchpaymentresult.php?uid=$accnum');
 
     var response = await http.post(
       url,
