@@ -296,6 +296,26 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
     );
   }
 
+  Future<dynamic> showMessageG(String msg) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Get Geolocation"),
+              onPressed: () {
+                // widget.gps;
+                // widget.loc;
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   String? validateField(value) {
     if (value.isEmpty) {
       return "field is required";
