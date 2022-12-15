@@ -164,7 +164,7 @@ class _MeterScreenState extends State<MeterScreen> {
       setState(() {
         _isLoading = false;
       });
-      return showMessage('Invalid Meter Number');
+      // return showMessage('Invalid Meter Number');
     }
   }
 
