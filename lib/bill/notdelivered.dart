@@ -163,12 +163,12 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
                                 ),
                                 onPressed: () async {
                                   if (key.currentState!.validate()) {
-                                    if (widget.geolat != "" &&
-                                        widget.geolong != "") {
-                                      _isLoading ? null : sendData();
-                                    } else {
+                                    if (widget.geolat == "" &&
+                                        widget.geolong == "") {
                                       showMessageG(
                                           'Geolocation is needed. Make sure you have given the app location permission and your location is switched on');
+                                    } else {
+                                      _isLoading ? null : sendData();
                                     }
                                   }
                                 }),
