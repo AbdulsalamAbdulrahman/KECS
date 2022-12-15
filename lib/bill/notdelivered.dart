@@ -163,7 +163,13 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
                                 ),
                                 onPressed: () async {
                                   if (key.currentState!.validate()) {
-                                    _isLoading ? null : sendData();
+                                    if (widget.geolat != "" &&
+                                        widget.geolong != "") {
+                                      _isLoading ? null : sendData();
+                                    } else {
+                                      showMessageG(
+                                          'Geolocation is needed. Make sure you have given the app location permission and your location is switched on');
+                                    }
                                   }
                                 }),
                           ],
@@ -233,6 +239,27 @@ class _NotDeliveredScreenState extends State<NotDeliveredScreen> {
           actions: <Widget>[
             TextButton(
               child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<dynamic> showMessageG(String msg) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("ok"),
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();

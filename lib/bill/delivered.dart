@@ -175,7 +175,13 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                               ),
                               onPressed: () async {
                                 if (key.currentState!.validate()) {
-                                  _isLoading ? null : sendData();
+                                  if (widget.geolat != "" &&
+                                      widget.geolong != "") {
+                                    _isLoading ? null : sendData();
+                                  } else {
+                                    showMessageG(
+                                        'Geolocation is needed. Make sure you have given the app location permission and your location is switched on');
+                                  }
                                 }
                               }),
                         ],
@@ -304,10 +310,11 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
           title: Text(msg),
           actions: <Widget>[
             TextButton(
-              child: const Text("Get Geolocation"),
+              child: const Text("ok"),
               onPressed: () {
-                // widget.gps;
-                // widget.loc;
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
             ),
           ],
