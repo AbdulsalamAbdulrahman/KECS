@@ -17,9 +17,7 @@ class _ReportScreen1State extends State<ReportScreen1> {
 
   bool _isLoading = false;
 
-  String delivered = '';
-  String notDelivered = '';
-  String total = '';
+  String metersRead = '';
 
   void _show() async {
     final DateTimeRange? result = await showDateRangePicker(
@@ -69,16 +67,8 @@ class _ReportScreen1State extends State<ReportScreen1> {
                   ],
                   rows: [
                     DataRow(cells: [
-                      const DataCell(Text('Bills Delivered')),
-                      DataCell(Text(delivered)),
-                    ]),
-                    DataRow(cells: [
-                      const DataCell(Text('Bills UnDelivered')),
-                      DataCell(Text(notDelivered)),
-                    ]),
-                    DataRow(cells: [
-                      const DataCell(Text('Total')),
-                      DataCell(Text(total)),
+                      const DataCell(Text('Total Meters Read')),
+                      DataCell(Text(metersRead)),
                     ]),
                   ],
                 ),
@@ -121,8 +111,8 @@ class _ReportScreen1State extends State<ReportScreen1> {
       _isLoading = true;
     });
 
-    Uri url =
-        Uri.parse('https://kadunaelectric.com/meterreading/kecs/report.php');
+    Uri url = Uri.parse(
+        'https://kadunaelectric.com/meterreading/kecs/report_meter.php');
 
     try {
       var data = {
@@ -143,14 +133,10 @@ class _ReportScreen1State extends State<ReportScreen1> {
 
       if (response.statusCode == 200) {
         var jsondata = json.decode(response.body);
-        int deliveredJson = jsondata["Delivered"];
-        int notDeliveredJson = jsondata["NotDelivered"];
-        int totalJson = jsondata["Total"];
+        int metersReadJson = jsondata["MetersRead"];
 
         setState(() {
-          delivered = deliveredJson.toString();
-          notDelivered = notDeliveredJson.toString();
-          total = totalJson.toString();
+          metersRead = metersReadJson.toString();
         });
       } else {
         showDialog(

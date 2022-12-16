@@ -343,31 +343,38 @@ class _NonPPMScreenState extends State<NonPPMScreen> {
                 const Text('Customer Billing Information',
                     style:
                         TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                container('Name: ', name),
-                container('Address: ', address),
-                container('Account Number:', accnumber),
-                container('Meter Number:', meterno),
-                container('Last Payment Date:', lastpay),
-                // container3('Last Payment Amount:', lastpayamt),
-                container2('Closing Balance:', closingb),
-                const Padding(padding: EdgeInsets.all(5.0)),
-                OutlinedButton(
-                  onPressed: dataList1.isEmpty
-                      ? null
-                      : () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) =>
-                                  FullScreenDialog(
-                                dataList1: dataList1,
-                              ),
-                              fullscreenDialog: true,
-                            ),
-                          );
-                        },
-                  child: const Text("View monthly payment history"),
-                ),
+                Wrap(
+                    textDirection: TextDirection.ltr,
+                    verticalDirection: VerticalDirection.down,
+                    direction: Axis.vertical,
+                    alignment: WrapAlignment.start,
+                    children: <Widget>[
+                      container('Name: ', name),
+                      container('Address: ', address),
+                      container('Account Number:', accnumber),
+                      container('Meter Number:', meterno),
+                      container('Last Payment Date:', lastpay),
+                      // container3('Last Payment Amount:', lastpayamt),
+                      container2('Closing Balance:', closingb),
+                      const Padding(padding: EdgeInsets.all(5.0)),
+                      OutlinedButton(
+                        onPressed: dataList1.isEmpty
+                            ? null
+                            : () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        FullScreenDialog(
+                                      dataList1: dataList1,
+                                    ),
+                                    fullscreenDialog: true,
+                                  ),
+                                );
+                              },
+                        child: const Text("View monthly payment history"),
+                      )
+                    ]),
                 // dropDown(),
                 const Padding(padding: EdgeInsets.all(5.0)),
                 const Padding(padding: EdgeInsets.all(5.0)),

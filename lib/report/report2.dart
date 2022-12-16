@@ -17,8 +17,8 @@ class _ReportScreen2State extends State<ReportScreen2> {
 
   bool _isLoading = false;
 
-  String delivered = '';
-  String notDelivered = '';
+  String disconn = '';
+  String reconn = '';
   String total = '';
 
   void _show() async {
@@ -69,12 +69,12 @@ class _ReportScreen2State extends State<ReportScreen2> {
                   ],
                   rows: [
                     DataRow(cells: [
-                      const DataCell(Text('Bills Delivered')),
-                      DataCell(Text(delivered)),
+                      const DataCell(Text('Disconnections')),
+                      DataCell(Text(disconn)),
                     ]),
                     DataRow(cells: [
-                      const DataCell(Text('Bills UnDelivered')),
-                      DataCell(Text(notDelivered)),
+                      const DataCell(Text('Reconnections')),
+                      DataCell(Text(reconn)),
                     ]),
                     DataRow(cells: [
                       const DataCell(Text('Total')),
@@ -121,8 +121,8 @@ class _ReportScreen2State extends State<ReportScreen2> {
       _isLoading = true;
     });
 
-    Uri url =
-        Uri.parse('https://kadunaelectric.com/meterreading/kecs/report.php');
+    Uri url = Uri.parse(
+        'https://kadunaelectric.com/meterreading/kecs/report_conn.php');
 
     try {
       var data = {
@@ -143,13 +143,13 @@ class _ReportScreen2State extends State<ReportScreen2> {
 
       if (response.statusCode == 200) {
         var jsondata = json.decode(response.body);
-        int deliveredJson = jsondata["Delivered"];
-        int notDeliveredJson = jsondata["NotDelivered"];
+        int disconnJson = jsondata["Disconnected"];
+        int reconnJson = jsondata["Reconnected"];
         int totalJson = jsondata["Total"];
 
         setState(() {
-          delivered = deliveredJson.toString();
-          notDelivered = notDeliveredJson.toString();
+          disconn = disconnJson.toString();
+          reconn = reconnJson.toString();
           total = totalJson.toString();
         });
       } else {
