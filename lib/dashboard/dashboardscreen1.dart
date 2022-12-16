@@ -4,6 +4,7 @@ import 'package:kecs/meter/meterreading.dart';
 import 'package:kecs/profile/profilescreen.dart';
 import 'package:kecs/report/report.dart';
 import 'package:intl/intl.dart';
+import 'package:kecs/report/report1.dart';
 import '../login.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:app_settings/app_settings.dart';
@@ -214,7 +215,7 @@ class _DashboardScreen1State extends State<DashboardScreen1> {
                 listTile(
                     'Generate Report',
                     Icons.feedback_outlined,
-                    ReportScreen(
+                    ReportScreen1(
                       id: widget.id,
                     )),
                 const Padding(padding: EdgeInsets.only(top: 10.0)),

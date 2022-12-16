@@ -106,22 +106,24 @@ class _TrackingScreenState extends State<TrackingScreen> {
       setState(() {
         _isLoading = false;
       });
-      // return showMessage('Invalid Account Number');
+      return showMessage('Network Error, Try again.');
     }
   }
 
   Future getLastPayment() async {
     Uri url = Uri.parse(
-        'https://kadunaelectric.com/meterreading/kecs/searchpaymentresult.php?uid=$accnum');
+        'https://meterreading.kadunaelectric.com/kecs/searchpaymentresult.php?uid=$accnum');
 
     var response = await http.post(
       url,
       body: json.encode(accnum),
     );
 
-    var jsondata = json.decode(response.body);
-
-    if (jsondata != "Invalid Meter Number") {
+    if (accnum == 0) {
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
       final jsondata = json.decode(response.body);
 
       String lastdate = jsondata[0]['dateCreated'];
@@ -132,7 +134,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
         llastamount = lastamount;
       });
     }
-
     setState(() {
       _isLoading = false;
     });

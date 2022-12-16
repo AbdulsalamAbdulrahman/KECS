@@ -180,7 +180,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                                     _isLoading ? null : sendData();
                                   } else {
                                     showMessageG(
-                                        'Geolocation is needed. Make sure you have given the app location permission and your location is switched on');
+                                        'Turn on phone location and permission. Submission cannot be processed!!!');
                                   }
                                 }
                               }),
@@ -310,7 +310,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
           title: Text(msg),
           actions: <Widget>[
             TextButton(
-              child: const Text("ok"),
+              child: const Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();

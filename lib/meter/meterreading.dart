@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:kecs/meter/status.dart';
 import 'dart:convert';
@@ -95,7 +97,19 @@ class _MeterScreenState extends State<MeterScreen> {
       geolat = lat;
     });
   }
+// Future<List<Map<String, dynamic>>> getDoubleData() async {
+//   var value = <Map<String, dynamic>>[];
+//   var r1 = http.post(Uri.parse('https://kadunaelectric.com/meterreading/kecs/search.php?uid=$meterno'));
+//   var r2 = http.post(Uri.parse('https://meterreading.kadunaelectric.com/kecs/searchpaymentresult.php?uid=$accnum'));
 
+//   var results = await Future.wait([r1, r2]); // list of Responses
+//   for (var response in results) {
+//     print(response.statusCode);
+//     // todo - parse the response - perhaps JSON
+//     value.add(json.decode(response.body));
+//   }
+//   return value;
+// }
   Future getMeterInfo() async {
     setState(() {
       _isLoading = true;
@@ -164,7 +178,7 @@ class _MeterScreenState extends State<MeterScreen> {
       setState(() {
         _isLoading = false;
       });
-      // return showMessage('Invalid Meter Number');
+      return showMessage('Network Error, Try again.');
     }
   }
 
@@ -176,11 +190,18 @@ class _MeterScreenState extends State<MeterScreen> {
       url,
       body: json.encode(accnum),
     );
+    // print(accnum);
+    // // var jsondata = json.decode(response.body);
 
-    var jsondata = json.decode(response.body);
+    // // var emp = [];
 
-    if (jsondata != "Invalid Meter Number") {
+    if (accnum == 0) {
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
       final jsondata = json.decode(response.body);
+      // print(response.body);
 
       String lastdate = jsondata[0]['dateCreated'];
       String lastamount = jsondata[0]['amountPaid'].toString();

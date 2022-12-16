@@ -155,7 +155,13 @@ class _DisconnectScreenState extends State<DisconnectScreen> {
                           ),
                           onPressed: () async {
                             if (key.currentState!.validate()) {
-                              _isLoading ? null : sendData();
+                              if (widget.geolat != "" && widget.geolong != "") {
+                                _isLoading ? null : sendData();
+                              } else {
+                                showMessageG(
+                                    'Turn on phone location and permission. Submission cannot be processed!!!');
+                              }
+                              // _isLoading ? null : sendData();
                             }
                           }),
                     ],
@@ -273,6 +279,27 @@ class _DisconnectScreenState extends State<DisconnectScreen> {
       return "field is required";
     }
     return null;
+  }
+
+  Future<dynamic> showMessageG(String msg) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   InputDecoration decorate(String label) {

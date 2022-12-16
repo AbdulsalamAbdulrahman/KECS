@@ -163,7 +163,7 @@ class _BillScreenState extends State<BillScreen> {
       setState(() {
         _isLoading = false;
       });
-      // return showMessage('Invalid Account Number');
+      return showMessage('Netwrok Error, Try again.');
     }
 
     setState(() {

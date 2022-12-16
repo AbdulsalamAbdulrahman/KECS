@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-class ReportScreen extends StatefulWidget {
+class ReportScreen2 extends StatefulWidget {
   final String id;
-  const ReportScreen({Key? key, required this.id}) : super(key: key);
+  const ReportScreen2({Key? key, required this.id}) : super(key: key);
 
   @override
-  State<ReportScreen> createState() => _ReportScreenState();
+  State<ReportScreen2> createState() => _ReportScreen2State();
 }
 
-class _ReportScreenState extends State<ReportScreen> {
+class _ReportScreen2State extends State<ReportScreen2> {
   final key = GlobalKey<FormState>();
 
   DateTimeRange? _selectedDateRange;

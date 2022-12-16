@@ -255,15 +255,34 @@ class _LoginState extends State<Login> {
         );
       }
     } catch (e) {
-      //debugPrint('error');
       setState(() {
         _isLoading = false;
       });
+      showMessageError('Network Error, Try Again.');
     }
 
     setState(() {
       _isLoading = false;
     });
+  }
+
+  Future<dynamic> showMessageError(String msg) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   InputDecoration decorate(String label, icon, String hint) {
