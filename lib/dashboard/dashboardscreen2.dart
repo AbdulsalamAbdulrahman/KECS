@@ -288,7 +288,7 @@ class _DashboardScreen2State extends State<DashboardScreen2> {
             children: <Widget>[
               _card('Diconnected', '\n$disconn'),
               _card('Reconnected', '\n$reconn'),
-              _card('Defaulters', '\n0'),
+              // _card('Defaulters', '\n0'),
             ],
           ),
         ],
